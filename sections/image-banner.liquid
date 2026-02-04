@@ -1,3 +1,10 @@
+{% style  %} 
+ .banner-content{
+    max-width:{{section.settings.content_width}}%
+ }
+
+{% endstyle %}
+
 <div class="image-banner">
   <div class="image-banner-main">
     {% if section.settings.image != blank %}
@@ -37,6 +44,16 @@
       {
         "type": "header",
         "content": "Banner Content"
+      },
+      {
+          "type": "range",
+          "id": "content_width",
+          "label": "Content Width",
+          "min": 50,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 60
       },
       {
         "type": "text",
