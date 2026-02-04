@@ -1,0 +1,63 @@
+<div class="image-banner">
+  <div class="image-banner-main">
+    {%if section.settings.image != blank%}
+       <img class="banner" src="{{section.settings.image |  image_url}}" alt="">
+       {%else%}
+      {{'hero-apparel-1' |  placeholder_svg_tag: 'placeholder_svg'}}
+    {%endif%}
+
+    <div class="container">
+           <div class="banner-content">
+               <h1> our Best Collaction</h1>
+               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio itaque esse voluptas dignissimos placeat maiores.</p>
+           </div>
+
+           <div class="banner-CTA">
+                <div class="cta-action">
+                    <a class="btn btn-primary" href="#">Explor Now</a>
+                </div>
+           </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Image Banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "image"
+      },
+      {
+        "type": "header",
+        "content": "Banner Content"
+      },
+      {
+        "type": "text",
+         "id":"heading",
+         "label": "Heading",
+         "default": "Our Best Collaction"
+      },
+      {
+        "type": "richtext",
+        "id": "sub_heading",
+        "label": "Sub Heading"
+      },
+      {
+        "type": "text",
+        "id": "label_1",
+        "label": "Button Label",
+        "default": "Buy Now"
+      }
+    ],
+
+    "presets": [
+      {
+        "name": "Image Banner",
+        "category": "Demo"
+      }
+    ]
+  }
+{% endschema %}
