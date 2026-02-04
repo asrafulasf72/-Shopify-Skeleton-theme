@@ -54,6 +54,10 @@
   width: auto;
   height: auto;
 }
+.banner-content{
+  position: absolute;
+  top: 50%;
+}
 /* body {
   display: flex;
   flex-direction: column;
