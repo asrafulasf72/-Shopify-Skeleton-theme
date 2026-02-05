@@ -1,17 +1,14 @@
-{% style  %} 
- .banner-content{
-    max-width:{{section.settings.content_width}}%
- }
+{% style %}
+  .banner-content {
+    max-width: {{ section.settings.content_width }}%
+  }
 
 {% endstyle %}
 
 <div class="image-banner">
   <div class="image-banner-main">
     {% if section.settings.image != blank %}
-      <img
-        class="banner"
-        src="{{section.settings.image |  image_url}}"
-        alt="">
+      {{ section.settings.image | image_url: width: 1400 | image_tag: class: 'banner', widths: '375,550,750,1100,1500', alt: section.settings.image.alt | escape }}
     {% else %}
       {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder_svg' }}
     {% endif %}
@@ -46,22 +43,21 @@
         "content": "Banner Content"
       },
       {
-          "type": "range",
-          "id": "content_width",
-          "label": "Content Width",
-          "min": 50,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 60
+        "type": "range",
+        "id": "content_width",
+        "label": "Content Width",
+        "min": 50,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 60
       },
       {
         "type": "text",
         "id": "heading",
         "label": "Heading",
         "default": "Our Best Collaction"
-      },
-      {
+      }, {
         "type": "richtext",
         "id": "sub_heading",
         "label": "Sub Heading"

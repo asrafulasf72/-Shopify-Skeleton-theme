@@ -51,8 +51,7 @@
 }
 
 .banner{
-  width: auto;
-  height: auto;
+  width:100%;
 }
 .banner-content{
   position: absolute;
