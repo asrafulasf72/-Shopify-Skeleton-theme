@@ -2,7 +2,13 @@
    <div class="product-main">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">Image/Media</div>
+            <div class="col-md-6">
+              <div class="product-media">
+                {% for image in product.images %}
+                    {{ image.src |  image_url: width:600 |  image_tag }}
+                {% endfor  %}
+              </div>
+            </div>
             <div class="col-md-6">product information</div>
         </div>
     </div>
@@ -11,10 +17,9 @@
 
 {% schema %}
 {
-    "name": "product template",
-    "class": "product-template",
-    "settings": [
-        
-        ]
+  "name": "Product",
+  "tag": "section",
+  "class": "product-template",
+  "settings": []
 }
 {% endschema %}
