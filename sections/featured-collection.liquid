@@ -1,56 +1,74 @@
-{% assign collection =  section.settings.collection.products %}
+{% assign products = section.settings.collection.products %}
 
+<div class="featured-collection-section py-5">
+  <div class="container">
+    <h2 class="text-center mb-2">{{ section.settings.heading }}</h2>
 
-<div class="fetured-collection-section">
-    <div class="container">
-        <h1 class="heading">{{section.settings.heading}}</h1>
-        {%if section.settings.sub_heading != blank %}
-            <div>{{section.settings.sub_heading}}</div>
-        {%endif%}
-    </div>
+    {% if section.settings.sub_heading != blank %}
+      <p class="text-center text-muted mb-4">{{ section.settings.sub_heading }}</p>
+    {% endif %}
+
     <div class="row">
-      {%for product in collection%}
-        <div class="col-md-3">
-            <div class="card my-2">
-                <div class="card-body">
-                    {{product.featured_image | image_url: width: 300 |  image_tag }}
+      {% if products != blank %}
+        {% for product in products %}
+          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100 shadow-sm">
 
-                    <div class="product-info">
-                        <p><strong>{{product.title}}</strong></p>
-                        <p>{{product.price |  money}}</p>
+              <!-- Product Image -->
+              {% if product.featured_image %}
+                <a href="{{ product.url }}" class="d-block overflow-hidden">
+                  {{ product.featured_image
+                    | image_url: width: 400
+                    | image_tag:
+                      class: 'card-img-top',
+                      loading: 'lazy'
+                  }}
+                </a>
+              {% else %}
+                {{ 'product-apparel-1' | placeholder_svg_tag: 'card-img-top' }}
+              {% endif %}
 
-                        <div class="CTA">
-                            <a href="{{product.url}}" class="btn btn-secondary w-full">View Details</a>
-                        </div>
-                    </div>
-                </div>
+              <!-- Card Body -->
+              <div class="card-body text-center d-flex flex-column">
+                <h6 class="card-title mb-1">{{ product.title }}</h6>
+                <p class="fw-bold mb-3">{{ product.price | money }}</p>
+
+                <a href="{{ product.url }}" class="btn btn-secondary w-100 mt-auto">
+                  View Details
+                </a>
+              </div>
+
             </div>
-        </div>
-        {% else %}
-        {%for item in (1..8)%}
-         <div class="col-md-3">
-            <div class="card my-2">
-                <div class="card-body">
-                    {%- capture current -%}
+          </div>
+        {% endfor %}
+      {% else %}
+        {% for i in (1..8) %}
+          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                {%- capture current -%}
                         {%- cycle 1, 2,3,4 -%}
                         {%- endcapture -%}
-                    {{'product-apparel-' | append: current |  placeholder_svg_tag:'placeholder-svg'}}
 
-                    <div class="product-info">
-                        <p><strong>{{product.title}}</strong></p>
-                        <p>Price: 24$</p>
+              {{ 'product-apparel-' | append: current
+                | placeholder_svg_tag: 'card-img-top' }}
 
-                        <div class="CTA">
-                            <a href="#" class="btn btn-secondary w-100">View Details</a>
-                        </div>
-                    </div>
-                </div>
+              <div class="card-body text-center d-flex flex-column">
+                <h6 class="card-title">Product title</h6>
+                <p class="fw-bold">$24.00</p>
+                <a href="#" class="btn btn-secondary w-100 mt-auto">
+                  View Details
+                </a>
+              </div>
+
             </div>
-        </div>
-        {%endfor%}
-      {%endfor%}
+          </div>
+        {% endfor %}
+      {% endif %}
     </div>
+  </div>
 </div>
+
+
 
 {% schema %}
 {
