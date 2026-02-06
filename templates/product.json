@@ -9,9 +9,9 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "product"
+    "main-product": {
+      "type": "main-product"
     }
   },
-  "order": ["main"]
+  "order": ["main-product"]
 }
