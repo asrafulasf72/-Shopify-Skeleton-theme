@@ -1,0 +1,21 @@
+.variant-pill{
+    display: inline-block;
+    margin-right: 10px;
+}
+.variant-pill input[type="radio"]{
+    display: none;
+}
+
+.variant-pill .variant-button{
+    display: inline-block;
+    padding: 8px 10px;
+    background-color: #DDDDDD;
+    color: #000000;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.variant-pill input[type="radio"]:checked + .variant-button{
+    background-color: #000000;
+    color: #FFFFFF;
+}
