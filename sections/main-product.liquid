@@ -46,6 +46,9 @@
                                 <div class="product-quantity mb-2">
                                     <input type="number" name="quantity" value="1" min="1">
                                 </div>
+                            {% when 'variants' %}
+                                {%  assign variants_type = block.settings.variant_type  %}
+                                {%  render 'variants', product: product, variants_type: variants_type %}
                             {% when 'buy_buttons' %}
                                 <div class="cart-button">
                                     <button type="submit" class="btn btn-primary w-100 mb-2" name="add">Add to cart</button>
@@ -105,6 +108,28 @@
         "type":"quantity",
         "name":"Quantity",
         "limit": 1
+       },
+       {
+        "type": "variants",
+        "name": "Variants",
+        "settings": [
+            {
+               "type": "select",
+               "id": "variant_type",
+               "label": "Variant type",
+               "options": [
+                 {
+                    "label": "Pills",
+                    "value": "pills"
+                 },
+                 {
+                    "label": "Selector",
+                    "value": "selector"
+                 }
+               ],
+               "default":"pills"
+            }
+        ]
        },
        {
          "type":"buy_buttons",
