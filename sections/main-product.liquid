@@ -2,13 +2,66 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        {{ product.featured_image | image_url: width: 600 | image_tag }}
+        {% comment %} {{ product.featured_image | image_url: width: 600 | image_tag }} {% endcomment %}
+
+        {% for image in product.images %}
+            {{ image.src |  image_url: width:600 |  image_tag  }}
+        {% endfor %}
       </div>
 
       <div class="col-md-6">
-        <h1>{{ product.title }}</h1>
+        {% comment %} <h1>{{ product.title }}</h1>
         <p>{{ product.price | money }}</p>
-        {{ product.description }}
+        {{ product.description }} {% endcomment %}
+
+        <div class="product-information">
+            {%  assign form_id = 'product-form-' |  append: section.id  %}
+
+            {% form 'product', product, id: form_id, class: 'product-form' %}
+                <input type="hidden" name="id" value="{{product.selected_or_first_available_variant.id}}">
+                {{form |  payment_terms}}
+              
+                {% for block in section.blocks %}
+                    {% case block.type %}
+                        {% when '@app' %}
+                            {%  render block %} 
+
+                            {% when 'text' %}
+                                <p>{{ block.settings.text }}</p>
+                            {% when 'title' %}
+                                <h1 class="product-title">{{product.title}}</h1>
+                            {% when 'price' %}
+                                <div class="product-price">
+                                    <p>{{product.price |  money_with_currency}}</p>
+                                </div>
+                            {% when 'sku' %}
+                                <div class="product-sku">
+                                    <p>{{product.sku}}</p>
+                                </div>
+                            {% when 'description' %}
+                                <div class="rte">
+                                    <p>{{product.description}}</p>
+                                </div>
+                            {% when 'quantity' %}
+                                <div class="product-quantity mb-2">
+                                    <input type="number" name="quantity" value="1" min="1">
+                                </div>
+                            {% when 'buy_buttons' %}
+                                <div class="cart-button">
+                                    <button type="submit" class="btn btn-primary w-100 mb-2" name="add">Add to cart</button>
+                                    {% comment %} <button type="button" class="btn btn-secondary">Buy Now</button> {% endcomment %}
+                                     {% if block.settings.enable_dynamic_button %}
+                                        {{ form |  payment_button }}
+                                     {% endif %}
+                                </div>
+
+                        {% else %}
+                              
+                    {% endcase %}
+                {% endfor %}
+
+            {% endform %}
+        </div>
       </div>
     </div>
   </div>
@@ -17,6 +70,59 @@
 {% schema %}
 {
   "name": "Main Product",
-  "settings": []
+  "settings": [],
+  "blocks": [
+       {
+         "type": "@app"
+       },
+       {
+        "type": "text",
+         "name":"Text",
+         "settings": [
+            {
+              "type":"text",
+              "id":"text",
+              "label": "Text",
+              "default":"{{product.vendor}}"
+            }
+         ]
+       },
+       {
+        "type": "title",
+        "name": "Title"
+
+       },
+       {
+        "type": "price",
+        "name": "Price",
+        "limit": 1
+       },
+       {
+        "type": "sku",
+        "name": "SKU"
+       },
+       {
+        "type":"quantity",
+        "name":"Quantity",
+        "limit": 1
+       },
+       {
+         "type":"buy_buttons",
+         "name":"Buy buttons",
+         "limit": 1,
+         "settings": [
+            {
+                "type": "checkbox",
+                "id": "enable_dynamic_button",
+                "label": "Enable Buy Now",
+                "default": true
+            }
+         ]
+       },
+       {
+        "type": "description",
+        "name":"Description"
+       }
+  ]
 }
 {% endschema %}
