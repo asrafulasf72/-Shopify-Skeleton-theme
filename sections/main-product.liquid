@@ -1,5 +1,6 @@
 {{  'product-template.css' |  asset_url |  stylesheet_tag }}
 {{ 'product-variants.js' |  asset_url |  script_tag }}
+{{ 'product-form.js' |  asset_url |  script_tag }}
 <section class="main-product-section">
   <div class="container">
     <div class="row">
@@ -52,30 +53,29 @@
                                                   {{ product.selected_or_first_available_variant.inventory_quantity }} items available
                                         </span>
                                 </div>
-                            {% when 'buy_buttons' %}
+                          {% when 'buy_buttons' %}
                                 <div class="cart-button">
-                                    <button id="add-to-cart-btn" type="submit" class="btn btn-primary w-100 mb-2" name="add">
-                                       {% unless product.selected_or_first_available_variant.available %}
-                                        disabled
-                                       {% endunless %}
+                                         <button 
+                                             id="add-to-cart-btn"
+                                             type="submit"
+                                             class="btn btn-primary w-100 mb-2"
+                                             name="add"
+                                         {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+                                             >
+                                               {% if product.selected_or_first_available_variant.available %}
+                                                      Add to Cart
+                                             {% else %}
+                                                     Sold Out
+                                            {% endif %}
+                                         </button>
 
-                                       {% if product.selected_or_first_available_variant.available %}
-                                         Add to Cart
-                                         {% else %}
-                                         Sold Out
-                                       {% endif %}
-
-                                    </button>
-                                     {% if block.settings.enable_dynamic_button %}
-                                        {{ form |  payment_button }}
-                                     {% endif %}
+                                            {% if block.settings.enable_dynamic_button %}
+                                            {{ form | payment_button }}
+                                          {% endif %}
                                 </div>
-
-                        {% else %}
-                              
+                         {% else %}  
                     {% endcase %}
                 {% endfor %}
-
             {% endform %}
         </div>
       </div>

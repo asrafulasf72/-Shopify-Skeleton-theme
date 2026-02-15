@@ -94,5 +94,24 @@
         "default": 4
       }
     ]
+  },
+  {
+    "name": "Color Swatch",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_color_swatch",
+        "label": "Enable Product Color Swatch",
+        "default":false
+        
+      },
+      {
+        "type": "textarea",
+        "id": "color_defination",
+        "label": "Color Defination",
+        "default":"black | #000000, white | #ffffff, red | #ff0000, blue | #0000ff, yellow | #FFFF00",
+        "info": "black | #000000, white | #ffffff, red | #ff0000, blue | #0000ff, yellow | #FFFF00"
+      }
+    ]
   }
 ]

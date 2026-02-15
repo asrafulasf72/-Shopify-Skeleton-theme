@@ -1,69 +1,97 @@
+{% assign colorString = settings.color_defination %}
+{% assign colorCodeArray = colorString | split: ', ' %}
 
- <div class="product_variants mb-2">
+<div class="product_variants mb-2">
 
-  {% unless product.has_only_default_variant %}
+{% unless product.has_only_default_variant %}
 
-    <div class="product-options my-4">
+  <div class="product-options my-4">
 
-      {% for option in product.options_with_values %}
-        <div class="option-block">
-          <strong>{{ option.name }}</strong><br>
+    {% for option in product.options_with_values %}
+      <div class="option-block mb-3">
+        <strong class="d-block mb-2">{{ option.name }}</strong>
 
-          {% if variants_type == 'pills' %}
+        {% if variants_type == 'pills' %}
 
-            {% for value in option.values %}
-              <label class="variant-pill">
-                <input 
-                  type="radio"
-                  name="{{ option.name | downcase | replace: ' ','_' }}"
-                  value="{{ value }}"
-                  {% if option.selected_value == value %}checked{% endif %}
-                >
-                <span class="variant-button">{{ value }}</span>
-              </label>
-            {% endfor %}
+          <div class="variant-pills">
 
-          {% else %}
+          {% for value in option.values %}
+            {% assign colorValue = value | downcase %}
+            {% assign colorCodeValue = colorValue %}
 
-            <div class="variant-selector">
-              <select 
-                class="variant-select form-control w-50"
+            {% if option.name == 'Color' and settings.enable_color_swatch %}
+              {% for colorCode in colorCodeArray %}
+                {% assign colorCodepair = colorCode | split: " | " %}
+                {% if colorValue == colorCodepair[0] %}
+                  {% assign colorCodeValue = colorCodepair[1] %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            <label class="variant-pill">
+              <input 
+                type="radio"
                 name="{{ option.name | downcase | replace: ' ','_' }}"
+                value="{{ value }}"
+                data-option-position="{{ forloop.parentloop.index }}"
+                {% if option.selected_value == value %}checked{% endif %}
               >
-                {% for value in option.values %}
-                  <option 
-                    value="{{ value }}"
-                    {% if option.selected_value == value %}selected{% endif %}
-                  >
-                    {{ value }}
-                  </option>
-                {% endfor %}
-              </select>
-            </div>
 
-          {% endif %}
-          <br>
-        </div>
-      {% endfor %}
+              {% if option.name == 'Color' and settings.enable_color_swatch %}
+                <span class="variant-button swatch"
+                  style="background-color: {{ colorCodeValue }};">
+                </span>
+              {% else %}
+                <span class="variant-button">
+                  {{ value }}
+                </span>
+              {% endif %}
 
-    </div>
+            </label>
+          {% endfor %}
 
-    <!-- MASTER VARIANT SELECT -->
-    <select name="id" class="variants d-none">
-      {% for variant in product.variants %}
-        <option 
-          value="{{ variant.id }}"
-          data-available="{{ variant.available }}"
-          data-quantity="{{ variant.inventory_quantity }}"
-          data-inventory-management="{{ variant.inventory_management }}"
-          data-inventory-policy="{{ variant.inventory_policy }}"
-        >
-          {{ variant.title }}
-        </option>
-      {% endfor %}
-    </select>
+          </div>
 
-  {% endunless %}
+        {% else %}
 
+          <div class="variant-selector">
+            <select 
+              class="variant-select form-control w-50"
+              name="{{ option.name | downcase | replace: ' ','_' }}"
+            >
+              {% for value in option.values %}
+                <option 
+                  value="{{ value }}"
+                  {% if option.selected_value == value %}selected{% endif %}
+                >
+                  {{ value }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+        {% endif %}
+
+      </div>
+    {% endfor %}
+
+  </div>
+
+  <!-- MASTER VARIANT SELECT -->
+  <select name="id" class="variants d-none">
+    {% for variant in product.variants %}
+      <option 
+        value="{{ variant.id }}"
+        data-available="{{ variant.available }}"
+        data-quantity="{{ variant.inventory_quantity }}"
+        data-option1="{{ variant.option1 }}"
+        data-option2="{{ variant.option2 }}"
+        data-option3="{{ variant.option3 }}"
+      >
+        {{ variant.title }}
+      </option>
+    {% endfor %}
+  </select>
+
+{% endunless %}
 </div>
-
