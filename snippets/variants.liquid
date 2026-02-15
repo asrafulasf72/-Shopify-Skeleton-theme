@@ -1,35 +1,69 @@
 
-<div class="product_variants mb-2">
-    {% unless product.has_only_default_variant %}
-         <div class="product-options my-4">
-         {% for option in product.options_with_values %}
-            <span>{{option.name}}</span> <br>
-            {% if variants_type == 'pills' %}
-                 {% for value in option.values %}
-                      <label class="variant-pill">
-                 <input type="radio" id="{{value.name |  downcase | replace: ' ','_'}}" name="{{option.name |  downcase | replace: ' ','_'}}" value="{{ value.name }}"{% if option.selected_value == value %} checked{% endif %} >
-                    <span class="variant-button">{{ value.name }}</span>
-                </label>
+ <div class="product_variants mb-2">
+
+  {% unless product.has_only_default_variant %}
+
+    <div class="product-options my-4">
+
+      {% for option in product.options_with_values %}
+        <div class="option-block">
+          <strong>{{ option.name }}</strong><br>
+
+          {% if variants_type == 'pills' %}
+
+            {% for value in option.values %}
+              <label class="variant-pill">
+                <input 
+                  type="radio"
+                  name="{{ option.name | downcase | replace: ' ','_' }}"
+                  value="{{ value }}"
+                  {% if option.selected_value == value %}checked{% endif %}
+                >
+                <span class="variant-button">{{ value }}</span>
+              </label>
             {% endfor %}
 
-            {% else %}
-                  <div class="variant-selector">
-                    <select class="vriant-select form-control w-50">
-                        {% for value in option.values %}
-                            <option value="{{ value.name }}"{% if option.selected_value == value %} selected{% endif %}> {{ value.name }}</option>
-                        {% endfor %}
-                    </select>
-                  </div>
-            {% endif %}
-           
-            <br>
-         {% endfor %}    
+          {% else %}
+
+            <div class="variant-selector">
+              <select 
+                class="variant-select form-control w-50"
+                name="{{ option.name | downcase | replace: ' ','_' }}"
+              >
+                {% for value in option.values %}
+                  <option 
+                    value="{{ value }}"
+                    {% if option.selected_value == value %}selected{% endif %}
+                  >
+                    {{ value }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+
+          {% endif %}
+          <br>
+        </div>
+      {% endfor %}
+
     </div>
-    <select name="id" id="" class="variants">
-        {% for variant in product.variants %}
-            <option value="{{ variant.id }}">{{variant.title}}</option>
-        {% endfor %}
+
+    <!-- MASTER VARIANT SELECT -->
+    <select name="id" class="variants d-none">
+      {% for variant in product.variants %}
+        <option 
+          value="{{ variant.id }}"
+          data-available="{{ variant.available }}"
+          data-quantity="{{ variant.inventory_quantity }}"
+          data-inventory-management="{{ variant.inventory_management }}"
+          data-inventory-policy="{{ variant.inventory_policy }}"
+        >
+          {{ variant.title }}
+        </option>
+      {% endfor %}
     </select>
-    {% endunless %}
-   
+
+  {% endunless %}
+
 </div>
+

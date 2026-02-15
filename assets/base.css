@@ -124,6 +124,20 @@
   aspect-ratio: 1 / 1;
   object-fit: cover;
 }
+
+
+#stock-status {
+  display: inline-block;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 30px;
+  border: 1px solid #d0e6ff;
+  background-color: #f0f7ff;
+  color: #0d6efd;
+  transition: all 0.3s ease;
+}
+
 /* body {
   display: flex;
   flex-direction: column;

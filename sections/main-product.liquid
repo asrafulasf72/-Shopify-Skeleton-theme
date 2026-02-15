@@ -4,7 +4,6 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        {% comment %} {{ product.featured_image | image_url: width: 600 | image_tag }} {% endcomment %}
 
         {% for image in product.images %}
             {{ image.src |  image_url: width:600 |  image_tag  }}
@@ -12,10 +11,6 @@
       </div>
 
       <div class="col-md-6">
-        {% comment %} <h1>{{ product.title }}</h1>
-        <p>{{ product.price | money }}</p>
-        {{ product.description }} {% endcomment %}
-
         <div class="product-information">
             {%  assign form_id = 'product-form-' |  append: section.id  %}
 
@@ -51,10 +46,26 @@
                             {% when 'variants' %}
                                 {%  assign variants_type = block.settings.variant_type  %}
                                 {%  render 'variants', product: product, variants_type: variants_type %}
+
+                                <div class="product-stock mb-2">
+                                         <span id="stock-status">
+                                                  {{ product.selected_or_first_available_variant.inventory_quantity }} items available
+                                        </span>
+                                </div>
                             {% when 'buy_buttons' %}
                                 <div class="cart-button">
-                                    <button type="submit" class="btn btn-primary w-100 mb-2" name="add">Add to cart</button>
-                                    {% comment %} <button type="button" class="btn btn-secondary">Buy Now</button> {% endcomment %}
+                                    <button id="add-to-cart-btn" type="submit" class="btn btn-primary w-100 mb-2" name="add">
+                                       {% unless product.selected_or_first_available_variant.available %}
+                                        disabled
+                                       {% endunless %}
+
+                                       {% if product.selected_or_first_available_variant.available %}
+                                         Add to Cart
+                                         {% else %}
+                                         Sold Out
+                                       {% endif %}
+
+                                    </button>
                                      {% if block.settings.enable_dynamic_button %}
                                         {{ form |  payment_button }}
                                      {% endif %}

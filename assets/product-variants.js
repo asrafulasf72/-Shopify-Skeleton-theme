@@ -1,37 +1,66 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+  const variantSelect = document.querySelector(".variants");
+  const hiddenInput = document.querySelector("input[name='id']");
+  const addToCartBtn = document.getElementById("add-to-cart-btn");
+  const stockStatus = document.getElementById("stock-status");
+
   function updateSelection() {
-    let selectedValues = "";
 
-    // 1️⃣ Collect checked radio values
-    const checkedRadios = document.querySelectorAll(
-      ".product-options input[type='radio']:checked"
-    );
+    let selectedValues = [];
 
-    checkedRadios.forEach(function (radio) {
-      selectedValues += (selectedValues ? " / " : "") + radio.value;
-    });
+    document.querySelectorAll(".product-options input[type='radio']:checked")
+      .forEach(function (radio) {
+        selectedValues.push(radio.value);
+      });
 
-    // 2️⃣ Match select option text & select it
-    const variantOptions = document.querySelectorAll(".variants option");
+    const finalTitle = selectedValues.join(" / ");
 
-    for (let option of variantOptions) {
-      if (option.textContent.trim() === selectedValues) {
+    variantSelect.querySelectorAll("option").forEach(function (option) {
+
+      if (option.textContent.trim() === finalTitle) {
+
         option.selected = true;
-        break; // same as `return false` in jQuery
+        hiddenInput.value = option.value;
+
+        const quantity = parseInt(option.dataset.quantity);
+        const isAvailable = option.dataset.available === "true";
+        const inventoryManaged = option.dataset.inventoryManagement !== "null";
+        const inventoryPolicy = option.dataset.inventoryPolicy;
+
+        // 🔥 PROFESSIONAL STOCK LOGIC
+
+        if (!inventoryManaged) {
+          stockStatus.textContent = "Available";
+          addToCartBtn.disabled = false;
+          return;
+        }
+
+        if (quantity > 0) {
+          stockStatus.textContent = quantity + " items available";
+          addToCartBtn.disabled = false;
+          addToCartBtn.textContent = "Add to cart";
+        } else {
+
+          if (inventoryPolicy === "continue") {
+            stockStatus.textContent = "0 items available";
+            addToCartBtn.disabled = false; // overselling allowed
+          } else {
+            stockStatus.textContent = "0 items available";
+            addToCartBtn.disabled = true;
+            addToCartBtn.textContent = "Sold Out";
+          }
+
+        }
+
       }
-    }
+    });
   }
 
-  // 3️⃣ Attach change event to radios
-  const allRadios = document.querySelectorAll(
-    ".product-options input[type='radio']"
-  );
+  document.querySelectorAll(".product-options input[type='radio']")
+    .forEach(function (radio) {
+      radio.addEventListener("change", updateSelection);
+    });
 
-  allRadios.forEach(function (radio) {
-    radio.addEventListener("change", updateSelection);
-  });
-
-  // 4️⃣ Initial run
   updateSelection();
 });
