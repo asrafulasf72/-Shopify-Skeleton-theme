@@ -186,6 +186,69 @@
 }
 
 
+/* Overlay */
+.cart-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  z-index: 9998;
+}
+
+/* Drawer */
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 380px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+  transition: 0.3s ease-in-out;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Active State */
+.cart-drawer.active {
+  right: 0;
+}
+
+.cart-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Header */
+.cart-header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-close-btn {
+  background: none;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+/* Body */
+.cart-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+
+
 /* body {
   display: flex;
   flex-direction: column;

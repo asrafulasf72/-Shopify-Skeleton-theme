@@ -1,30 +1,10 @@
-// $(document).ready(function(){
-//     if($('[name="add"]').length>0){
-//         $(document).on("click", "button[name='add']", function(e){
-//            e.preventDefault();
-//            var formData = $(this).closest('.product-form[action="/cart/add"')
-//            $.ajax({
-//             type: 'post',
-//             url: '/cart/add.js',
-//             dataType: 'json',
-//             data: formData,
-//             success: function(data){
-//                 console.log('data', data);
-//             },
-//             error: 'Add to cart error!'
-//            })
-//         })
-//     }
-// })
-
-
 document.addEventListener("click", function (e) {
   const button = e.target.closest("button[name='add']");
   if (!button) return;
 
   e.preventDefault();
 
-  const form = button.closest("form[action='/cart/add']");
+  const form = button.closest("form");
   if (!form) return;
 
   const formData = new FormData(form);
@@ -43,9 +23,38 @@ document.addEventListener("click", function (e) {
       return response.json();
     })
     .then(data => {
-      console.log("data", data);
+
+      console.log("Added:", data);
+
+      // ✅ Open Cart Drawer
+      const cartDrawer = document.querySelector(".cart-drawer");
+      const cartOverlay = document.querySelector(".cart-overlay");
+
+      if (cartDrawer && cartOverlay) {
+        cartDrawer.classList.add("active");
+        cartOverlay.classList.add("active");
+      }
+
+      // ✅ Update Cart Counter
+      updateCartCount();
+
     })
     .catch(error => {
       console.error("Error:", error);
     });
 });
+
+
+// 🔥 Function to update cart counter
+function updateCartCount() {
+  fetch("/cart.js")
+    .then(response => response.json())
+    .then(cart => {
+      const cartCounter = document.getElementById("cartcounter");
+
+      if (cartCounter) {
+        cartCounter.textContent = cart.item_count;
+      }
+    });
+}
+
