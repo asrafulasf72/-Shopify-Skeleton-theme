@@ -318,6 +318,45 @@
   text-decoration: none;
 }
 
+/* ------------------------------------- */
+
+.cart-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.view-cart-btn,
+.checkout-btn {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* View Cart Style */
+.view-cart-btn {
+  background: #f3f3f3;
+  color: #000;
+  border: 1px solid #ddd;
+}
+
+.view-cart-btn:hover {
+  background: #e5e5e5;
+}
+
+/* Checkout Style */
+.checkout-btn {
+  background: #000;
+  color: #fff;
+}
+
+.checkout-btn:hover {
+  background: #333;
+}
 
 
 

@@ -1,11 +1,10 @@
-<!-- Overlay -->
 <div class="cart-overlay"></div>
 
 <!-- Cart Drawer -->
 <div class="cart-drawer">
   <div class="cart-header">
     <h3>Your Cart</h3>
-    <button class="cart-close-btn">&times;</button>
+    <button class="cart-close-btn" aria-label="Close cart">&times;</button>
   </div>
 
   <div class="cart-body">
@@ -18,9 +17,20 @@
       <span class="cart-total-price"></span>
     </div>
 
-    <a href="/checkout" class="checkout-btn">Checkout</a>
+    <div class="cart-actions">
+      <!-- View Cart Button -->
+      <a href="{{routes.cart_url}}" class="view-cart-btn">
+        View Cart
+      </a>
+
+      <!-- Checkout Button -->
+      <a href="/checkout" class="checkout-btn">
+        Checkout
+      </a>
+    </div>
   </div>
 </div>
+
 
 
 {% comment %} <script>
