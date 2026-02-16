@@ -5,6 +5,7 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
 {% endcomment %}
 
+{% comment %}
 <h1>{{ 'cart.title' | t }}</h1>
 
 <form action="{{ routes.cart_url }}" method="post">
@@ -29,9 +30,113 @@
   <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
 </form>
 
-{% schema %}
+
+ 
+{% endcomment %}
+
+<div class="cart-page">
+  <h1 class="cart-title">{{ 'cart.title' | t }}</h1>
+
+  {% if cart.item_count > 0 %}
+
+  <form action="{{ routes.cart_url }}" method="post" novalidate>
+
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for item in cart.items %}
+        <tr>
+          <!-- Product -->
+          <td class="cart-product">
+            <div class="cart-product-wrapper">
+              <img src="{{ item.image | image_url: width: 120 }}" alt="{{ item.product.title }}">
+              <div>
+                <p class="cart-product-title">{{ item.product.title }}</p>
+              </div>
+            </div>
+          </td>
+
+          <!-- Price -->
+          <td>
+            {{ item.price | money }}
+          </td>
+
+          <!-- Quantity -->
+          <td>
+            <div class="cart-qty">
+              <button type="button" class="qty-minus">−</button>
+              <input type="number"
+                     name="updates[]"
+                     value="{{ item.quantity }}"
+                     min="1">
+              <button type="button" class="qty-plus">+</button>
+            </div>
+          </td>
+
+          <!-- Line Total -->
+          <td>
+            {{ item.line_price | money }}
+          </td>
+
+          <!-- Remove -->
+          <td>
+            <a href="{{ item.url_to_remove }}" class="cart-remove">
+              Remove
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Cart Footer -->
+    <div class="cart-summary">
+
+      <div class="cart-subtotal">
+        <span>Subtotal:</span>
+        <strong>{{ cart.total_price | money }}</strong>
+      </div>
+
+      <div class="cart-buttons">
+        <button type="submit" class="update-cart-btn">
+          Update Cart
+        </button>
+
+        <button type="submit"
+                name="checkout"
+                class="checkout-btn">
+          Checkout
+        </button>
+      </div>
+
+    </div>
+
+  </form>
+
+  {% else %}
+
+    <div class="cart-empty">
+      <p>Your cart is empty.</p>
+      <a href="/" class="continue-shopping">
+        Continue Shopping
+      </a>
+    </div>
+
+  {% endif %}
+</div>
+
+ {% schema %}
 {
   "name": "t:general.cart",
   "settings": []
 }
-{% endschema %}
+{% endschema %} 
