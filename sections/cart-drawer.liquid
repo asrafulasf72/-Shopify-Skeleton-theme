@@ -9,12 +9,21 @@
   </div>
 
   <div class="cart-body">
-    <p>Your cart items will appear here.</p>
+    <div class="cart-items"></div>
+  </div>
+
+  <div class="cart-footer">
+    <div class="cart-subtotal">
+      <span>Subtotal:</span>
+      <span class="cart-total-price"></span>
+    </div>
+
+    <a href="/checkout" class="checkout-btn">Checkout</a>
   </div>
 </div>
 
 
-<script>
+{% comment %} <script>
 document.addEventListener("DOMContentLoaded", function() {
 
   const cartBtn = document.querySelector(".cart-toggle-btn");
@@ -42,4 +51,4 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
 });
-</script>
+</script> {% endcomment %}
