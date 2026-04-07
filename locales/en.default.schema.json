@@ -134,6 +134,38 @@
           "name": "Announcement bar"
         }
       }
+    },
+    "header": {
+      "name": "Header",
+      "aria_label": "Site header",
+      "settings": {
+        "logo_image": {
+          "label": "Logo image"
+        },
+        "logo_text": {
+          "label": "Logo text"
+        },
+        "menu": {
+          "label": "Main menu"
+        },
+        "show_search": {
+          "label": "Show search icon"
+        },
+        "show_account": {
+          "label": "Show account icon"
+        },
+        "show_cart": {
+          "label": "Show cart icon"
+        },
+        "enable_sticky": {
+          "label": "Make header sticky"
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "Header"
+        }
+      }
     }
   }
 }

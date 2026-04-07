@@ -1,0 +1,46 @@
+{% doc %}
+  Renders the store logo as an image (if provided) or a text link fallback.
+
+  @param {image} [image] - Optional logo image to render.
+  @param {string} label - The text label for the logo. Usually the shop name.
+  @param {string} [url] - The URL to link to. Defaults to the storefront home page.
+
+  @example
+  {% render 'header-logo', label: shop.name, url: routes.root_url %}
+  {% render 'header-logo', image: section.settings.logo_image, label: shop.name %}
+{% enddoc %}
+
+<a
+  class="header-logo"
+  href="{{ url | default: routes.root_url }}"
+>
+  {% if image %}
+    {{ image | image_url: width: 200 | image_tag: alt: label, class: 'header-logo__image' }}
+  {% else %}
+    <span class="header-logo__text">{{ label | escape }}</span>
+  {% endif %}
+</a>
+
+{% stylesheet %}
+  .header-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: inherit;
+    letter-spacing: 0.03em;
+  }
+
+  .header-logo__text {
+    white-space: nowrap;
+  }
+
+  .header-logo__image {
+    display: block;
+    height: auto;
+    max-height: 2.5rem;
+    width: auto;
+  }
+{% endstylesheet %}

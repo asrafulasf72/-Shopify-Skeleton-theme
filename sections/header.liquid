@@ -1,72 +1,402 @@
-<div class="header-sections">
-  <nav class="navbarm navbar-expand-lg  bg-light">
-  <div class="container-fluid nav">
-    <a class=" n" href={shop.url}>
-      {%if settings.logo != blank%}
-          <img class="im" src="{{settings.logo |  image_url }}" width="auto" height="auto" alt="">
-        {% else %}
-        {{shop.name}}
-      {%endif%}
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        {% for link in section.settings.menu.links %}
-        <li class="nav-item">
-          <a class="nav-linkm active" aria-current="page" href={{link.url}}>{{link.title}}</a>
-        </li>
-        {% if link.links.size > 0 %}
-          <li class="nav-item dropdown">
-          <a class="nav-linkm dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{link.title}}
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            {%for child in link.links%}
-            <li><a class="dropdown-item" href="{{ child.url }}">{{child.title}}</a></li>
-            {%endfor%}
-          </ul>
-        </li>
-        {%endif%}
-      {%endfor%}
-      
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+<header class="site-header" data-sticky="{{ section.settings.enable_sticky }}" aria-label="{{ 'sections.header.aria_label' | t }}">
+  <div class="site-header__inner">
+    <div class="site-header__left">
+      {% render 'header-logo', image: section.settings.logo_image, label: section.settings.logo_text | default: shop.name %}
+    </div>
 
-<div class="header-cart-count mx-2">
-  <button type="button" class="cart-toggle-btn">
+    <div class="site-header__center">
+      {% if section.settings.menu != blank %}
+        {% render 'header-nav', menu: section.settings.menu %}
+      {% endif %}
+    </div>
 
-    <svg xmlns="http://www.w3.org/2000/svg"
-         width="35"
-         height="35"
-         fill="currentColor"
-         viewBox="0 0 16 16">
-      <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
-    </svg>
+    <div class="site-header__right">
+      {% if section.settings.show_search %}
+        <a href="{{ routes.search_url }}" class="site-header__icon-link" aria-label="{{ 'sections.header.search_aria_label' | t }}">
+          <span class="site-header__icon" aria-hidden="true">🔍</span>
+        </a>
+      {% endif %}
 
-    <span id="cartcounter">{{ cart.item_count }}</span>
+      {% if section.settings.show_account and shop.customer_accounts_enabled %}
+        <a href="{{ routes.account_url }}" class="site-header__icon-link" aria-label="{{ 'sections.header.account_aria_label' | t }}">
+          <span class="site-header__icon" aria-hidden="true">👤</span>
+        </a>
+      {% endif %}
 
-  </button>
-</div>
+      {% if section.settings.show_cart %}
+        <a href="{{ routes.cart_url }}" class="site-header__icon-link" aria-label="{{ 'sections.header.cart_aria_label' | t }}">
+          <span class="site-header__icon" aria-hidden="true">🛒</span>
+          {% if cart != empty and cart.item_count > 0 %}
+            <span class="site-header__cart-count">{{ cart.item_count }}</span>
+          {% endif %}
+        </a>
+      {% endif %}
 
+      {% if section.settings.menu != blank %}
+        <button
+          class="site-header__mobile-toggle"
+          aria-label="{{ 'sections.header.mobile_menu_toggle_aria_label' | t }}"
+          aria-expanded="false"
+          aria-controls="mobile-menu-panel"
+        >
+          <span class="site-header__hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      {% endif %}
     </div>
   </div>
-</nav>
-</div>
+
+  {% if section.settings.menu != blank %}
+    <div class="site-header__mobile-panel" id="mobile-menu-panel" aria-hidden="true">
+      <nav class="site-header__mobile-nav">
+        {% render 'header-nav', menu: section.settings.menu %}
+      </nav>
+    </div>
+  {% endif %}
+</header>
+
+{% stylesheet %}
+  .site-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    background-color: #ffffff;
+    color: #111827;
+    position: relative;
+    z-index: 100;
+    width: 100%;
+    transition: box-shadow 0.3s ease;
+  }
+
+  /* ✅ Sticky: শুধু scroll করলে active হবে JS দিয়ে */
+  .site-header--sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    animation: headerSlideDown 0.3s ease forwards;
+  }
+
+  @keyframes headerSlideDown {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* ✅ Sticky হলে নিচের content যেন header এর নিচে না চলে যায় */
+  .site-header-placeholder {
+    display: none;
+  }
+
+  .site-header-placeholder--active {
+    display: block;
+  }
+
+  .site-header__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 0.75rem 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .site-header__left {
+    justify-self: flex-start;
+  }
+
+  .site-header__center {
+    justify-self: center;
+  }
+
+  .site-header__right {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  .site-header__icon-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+  }
+
+  .site-header__icon-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .site-header__icon-link:focus-visible {
+    outline: 2px solid #111827;
+    outline-offset: 2px;
+  }
+
+  .site-header__icon {
+    font-size: 1rem;
+  }
+
+  .site-header__cart-count {
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+    min-width: 1.1rem;
+    height: 1.1rem;
+    padding: 0 0.2rem;
+    border-radius: 999px;
+    background-color: #111827;
+    color: #ffffff;
+    font-size: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ✅ Hamburger Button */
+  .site-header__mobile-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 999px;
+    transition: background 0.2s;
+  }
+
+  .site-header__mobile-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .site-header__hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 18px;
+  }
+
+  .site-header__hamburger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: #111827;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+    transform-origin: center;
+  }
+
+  /* Hamburger → X */
+  .site-header__mobile-toggle[aria-expanded="true"] .site-header__hamburger span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .site-header__mobile-toggle[aria-expanded="true"] .site-header__hamburger span:nth-child(2) {
+    opacity: 0;
+    width: 0;
+  }
+
+  .site-header__mobile-toggle[aria-expanded="true"] .site-header__hamburger span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* ✅ Mobile Slide Panel */
+  .site-header__mobile-panel {
+    display: none;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease, opacity 0.3s ease;
+    opacity: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    background: #ffffff;
+  }
+
+  .site-header__mobile-panel.is-open {
+    max-height: 500px;
+    opacity: 1;
+  }
+
+  .site-header__mobile-nav {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 1rem 1.5rem 1.25rem;
+  }
+
+  .site-header__mobile-nav .header-nav__list {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+  }
+
+  .site-header__mobile-nav .header-nav__item a {
+    display: block;
+    padding: 0.65rem 0;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    color: #111827;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .site-header__mobile-nav .header-nav__item:last-child a {
+    border-bottom: none;
+  }
+
+  .site-header__mobile-nav .header-nav__item a:hover {
+    color: #6366f1;
+  }
+
+  @media (max-width: 768px) {
+    .site-header__center {
+      display: none;
+    }
+
+    .site-header__mobile-toggle {
+      display: flex;
+    }
+
+    .site-header__mobile-panel {
+      display: block;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+
+    const stickyEnabled = header.dataset.sticky === 'true';
+    if (!stickyEnabled) return;
+
+    // ✅ Placeholder div তৈরি করো — sticky হলে layout jump না হওয়ার জন্য
+    const placeholder = document.createElement('div');
+    placeholder.classList.add('site-header-placeholder');
+    header.insertAdjacentElement('afterend', placeholder);
+
+    let isSticky = false;
+
+    function updateSticky() {
+      // Header এর original top position
+      const triggerPoint = header.offsetTop + header.offsetHeight;
+
+      if (window.scrollY > triggerPoint && !isSticky) {
+        isSticky = true;
+        // Header এর height অনুযায়ী placeholder set করো
+        placeholder.style.height = header.offsetHeight + 'px';
+        placeholder.classList.add('site-header-placeholder--active');
+        header.classList.add('site-header--sticky');
+      } else if (window.scrollY <= triggerPoint && isSticky) {
+        isSticky = false;
+        placeholder.style.height = '0';
+        placeholder.classList.remove('site-header-placeholder--active');
+        header.classList.remove('site-header--sticky');
+      }
+    }
+
+    window.addEventListener('scroll', updateSticky, { passive: true });
+
+    // ✅ Hamburger menu toggle
+    const toggle = header.querySelector('.site-header__mobile-toggle');
+    const panel = header.querySelector('.site-header__mobile-panel');
+
+    if (toggle && panel) {
+      toggle.addEventListener('click', function () {
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        panel.setAttribute('aria-hidden', String(isOpen));
+        panel.classList.toggle('is-open', !isOpen);
+      });
+
+      // Outside click এ বন্ধ হবে
+      document.addEventListener('click', function (e) {
+        if (!header.contains(e.target)) {
+          toggle.setAttribute('aria-expanded', 'false');
+          panel.setAttribute('aria-hidden', 'true');
+          panel.classList.remove('is-open');
+        }
+      });
+
+      // Desktop এ resize হলে বন্ধ হবে
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 768) {
+          toggle.setAttribute('aria-expanded', 'false');
+          panel.setAttribute('aria-hidden', 'true');
+          panel.classList.remove('is-open');
+        }
+      });
+    }
+  })();
+{% endjavascript %}
 
 {% schema %}
 {
-  "name": "Header",
+  "name": "t:sections.header.name",
   "settings": [
-     {
+      {
+    "type": "image_picker",
+    "id": "logo_image",
+    "label": "t:sections.header.settings.logo_image.label"
+  },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "t:sections.header.settings.logo_text.label",
+      "default": "My Store"
+    },
+    {
       "type": "link_list",
       "id": "menu",
-      "label": "Menu"
-     }
-    ]
+      "label": "t:sections.header.settings.menu.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "t:sections.header.settings.show_search.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "t:sections.header.settings.show_account.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "t:sections.header.settings.show_cart.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "t:sections.header.settings.enable_sticky.label",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.header.presets.default.name"
+    }
+  ]
 }
 {% endschema %}

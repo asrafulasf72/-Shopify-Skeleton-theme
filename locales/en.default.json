@@ -52,6 +52,14 @@
   "sections": {
     "announcement_bar": {
       "aria_label": "Store announcement"
+    },
+    "header": {
+      "aria_label": "Site header",
+      "main_navigation_aria_label": "Main navigation",
+      "search_aria_label": "Search",
+      "account_aria_label": "Account",
+      "cart_aria_label": "Cart",
+      "mobile_menu_toggle_aria_label": "Toggle navigation menu"
     }
   }
 }

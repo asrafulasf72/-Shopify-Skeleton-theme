@@ -1,0 +1,59 @@
+{% doc %}
+  Renders a horizontal navigation menu from a link list.
+
+  @param {linklist} menu - The menu (link list) to render.
+
+  @example
+  {% render 'header-nav', menu: section.settings.menu %}
+{% enddoc %}
+
+{% if menu.links.size > 0 %}
+  <nav class="header-nav" aria-label="{{ 'sections.header.main_navigation_aria_label' | t }}">
+    <ul class="header-nav__list">
+      {% for link in menu.links %}
+        <li class="header-nav__item">
+          <a
+            href="{{ link.url }}"
+            class="header-nav__link{% if link.active %} header-nav__link--active{% endif %}"
+          >
+            {{ link.title | escape }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+{% endif %}
+
+{% stylesheet %}
+  .header-nav__list {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header-nav__link {
+    text-decoration: none;
+    font-size: 0.95rem;
+    color: inherit;
+    position: relative;
+  }
+
+  .header-nav__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.15rem;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+    transition: width 150ms ease-out;
+  }
+
+  .header-nav__link:hover::after,
+  .header-nav__link--active::after {
+    width: 100%;
+  }
+{% endstylesheet %}
