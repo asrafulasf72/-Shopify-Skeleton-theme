@@ -71,6 +71,69 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
+    }
+  },
+
+  "sections": {
+    "example_hero": {
+      "name": "Example hero",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "text": {
+          "label": "Text"
+        },
+        "show_button": {
+          "label": "Show button"
+        },
+        "button_label": {
+          "label": "Button label"
+        },
+        "button_link": {
+          "label": "Button link"
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "Example hero"
+        }
+      }
     },
+    "announcement_bar": {
+      "name": "Announcement bar",
+      "aria_label": "Store announcement",
+      "settings": {
+        "show_icon": {
+          "label": "Show icon"
+        },
+        "icon": {
+          "label": "Icon character"
+        },
+        "text": {
+          "label": "Announcement text"
+        },
+        "show_link": {
+          "label": "Show link"
+        },
+        "link_label": {
+          "label": "Link label"
+        },
+        "link_url": {
+          "label": "Link URL"
+        },
+        "background_color": {
+          "label": "Background color"
+        },
+        "text_color": {
+          "label": "Text color"
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "Announcement bar"
+        }
+      }
+    }
   }
 }

@@ -1,0 +1,124 @@
+<section class="announcement-bar" aria-label="{{ 'sections.announcement_bar.aria_label' | t }}">
+  <div class="announcement-bar__inner" style="--announcement-bg: {{ section.settings.background_color }}; --announcement-color: {{ section.settings.text_color }};">
+    {% if section.settings.show_icon %}
+      <span class="announcement-bar__icon" aria-hidden="true">{{ section.settings.icon }}</span>
+    {% endif %}
+
+    {% if section.settings.text != blank %}
+      <p class="announcement-bar__text">
+        {{ section.settings.text | escape }}
+      </p>
+    {% endif %}
+
+    {% if section.settings.show_link and section.settings.link_label != blank and section.settings.link_url != blank %}
+      <a href="{{ section.settings.link_url }}" class="announcement-bar__link">
+        {{ section.settings.link_label | escape }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .announcement-bar {
+    background-color: var(--announcement-bg, #111827);
+    color: var(--announcement-color, #ffffff);
+    font-size: 0.875rem;
+  }
+
+  .announcement-bar__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  .announcement-bar__icon {
+    font-size: 1rem;
+  }
+
+  .announcement-bar__text {
+    margin: 0;
+  }
+
+  .announcement-bar__link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    font-weight: 500;
+  }
+
+  .announcement-bar__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 600px) {
+    .announcement-bar__inner {
+      flex-wrap: wrap;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.announcement_bar.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "t:sections.announcement_bar.settings.show_icon.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "icon",
+      "label": "t:sections.announcement_bar.settings.icon.label",
+      "default": "★"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:sections.announcement_bar.settings.text.label",
+      "default": "Free shipping on orders over $50"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_link",
+      "label": "t:sections.announcement_bar.settings.show_link.label",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "t:sections.announcement_bar.settings.link_label.label",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "t:sections.announcement_bar.settings.link_url.label"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.announcement_bar.settings.background_color.label",
+      "default": "#111827"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:sections.announcement_bar.settings.text_color.label",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.announcement_bar.presets.default.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,46 @@
+{% doc %}
+  Renders a reusable heading with optional subheading.
+
+  @param {string} heading - Main heading text.
+  @param {string} [subheading] - Optional subheading text.
+
+  @example
+  {% render 'example-heading', heading: 'Welcome', subheading: 'Our latest products' %}
+{% enddoc %}
+
+<section class="example-heading" aria-labelledby="example-heading-title">
+  <div class="example-heading__inner">
+    <h2 id="example-heading-title" class="example-heading__title">
+      {{ heading | default: 'Heading' | escape }}
+    </h2>
+    {% if subheading %}
+      <p class="example-heading__subheading">
+        {{ subheading | escape }}
+      </p>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .example-heading {
+    padding-block: 2.5rem;
+  }
+
+  .example-heading__inner {
+    max-width: 60rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+    text-align: center;
+  }
+
+  .example-heading__title {
+    font-size: clamp(1.75rem, 1.4rem + 1vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .example-heading__subheading {
+    margin-top: 0.5rem;
+    color: rgba(0, 0, 0, 0.7);
+  }
+{% endstylesheet %}

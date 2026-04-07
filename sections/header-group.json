@@ -12,7 +12,7 @@
   "name": "header group",
   "sections": {
       "announcement":{
-        "type": "announcementbar",
+        "type": "announcement-bar",
         "settings": {}
       },
       "header":{
