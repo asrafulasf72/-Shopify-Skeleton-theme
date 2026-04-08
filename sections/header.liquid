@@ -13,26 +13,29 @@
     <div class="site-header__right">
       {% if section.settings.show_search %}
         <a href="{{ routes.search_url }}" class="site-header__icon-link" aria-label="{{ 'sections.header.search_aria_label' | t }}">
-          {% comment %} <span class="site-header__icon" aria-hidden="true">🔍</span> {% endcomment %}
-           <img src="{{ "search.svg" | asset_url }}" alt="account svg" height="32" width="32">
+          <img src="{{ "search.svg" | asset_url }}" alt="search" height="32" width="32">
         </a>
       {% endif %}
 
       {% if section.settings.show_account and shop.customer_accounts_enabled %}
         <a href="{{ routes.account_url }}" class="site-header__icon-link" aria-label="{{ 'sections.header.account_aria_label' | t }}">
-          {% comment %} <span class="site-header__icon" aria-hidden="true">👤</span> {% endcomment %}
-           <img src="{{ "icon-account.svg" | asset_url }}" alt="account svg" height="32" width="32">
+          <img src="{{ "icon-account.svg" | asset_url }}" alt="account" height="32" width="32">
         </a>
       {% endif %}
 
       {% if section.settings.show_cart %}
-        <a href="{{ routes.cart_url }}" class="site-header__icon-link" aria-label="{{ 'sections.header.cart_aria_label' | t }}">
-          {% comment %} <span class="site-header__icon" aria-hidden="true">🛒</span> {% endcomment %}
-           <img src="{{ "cart.svg" | asset_url }}" alt="cart svg" height="32" width="32">
+        <button
+          type="button"
+          class="site-header__icon-link site-header__cart-toggle"
+          aria-label="{{ 'sections.header.cart_aria_label' | t }}"
+          aria-expanded="false"
+          aria-controls="cart-drawer"
+        >
+          <img src="{{ "cart.svg" | asset_url }}" alt="cart" height="32" width="32">
           {% if cart != empty and cart.item_count > 0 %}
             <span class="site-header__cart-count">{{ cart.item_count }}</span>
           {% endif %}
-        </a>
+        </button>
       {% endif %}
 
       {% if section.settings.menu != blank %}
@@ -59,6 +62,89 @@
       </nav>
     </div>
   {% endif %}
+
+  <div
+    class="cart-drawer"
+    id="cart-drawer"
+    aria-hidden="true"
+    aria-label="{{ 'sections.header.cart_drawer_aria_label' | t }}"
+    role="dialog"
+  >
+    <div class="cart-drawer__overlay" data-cart-drawer-close></div>
+    <div class="cart-drawer__panel" role="document">
+      <header class="cart-drawer__header">
+        <h2 class="cart-drawer__title">{{ 'sections.header.cart_drawer_title' | t }}</h2>
+        <button
+          type="button"
+          class="cart-drawer__close"
+          aria-label="{{ 'sections.header.cart_drawer_close_aria_label' | t }}"
+          data-cart-drawer-close
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </header>
+
+      <div class="cart-drawer__body">
+        {% if cart != empty and cart.item_count > 0 %}
+          <ul class="cart-drawer__items" role="list">
+            {% for item in cart.items %}
+              <li class="cart-drawer__item">
+                <div class="cart-drawer__item-image">
+                  {% if item.image %}
+                    {{ item.image | image_url: width: 120, height: 120 | image_tag: loading: 'lazy', alt: item.product.title | escape }}
+                  {% endif %}
+                </div>
+                <div class="cart-drawer__item-content">
+                  <a href="{{ item.url }}" class="cart-drawer__item-title">
+                    {{ item.product.title | escape }}
+                  </a>
+
+                  {% if item.variant.title and item.variant.title != 'Default Title' %}
+                    <p class="cart-drawer__item-variant">
+                      {{ item.variant.title | escape }}
+                    </p>
+                  {% endif %}
+
+                  <p class="cart-drawer__item-quantity">
+                    {{ 'sections.header.cart_drawer_quantity' | t: quantity: item.quantity }}
+                  </p>
+
+                  <p class="cart-drawer__item-price">
+                    {{ item.final_line_price | money }}
+                  </p>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="cart-drawer__empty">
+            {{ 'sections.header.cart_drawer_empty' | t }}
+          </p>
+        {% endif %}
+      </div>
+
+      <footer class="cart-drawer__footer">
+        <div class="cart-drawer__subtotal">
+          <span>{{ 'sections.header.cart_drawer_subtotal' | t }}</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        <div class="cart-drawer__actions">
+          <a
+            href="{{ routes.cart_url }}"
+            class="cart-drawer__button cart-drawer__button--secondary"
+          >
+            {{ 'sections.header.cart_drawer_view_cart' | t }}
+          </a>
+          <a
+            href="{{ routes.checkout_url }}"
+            class="cart-drawer__button cart-drawer__button--primary"
+          >
+            {{ 'sections.header.cart_drawer_checkout' | t }}
+          </a>
+        </div>
+      </footer>
+    </div>
+  </div>
 </header>
 
 {% stylesheet %}
@@ -72,7 +158,6 @@
     transition: box-shadow 0.3s ease;
   }
 
-  /* ✅ Sticky: শুধু scroll করলে active হবে JS দিয়ে */
   .site-header--sticky {
     position: fixed;
     top: 0;
@@ -95,7 +180,6 @@
     }
   }
 
-  /* ✅ Sticky হলে নিচের content যেন header এর নিচে না চলে যায় */
   .site-header-placeholder {
     display: none;
   }
@@ -171,7 +255,6 @@
     justify-content: center;
   }
 
-  /* ✅ Hamburger Button */
   .site-header__mobile-toggle {
     display: none;
     flex-direction: column;
@@ -208,7 +291,6 @@
     transform-origin: center;
   }
 
-  /* Hamburger → X */
   .site-header__mobile-toggle[aria-expanded="true"] .site-header__hamburger span:nth-child(1) {
     transform: translateY(6px) rotate(45deg);
   }
@@ -222,7 +304,6 @@
     transform: translateY(-6px) rotate(-45deg);
   }
 
-  /* ✅ Mobile Slide Panel */
   .site-header__mobile-panel {
     display: none;
     overflow: hidden;
@@ -268,6 +349,202 @@
     color: #6366f1;
   }
 
+  /* CART DRAWER – LEFT SIDE, FULL HEIGHT */
+  .cart-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    display: flex;
+    justify-content: flex-start;
+    pointer-events: none;
+  }
+
+  .cart-drawer[aria-hidden="true"] {
+    visibility: hidden;
+  }
+
+  .cart-drawer[aria-hidden="false"] {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .cart-drawer__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.4);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .cart-drawer[aria-hidden="false"] .cart-drawer__overlay {
+    opacity: 1;
+  }
+
+  .cart-drawer__panel {
+    position: relative;
+    margin-right: auto;
+    width: min(420px, 100%);
+    max-width: 100%;
+    height: 100vh;
+    background-color: #ffffff;
+    box-shadow: 8px 0 24px rgba(15, 23, 42, 0.15);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .cart-drawer[aria-hidden="false"] .cart-drawer__panel {
+    transform: translateX(0);
+  }
+
+  .cart-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .cart-drawer__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .cart-drawer__close {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 999px;
+    line-height: 1;
+  }
+
+  .cart-drawer__close:focus-visible {
+    outline: 2px solid #111827;
+    outline-offset: 2px;
+  }
+
+  .cart-drawer__body {
+    flex: 1 1 auto;
+    padding: 1rem 1.5rem;
+    overflow-y: auto;
+  }
+
+  .cart-drawer__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .cart-drawer__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .cart-drawer__item-image img {
+    border-radius: 0.5rem;
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+  }
+
+  .cart-drawer__item-title {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: inherit;
+    text-decoration: none;
+    margin-bottom: 0.125rem;
+  }
+
+  .cart-drawer__item-title:hover {
+    text-decoration: underline;
+  }
+
+  .cart-drawer__item-variant {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin: 0 0 0.25rem;
+  }
+
+  .cart-drawer__item-quantity,
+  .cart-drawer__item-price {
+    font-size: 0.85rem;
+    margin: 0;
+  }
+
+  .cart-drawer__item-price {
+    font-weight: 500;
+  }
+
+  .cart-drawer__empty {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #6b7280;
+  }
+
+  .cart-drawer__footer {
+    padding: 1rem 1.5rem 1.25rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .cart-drawer__subtotal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .cart-drawer__actions {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .cart-drawer__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  .cart-drawer__button--primary {
+    background-color: #111827;
+    color: #ffffff;
+  }
+
+  .cart-drawer__button--primary:hover {
+    background-color: #020617;
+  }
+
+  .cart-drawer__button--secondary {
+    background-color: #ffffff;
+    color: #111827;
+    border-color: rgba(15, 23, 42, 0.15);
+  }
+
+  .cart-drawer__button--secondary:hover {
+    background-color: #f9fafb;
+  }
+
   @media (max-width: 768px) {
     .site-header__center {
       display: none;
@@ -289,36 +566,33 @@
     if (!header) return;
 
     const stickyEnabled = header.dataset.sticky === 'true';
-    if (!stickyEnabled) return;
 
-    // ✅ Placeholder div তৈরি করো — sticky হলে layout jump না হওয়ার জন্য
-    const placeholder = document.createElement('div');
-    placeholder.classList.add('site-header-placeholder');
-    header.insertAdjacentElement('afterend', placeholder);
+    if (stickyEnabled) {
+      const placeholder = document.createElement('div');
+      placeholder.classList.add('site-header-placeholder');
+      header.insertAdjacentElement('afterend', placeholder);
 
-    let isSticky = false;
+      let isSticky = false;
 
-    function updateSticky() {
-      // Header এর original top position
-      const triggerPoint = header.offsetTop + header.offsetHeight;
+      function updateSticky() {
+        const triggerPoint = header.offsetTop + header.offsetHeight;
 
-      if (window.scrollY > triggerPoint && !isSticky) {
-        isSticky = true;
-        // Header এর height অনুযায়ী placeholder set করো
-        placeholder.style.height = header.offsetHeight + 'px';
-        placeholder.classList.add('site-header-placeholder--active');
-        header.classList.add('site-header--sticky');
-      } else if (window.scrollY <= triggerPoint && isSticky) {
-        isSticky = false;
-        placeholder.style.height = '0';
-        placeholder.classList.remove('site-header-placeholder--active');
-        header.classList.remove('site-header--sticky');
+        if (window.scrollY > triggerPoint && !isSticky) {
+          isSticky = true;
+          placeholder.style.height = header.offsetHeight + 'px';
+          placeholder.classList.add('site-header-placeholder--active');
+          header.classList.add('site-header--sticky');
+        } else if (window.scrollY <= triggerPoint && isSticky) {
+          isSticky = false;
+          placeholder.style.height = '0';
+          placeholder.classList.remove('site-header-placeholder--active');
+          header.classList.remove('site-header--sticky');
+        }
       }
+
+      window.addEventListener('scroll', updateSticky, { passive: true });
     }
 
-    window.addEventListener('scroll', updateSticky, { passive: true });
-
-    //  Hamburger menu toggle
     const toggle = header.querySelector('.site-header__mobile-toggle');
     const panel = header.querySelector('.site-header__mobile-panel');
 
@@ -330,21 +604,67 @@
         panel.classList.toggle('is-open', !isOpen);
       });
 
-      // Outside click will be off
-      document.addEventListener('click', function (e) {
-        if (!header.contains(e.target)) {
+      document.addEventListener('click', function (event) {
+        if (!header.contains(event.target)) {
           toggle.setAttribute('aria-expanded', 'false');
           panel.setAttribute('aria-hidden', 'true');
           panel.classList.remove('is-open');
         }
       });
 
-      // Wiill be close if Desktop resize
       window.addEventListener('resize', function () {
         if (window.innerWidth > 768) {
           toggle.setAttribute('aria-expanded', 'false');
           panel.setAttribute('aria-hidden', 'true');
           panel.classList.remove('is-open');
+        }
+      });
+    }
+
+    const cartDrawer = document.getElementById('cart-drawer');
+    const cartToggle = header.querySelector('.site-header__cart-toggle');
+
+    if (cartDrawer && cartToggle) {
+      const closeElements = cartDrawer.querySelectorAll('[data-cart-drawer-close]');
+
+      function openCartDrawer() {
+        cartDrawer.setAttribute('aria-hidden', 'false');
+        cartToggle.setAttribute('aria-expanded', 'true');
+      }
+
+      function closeCartDrawer() {
+        cartDrawer.setAttribute('aria-hidden', 'true');
+        cartToggle.setAttribute('aria-expanded', 'false');
+      }
+
+      cartToggle.addEventListener('click', function () {
+        const isOpen = cartDrawer.getAttribute('aria-hidden') === 'false';
+
+        if (isOpen) {
+          closeCartDrawer();
+        } else {
+          if (document.startViewTransition) {
+            document.startViewTransition(function () {
+              openCartDrawer();
+            });
+          } else {
+            openCartDrawer();
+          }
+        }
+      });
+
+      closeElements.forEach(function (element) {
+        element.addEventListener('click', function () {
+          closeCartDrawer();
+        });
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          const isOpen = cartDrawer.getAttribute('aria-hidden') === 'false';
+          if (isOpen) {
+            closeCartDrawer();
+          }
         }
       });
     }
@@ -355,11 +675,11 @@
 {
   "name": "t:sections.header.name",
   "settings": [
-      {
-    "type": "image_picker",
-    "id": "logo_image",
-    "label": "t:sections.header.settings.logo_image.label"
-  },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "t:sections.header.settings.logo_image.label"
+    },
     {
       "type": "text",
       "id": "logo_text",

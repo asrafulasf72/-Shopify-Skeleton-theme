@@ -54,12 +54,21 @@
       "aria_label": "Store announcement"
     },
     "header": {
-      "aria_label": "Site header",
+      "name":"Header",
+      "aria_label": "Main site header",
       "main_navigation_aria_label": "Main navigation",
-      "search_aria_label": "Search",
-      "account_aria_label": "Account",
-      "cart_aria_label": "Cart",
-      "mobile_menu_toggle_aria_label": "Toggle navigation menu"
+      "search_aria_label": "Open search page",
+      "account_aria_label": "Open account page",
+      "cart_aria_label": "Open cart drawer",
+      "mobile_menu_toggle_aria_label": "Toggle mobile navigation",
+      "cart_drawer_aria_label": "Cart",
+      "cart_drawer_title": "Your cart",
+      "cart_drawer_close_aria_label": "Close cart",
+      "cart_drawer_quantity": "Quantity: {{ quantity }}",
+      "cart_drawer_empty": "Your cart is currently empty.",
+      "cart_drawer_subtotal": "Subtotal",
+      "cart_drawer_view_cart": "View cart",
+      "cart_drawer_checkout": "Checkout"
     }
   }
 }

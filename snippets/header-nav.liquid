@@ -36,13 +36,38 @@
             <div class="header-nav__dropdown">
               <ul class="header-nav__dropdown-list">
                 {% for child in link.links %}
-                  <li class="header-nav__item header-nav__item--child">
+                  {% assign child_has_children = false %}
+                  {% if child.links and child.links.size > 0 %}
+                    {% assign child_has_children = true %}
+                  {% endif %}
+
+                  <li class="header-nav__item header-nav__item--child{% if child_has_children %} header-nav__item--has-flyout{% endif %}">
                     <a
                       href="{{ child.url }}"
                       class="header-nav__dropdown-link{% if child.active %} header-nav__dropdown-link--active{% endif %}"
                     >
                       {{ child.title | escape }}
+                      {% if child_has_children %}
+                        <span class="header-nav__flyout-caret" aria-hidden="true">›</span>
+                      {% endif %}
                     </a>
+
+                    {% if child_has_children %}
+                      <div class="header-nav__flyout">
+                        <ul class="header-nav__flyout-list">
+                          {% for grandchild in child.links %}
+                            <li class="header-nav__item header-nav__item--grandchild">
+                              <a
+                                href="{{ grandchild.url }}"
+                                class="header-nav__flyout-link{% if grandchild.active %} header-nav__flyout-link--active{% endif %}"
+                              >
+                                {{ grandchild.title | escape }}
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    {% endif %}
                   </li>
                 {% endfor %}
               </ul>
@@ -83,7 +108,7 @@
   }
 
   .header-nav__link::after {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     bottom: -0.15rem;
@@ -156,6 +181,96 @@
     transform: translateY(0);
   }
 
+  /* Dropdown-এর উপরে invisible bridge যাতে gap cross করার সময় বন্ধ না হয় */
+.header-nav__dropdown::before {
+  content: '';
+  position: absolute;
+  top: -0.5rem; left: 0; right: 0;
+  height: 0.5rem;
+}
+
+.header-nav__flyout::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: -0.35rem;
+  width: 0.35rem;
+}
+
+  /* ── Level 2 dropdown-link: flex করো যাতে › caret ডানে থাকে ── */
+  .header-nav__dropdown-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* ── › caret ── */
+  .header-nav__flyout-caret {
+    font-size: 0.85rem;
+    line-height: 1;
+    margin-left: 0.5rem;
+    flex-shrink: 0;
+    transition: transform 0.15s ease;
+  }
+
+  /* caret ঘোরে যখন flyout open হয় */
+  .header-nav__item--has-flyout:hover > .header-nav__dropdown-link .header-nav__flyout-caret,
+  .header-nav__item--has-flyout:focus-within > .header-nav__dropdown-link .header-nav__flyout-caret {
+    transform: rotate(90deg);
+  }
+
+  /* ── Level 3 flyout panel ── */
+  .header-nav__flyout {
+    position: absolute;
+    left: 100%;
+    top: -0.5rem;
+    margin-left: 0.35rem;
+    min-width: 12rem;
+    padding: 0.75rem 1rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(6px);
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+    z-index: 50;
+  }
+
+  .header-nav__flyout-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .header-nav__flyout-link {
+    display: block;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #111827;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .header-nav__flyout-link:hover,
+  .header-nav__flyout-link--active {
+    background-color: rgba(99, 102, 241, 0.06);
+    color: #4f46e5;
+  }
+
+  /* hover/focus এ flyout show করো */
+  .header-nav__item--has-flyout:hover > .header-nav__flyout,
+  .header-nav__item--has-flyout:focus-within > .header-nav__flyout {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+
   /* Basic mobile-friendly adjustments are handled in the header section,
      but we add a bit of structure so nested items look good in mobile nav too. */
   @media (max-width: 768px) {
@@ -181,6 +296,30 @@
     .header-nav__dropdown-link {
       padding: 0.35rem 0;
       font-size: 0.9rem;
+    }
+
+    /* Mobile এ flyout inline এ নিচে দেখাবে */
+    .header-nav__flyout {
+      position: static;
+      margin: 0;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 0.25rem 0 0.5rem;
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
+    }
+
+    .header-nav__item--grandchild {
+      margin-left: 1rem;
+    }
+
+    .header-nav__flyout-link {
+      padding: 0.35rem 0;
+    }
+
+    .header-nav__flyout-caret {
+      display: none;
     }
   }
 {% endstylesheet %}
