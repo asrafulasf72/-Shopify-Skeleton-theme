@@ -13,19 +13,22 @@
     <div class="site-header__right">
       {% if section.settings.show_search %}
         <a href="{{ routes.search_url }}" class="site-header__icon-link" aria-label="{{ 'sections.header.search_aria_label' | t }}">
-          <span class="site-header__icon" aria-hidden="true">🔍</span>
+          {% comment %} <span class="site-header__icon" aria-hidden="true">🔍</span> {% endcomment %}
+           <img src="{{ "search.svg" | asset_url }}" alt="account svg" height="32" width="32">
         </a>
       {% endif %}
 
       {% if section.settings.show_account and shop.customer_accounts_enabled %}
         <a href="{{ routes.account_url }}" class="site-header__icon-link" aria-label="{{ 'sections.header.account_aria_label' | t }}">
-          <span class="site-header__icon" aria-hidden="true">👤</span>
+          {% comment %} <span class="site-header__icon" aria-hidden="true">👤</span> {% endcomment %}
+           <img src="{{ "icon-account.svg" | asset_url }}" alt="account svg" height="32" width="32">
         </a>
       {% endif %}
 
       {% if section.settings.show_cart %}
         <a href="{{ routes.cart_url }}" class="site-header__icon-link" aria-label="{{ 'sections.header.cart_aria_label' | t }}">
-          <span class="site-header__icon" aria-hidden="true">🛒</span>
+          {% comment %} <span class="site-header__icon" aria-hidden="true">🛒</span> {% endcomment %}
+           <img src="{{ "cart.svg" | asset_url }}" alt="cart svg" height="32" width="32">
           {% if cart != empty and cart.item_count > 0 %}
             <span class="site-header__cart-count">{{ cart.item_count }}</span>
           {% endif %}
@@ -315,7 +318,7 @@
 
     window.addEventListener('scroll', updateSticky, { passive: true });
 
-    // ✅ Hamburger menu toggle
+    //  Hamburger menu toggle
     const toggle = header.querySelector('.site-header__mobile-toggle');
     const panel = header.querySelector('.site-header__mobile-panel');
 
@@ -327,7 +330,7 @@
         panel.classList.toggle('is-open', !isOpen);
       });
 
-      // Outside click এ বন্ধ হবে
+      // Outside click will be off
       document.addEventListener('click', function (e) {
         if (!header.contains(e.target)) {
           toggle.setAttribute('aria-expanded', 'false');
@@ -336,7 +339,7 @@
         }
       });
 
-      // Desktop এ resize হলে বন্ধ হবে
+      // Wiill be close if Desktop resize
       window.addEventListener('resize', function () {
         if (window.innerWidth > 768) {
           toggle.setAttribute('aria-expanded', 'false');

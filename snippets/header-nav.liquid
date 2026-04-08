@@ -1,5 +1,10 @@
 {% doc %}
-  Renders a horizontal navigation menu from a link list.
+  Renders a navigation menu from a link list, with support for dropdown / mega menu.
+
+  - Top-level links render horizontally on desktop.
+  - If a link has child links (link.links), a dropdown panel is rendered for that item.
+  - On mobile, the header section overrides layout so this nav becomes vertical,
+    and child links appear indented under their parent.
 
   @param {linklist} menu - The menu (link list) to render.
 
@@ -11,13 +16,38 @@
   <nav class="header-nav" aria-label="{{ 'sections.header.main_navigation_aria_label' | t }}">
     <ul class="header-nav__list">
       {% for link in menu.links %}
-        <li class="header-nav__item">
+        {% assign has_children = false %}
+        {% if link.links and link.links.size > 0 %}
+          {% assign has_children = true %}
+        {% endif %}
+
+        <li class="header-nav__item{% if has_children %} header-nav__item--has-children{% endif %}">
           <a
             href="{{ link.url }}"
             class="header-nav__link{% if link.active %} header-nav__link--active{% endif %}"
           >
-            {{ link.title | escape }}
+            <span class="header-nav__link-label">{{ link.title | escape }}</span>
+            {% if has_children %}
+              <span class="header-nav__caret" aria-hidden="true">▾</span>
+            {% endif %}
           </a>
+
+          {% if has_children %}
+            <div class="header-nav__dropdown">
+              <ul class="header-nav__dropdown-list">
+                {% for child in link.links %}
+                  <li class="header-nav__item header-nav__item--child">
+                    <a
+                      href="{{ child.url }}"
+                      class="header-nav__dropdown-link{% if child.active %} header-nav__dropdown-link--active{% endif %}"
+                    >
+                      {{ child.title | escape }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
         </li>
       {% endfor %}
     </ul>
@@ -34,10 +64,21 @@
     padding: 0;
   }
 
+  .header-nav__item {
+    position: relative;
+  }
+
   .header-nav__link {
     text-decoration: none;
     font-size: 0.95rem;
     color: inherit;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .header-nav__link-label {
     position: relative;
   }
 
@@ -55,5 +96,91 @@
   .header-nav__link:hover::after,
   .header-nav__link--active::after {
     width: 100%;
+  }
+
+  .header-nav__caret {
+    font-size: 0.7rem;
+    line-height: 1;
+    transform: translateY(1px);
+  }
+
+  /* Dropdown (mega menu) panel */
+  .header-nav__dropdown {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin-top: 0.5rem;
+    min-width: 14rem;
+    max-width: 34rem;
+    padding: 1rem 1.25rem 1.25rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+    z-index: 40;
+  }
+
+  .header-nav__dropdown-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: 0.5rem 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header-nav__dropdown-link {
+    display: block;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #111827;
+    padding: 0.2rem 0;
+    border-radius: 0.25rem;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .header-nav__dropdown-link:hover,
+  .header-nav__dropdown-link--active {
+    background-color: rgba(99, 102, 241, 0.06);
+    color: #4f46e5;
+  }
+
+  /* Show dropdown on hover/focus */
+  .header-nav__item--has-children:hover > .header-nav__dropdown,
+  .header-nav__item--has-children:focus-within > .header-nav__dropdown {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  /* Basic mobile-friendly adjustments are handled in the header section,
+     but we add a bit of structure so nested items look good in mobile nav too. */
+  @media (max-width: 768px) {
+    .header-nav__dropdown {
+      position: static;
+      margin-top: 0.25rem;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 0.25rem 0 0.5rem;
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
+    }
+
+    .header-nav__dropdown-list {
+      display: block;
+    }
+
+    .header-nav__item--child {
+      margin-left: 1rem;
+    }
+
+    .header-nav__dropdown-link {
+      padding: 0.35rem 0;
+      font-size: 0.9rem;
+    }
   }
 {% endstylesheet %}
