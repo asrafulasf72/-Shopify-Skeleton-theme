@@ -7,9 +7,10 @@
     and child links appear indented under their parent.
 
   @param {linklist} menu - The menu (link list) to render.
+  @param {object} section - The section object (required for nav badge blocks).
 
   @example
-  {% render 'header-nav', menu: section.settings.menu %}
+  {% render 'header-nav', menu: section.settings.menu, section: section %}
 {% enddoc %}
 
 {% if menu.links.size > 0 %}
@@ -21,22 +22,48 @@
           {% assign has_children = true %}
         {% endif %}
 
-        <li 
-  class="header-nav__item{% if has_children %} header-nav__item--has-children{% endif %}" 
-  data-menu="{{ link.title | handle }}"
->
+        {% comment %} Badge block খোঁজো এই link এর জন্য {% endcomment %}
+        {% assign nav_badge = null %}
+        {% for block in section.blocks %}
+          {% assign block_name_down = block.settings.link_name | downcase %}
+          {% assign link_title_down = link.title | downcase %}
+          {% if block.type == 'nav_badge' and block_name_down == link_title_down %}
+            {% assign nav_badge = block %}
+          {% endif %}
+        {% endfor %}
+
+        <li
+          class="header-nav__item{% if has_children %} header-nav__item--has-children{% endif %}"
+          data-menu="{{ link.title | handle }}"
+        >
           <a
             href="{{ link.url }}"
             class="header-nav__link{% if link.active %} header-nav__link--active{% endif %}"
           >
             <span class="header-nav__link-label">{{ link.title | escape }}</span>
+
+            {% comment %} Badge render {% endcomment %}
+            {% if nav_badge %}
+              <span
+                class="header-nav__badge"
+                style="
+                  background-color: {{ nav_badge.settings.badge_bg_color }};
+                  color: {{ nav_badge.settings.badge_text_color }};
+                  padding: {{ nav_badge.settings.badge_padding_y }}px {{ nav_badge.settings.badge_padding_x }}px;
+                "
+                {{ nav_badge.shopify_attributes }}
+              >
+                {{ nav_badge.settings.badge_text }}
+              </span>
+            {% endif %}
+
             {% if has_children %}
               <span class="header-nav__caret" aria-hidden="true">▾</span>
             {% endif %}
           </a>
 
           {% if has_children %}
-            <div class="header-nav__dropdown mega-trigger"  data-menu="{{ link.title | handle }}">
+            <div class="header-nav__dropdown mega-trigger" data-menu="{{ link.title | handle }}">
               <ul class="header-nav__dropdown-list">
                 {% for child in link.links %}
                   {% assign child_has_children = false %}
@@ -132,6 +159,19 @@
     transform: translateY(1px);
   }
 
+  /* Nav Badge */
+  .header-nav__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
   /* Dropdown (mega menu) panel */
   .header-nav__dropdown {
     position: absolute;
@@ -176,7 +216,6 @@
     color: #4f46e5;
   }
 
-  /* Show dropdown on hover/focus */
   .header-nav__item--has-children:hover > .header-nav__dropdown,
   .header-nav__item--has-children:focus-within > .header-nav__dropdown {
     opacity: 1;
@@ -184,30 +223,30 @@
     transform: translateY(0);
   }
 
-  /* Dropdown-এর উপরে invisible bridge যাতে gap cross করার সময় বন্ধ না হয় */
-.header-nav__dropdown::before {
-  content: '';
-  position: absolute;
-  top: -0.5rem; left: 0; right: 0;
-  height: 0.5rem;
-}
+  .header-nav__dropdown::before {
+    content: '';
+    position: absolute;
+    top: -0.5rem;
+    left: 0;
+    right: 0;
+    height: 0.5rem;
+  }
 
-.header-nav__flyout::before {
-  content: '';
-  position: absolute;
-  top: 0; bottom: 0;
-  left: -0.35rem;
-  width: 0.35rem;
-}
+  .header-nav__flyout::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -0.35rem;
+    width: 0.35rem;
+  }
 
-  /* ── Level 2 dropdown-link: flex করো যাতে › caret ডানে থাকে ── */
   .header-nav__dropdown-link {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
-  /* ── › caret ── */
   .header-nav__flyout-caret {
     font-size: 0.85rem;
     line-height: 1;
@@ -216,13 +255,11 @@
     transition: transform 0.15s ease;
   }
 
-  /* caret ঘোরে যখন flyout open হয় */
   .header-nav__item--has-flyout:hover > .header-nav__dropdown-link .header-nav__flyout-caret,
   .header-nav__item--has-flyout:focus-within > .header-nav__dropdown-link .header-nav__flyout-caret {
     transform: rotate(90deg);
   }
 
-  /* ── Level 3 flyout panel ── */
   .header-nav__flyout {
     position: absolute;
     left: 100%;
@@ -266,7 +303,6 @@
     color: #4f46e5;
   }
 
-  /* hover/focus এ flyout show করো */
   .header-nav__item--has-flyout:hover > .header-nav__flyout,
   .header-nav__item--has-flyout:focus-within > .header-nav__flyout {
     opacity: 1;
@@ -274,8 +310,6 @@
     transform: translateX(0);
   }
 
-  /* Basic mobile-friendly adjustments are handled in the header section,
-     but we add a bit of structure so nested items look good in mobile nav too. */
   @media (max-width: 768px) {
     .header-nav__dropdown {
       position: static;
@@ -301,7 +335,6 @@
       font-size: 0.9rem;
     }
 
-    /* Mobile এ flyout inline এ নিচে দেখাবে */
     .header-nav__flyout {
       position: static;
       margin: 0;
