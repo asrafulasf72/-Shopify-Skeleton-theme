@@ -21,7 +21,10 @@
           {% assign has_children = true %}
         {% endif %}
 
-        <li class="header-nav__item{% if has_children %} header-nav__item--has-children{% endif %}">
+        <li 
+  class="header-nav__item{% if has_children %} header-nav__item--has-children{% endif %}" 
+  data-menu="{{ link.title | handle }}"
+>
           <a
             href="{{ link.url }}"
             class="header-nav__link{% if link.active %} header-nav__link--active{% endif %}"
@@ -33,7 +36,7 @@
           </a>
 
           {% if has_children %}
-            <div class="header-nav__dropdown">
+            <div class="header-nav__dropdown mega-trigger"  data-menu="{{ link.title | handle }}">
               <ul class="header-nav__dropdown-list">
                 {% for child in link.links %}
                   {% assign child_has_children = false %}

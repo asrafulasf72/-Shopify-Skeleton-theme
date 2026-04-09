@@ -7,9 +7,9 @@
     <div class="site-header__center">
       {% if section.settings.menu != blank %}
         {% render 'header-nav', menu: section.settings.menu %}
+        {% render 'mega-menu', blocks: section.blocks %}
       {% endif %}
     </div>
-
     <div class="site-header__right">
       {% if section.settings.show_search %}
         <a href="{{ routes.search_url }}" class="site-header__icon-link" aria-label="{{ 'sections.header.search_aria_label' | t }}">
@@ -669,6 +669,25 @@
       });
     }
   })();
+
+document.querySelectorAll('.header-nav__item').forEach(item => {
+
+  item.addEventListener('mouseenter', function () {
+
+    let name = this.dataset.menu;
+
+    document.querySelectorAll('.mega-panel').forEach(panel => {
+      panel.classList.remove('active');
+
+      if (panel.dataset.menu === name) {
+        panel.classList.add('active');
+      }
+    });
+
+  });
+
+});
+
 {% endjavascript %}
 
 {% schema %}
@@ -716,6 +735,66 @@
       "default": true
     }
   ],
+  "blocks": [
+  {
+    "type": "mega_menu",
+    "name": "Mega Menu",
+    "settings": [
+    { "type": "text", 
+      "id": "link_name", 
+      "label": "Menu Link Name" 
+    },
+    { "type": "link_list", 
+      "id": "link_list_1", 
+      "label": "Link Column 1" 
+    },
+    { "type": "link_list", 
+      "id": "link_list_2", 
+      "label": "Link Column 2" 
+    },
+    { "type": "link_list", 
+      "id": "link_list_3", 
+      "label": "Link Column 3" 
+    },
+    { "type": "image_picker", 
+      "id": "first_image", 
+      "label": "Image Card 1" 
+    },
+    { "type": "url", 
+      "id": "first_image_url", 
+      "label": "Image 1 URL" 
+    },
+    { "type": "text", 
+      "id": "highlight_overlay_text", 
+      "label": "Image 1 Bold Text", 
+      "default": "Weekly" 
+    },
+    { "type": "text", 
+      "id": "overlay_text", 
+      "label": "Image 1 Sub Text", 
+      "default": "Top sales" 
+    },
+    { "type": "image_picker", 
+      "id": "second_image", 
+      "label": "Image Card 2" 
+    },
+    { "type": "url", 
+      "id": "second_image_url", 
+      "label": "Image 2 URL" 
+    },
+    { "type": "text", 
+      "id": "highlight_overlay_text_second", 
+      "label": "Image 2 Bold Text", 
+      "default": "50% Off" 
+    },
+    { "type": "text", 
+      "id": "overlay_text_second", 
+      "label": "Image 2 Sub Text", 
+      "default": "On this order" 
+    }
+  ]
+  }
+],
   "presets": [
     {
       "name": "t:sections.header.presets.default.name"
