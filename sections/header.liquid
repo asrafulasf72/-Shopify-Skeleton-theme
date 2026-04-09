@@ -44,9 +44,9 @@
           aria-controls="cart-drawer"
         >
           <img src="{{ "cart.svg" | asset_url }}" alt="cart" height="32" width="32">
-          {% if cart != empty and cart.item_count > 0 %}
+           {% if cart != empty and cart.item_count > 0 %}
             <span class="site-header__cart-count">{{ cart.item_count }}</span>
-          {% endif %}
+           {% endif %}
         </button>
       {% endif %}
 
@@ -366,18 +366,6 @@
     color: #6366f1;
   }
 
-  /* CART DRAWER – LEFT SIDE, FULL HEIGHT */
-  .cart-drawer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 200;
-    display: flex;
-    justify-content: flex-start;
-    pointer-events: none;
-  }
 
   .cart-drawer[aria-hidden='true'] {
     visibility: hidden;
@@ -389,34 +377,37 @@
   }
 
   .cart-drawer__overlay {
-    position: absolute;
-    inset: 0;
-    background-color: rgba(15, 23, 42, 0.4);
-    opacity: 0;
-    transition: opacity 0.25s ease;
+     display: none;
   }
+  .site-header__cart-toggle {
+  border-radius: 0 !important;
+  border:none
+}
 
-  .cart-drawer[aria-hidden='false'] .cart-drawer__overlay {
+  /* .cart-drawer[aria-hidden='false'] .cart-drawer__overlay {
     opacity: 1;
-  }
+  } */
 
-  .cart-drawer__panel {
-    position: relative;
-    margin-right: auto;
-    width: min(420px, 100%);
-    max-width: 100%;
-    height: 100vh;
-    background-color: #ffffff;
-    box-shadow: 8px 0 24px rgba(15, 23, 42, 0.15);
-    display: flex;
-    flex-direction: column;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-  }
+ .cart-drawer__panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin-left: auto;
+  width: min(420px, 100%);
+  max-width: 100%;
+  height: 100dvh;
+  background-color: #ffffff;
+  box-shadow: -8px 0 24px rgba(15, 23, 42, 0.15);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  .cart-drawer[aria-hidden='false'] .cart-drawer__panel {
-    transform: translateX(0);
-  }
+.cart-drawer[aria-hidden='false'] .cart-drawer__panel {
+  transform: translateX(0);
+}
 
   .cart-drawer__header {
     display: flex;
@@ -647,11 +638,13 @@
       function openCartDrawer() {
         cartDrawer.setAttribute('aria-hidden', 'false');
         cartToggle.setAttribute('aria-expanded', 'true');
+        
       }
 
       function closeCartDrawer() {
         cartDrawer.setAttribute('aria-hidden', 'true');
         cartToggle.setAttribute('aria-expanded', 'false');
+        
       }
 
       cartToggle.addEventListener('click', function () {
@@ -752,18 +745,58 @@
       "type": "mega_menu",
       "name": "Mega Menu",
       "settings": [
-        { "type": "text", "id": "link_name", "label": "Menu Link Name" },
-        { "type": "link_list", "id": "link_list_1", "label": "Link Column 1" },
-        { "type": "link_list", "id": "link_list_2", "label": "Link Column 2" },
-        { "type": "link_list", "id": "link_list_3", "label": "Link Column 3" },
-        { "type": "image_picker", "id": "first_image", "label": "Image Card 1" },
-        { "type": "url", "id": "first_image_url", "label": "Image 1 URL" },
-        { "type": "text", "id": "highlight_overlay_text", "label": "Image 1 Bold Text", "default": "Weekly" },
-        { "type": "text", "id": "overlay_text", "label": "Image 1 Sub Text", "default": "Top sales" },
-        { "type": "image_picker", "id": "second_image", "label": "Image Card 2" },
-        { "type": "url", "id": "second_image_url", "label": "Image 2 URL" },
-        { "type": "text", "id": "highlight_overlay_text_second", "label": "Image 2 Bold Text", "default": "50% Off" },
-        { "type": "text", "id": "overlay_text_second", "label": "Image 2 Sub Text", "default": "On this order" }
+        { "type": "text", 
+          "id": "link_name", 
+          "label": "Menu Link Name" 
+        },
+        { "type": "link_list", 
+          "id": "link_list_1", 
+          "label": "Link Column 1" 
+        },
+        { "type": "link_list", 
+          "id": "link_list_2", 
+          "label": "Link Column 2" 
+        },
+        { "type": "link_list", 
+          "id": "link_list_3", 
+          "label": "Link Column 3" 
+        },
+        { "type": "image_picker", 
+          "id": "first_image", 
+          "label": "Image Card 1" 
+        },
+        { "type": "url", 
+          "id": "first_image_url", 
+          "label": "Image 1 URL" 
+        },
+        { "type": "text", 
+          "id": "highlight_overlay_text", 
+          "label": "Image 1 Bold Text", 
+          "default": "Weekly" 
+        },
+        { "type": "text", 
+          "id": "overlay_text", 
+          "label": "Image 1 Sub Text", 
+          "default": "Top sales" 
+        },
+        { "type": "image_picker", 
+          "id": "second_image", 
+          "label": "Image Card 2" 
+        },
+        { "type": "url", 
+          "id": "second_image_url", 
+          "label": "Image 2 URL" 
+        },
+        { "type": "text", 
+          "id": "highlight_overlay_text_second", 
+          "label": "Image 2 Bold Text", 
+          "default": "50% Off" 
+        },
+        { "type": "text", 
+          "id": "overlay_text_second", 
+          "label": "Image 2 Sub Text", 
+          "default": "On this order" 
+        }
       ]
     },
     {
