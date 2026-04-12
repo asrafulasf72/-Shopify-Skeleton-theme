@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
         addToCartBtn.disabled = false;
         addToCartBtn.textContent = 'Add to Cart';
 
+        showToast(`${data.product_title} added to cart`, 'success');
         updateCartDrawer();
       })
       .catch(err => {
@@ -191,6 +192,12 @@ function updateCartItem(key, quantity) {
     .then((cart) => {
       updateBadge(cart.item_count);
       renderDrawerItems(cart);
+
+       if (quantity === 0) {
+        showToast('Product removed from cart ❌', 'error');
+      } else {
+        showToast('Cart updated 🔄', 'success');
+      }
     })
     .catch((err) => {
       console.error('Update error:', err);
@@ -236,4 +243,27 @@ function disableItemControls(key, disabled) {
   item.querySelectorAll('button').forEach(btn => {
     btn.disabled = disabled;
   });
+}
+
+// ─── Toast Message ─────────────────────────────────────────────────────────────
+function showToast(message, type = 'success') {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+
+  container.appendChild(toast);
+
+  // show animation
+  setTimeout(() => {
+    toast.classList.add('show');
+  }, 50);
+
+  // remove after 3 sec
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
 }
