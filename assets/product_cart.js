@@ -1,44 +1,44 @@
-document.addEventListener('DOMContentLoaded', function (){
-    const addToCartBtn = document.getElementById('add-to-cart-btn');
+document.addEventListener('DOMContentLoaded', function () {
+  const addToCartBtn = document.getElementById('add-to-cart-btn');
 
-    if(!addToCartBtn) return;
+  if (!addToCartBtn) return;
 
-    addToCartBtn.addEventListener('click', function(e){
-        e.preventDefault();
+  addToCartBtn.addEventListener('click', function (e) {
+    e.preventDefault();
 
-        const form = addToCartBtn.closest('form');
-        const formData = new FormData(form);
+    const form = addToCartBtn.closest('form');
+    const formData = new FormData(form);
 
-            addToCartBtn.disabled = true;
-            addToCartBtn.textContent = 'Adding...';
+    addToCartBtn.disabled = true;
+    addToCartBtn.textContent = 'Adding...';
 
-            fetch('/cart/add.json', {
-                method: 'POST',
-                headers:{
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json'  
-                },
-                body: JSON.stringify({
-                    id: formData.get('id'),
-                    quantity: formData.get('quantity') || 1
-                })
-            })
-            .then( res=> res.json())
-            .then(data=>{
-                console.log('Added to Cart: ', data);
+    fetch('/cart/add.json', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        id: formData.get('id'),
+        quantity: formData.get('quantity') || 1
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log('Added to Cart: ', data);
 
-                addToCartBtn.disabled = false;
-                addToCartBtn.textContent = 'Add to Cart';
+        addToCartBtn.disabled = false;
+        addToCartBtn.textContent = 'Add to Cart';
 
-                updateCartDrawer();
-            })
-            .catch(err=>{
-                console.error('Error: ', err);
+        updateCartDrawer();
+      })
+      .catch(err => {
+        console.error('Error: ', err);
 
-                addToCartBtn.disabled = false;
-                addToCartBtn.textContent = 'Add to Cart';
-            });
-    });
+        addToCartBtn.disabled = false;
+        addToCartBtn.textContent = 'Add to Cart';
+      });
+  });
 });
 
 function updateCartDrawer() {
@@ -85,11 +85,15 @@ function renderDrawerItems(cart) {
     return;
   }
 
-const itemsHTML = cart.items
-  .map(
-    (item) => `
+  const itemsHTML = cart.items
+    .map(
+      (item) => `
   <li class="cart-drawer__item" data-key="${item.key}">
-
+      
+       <div class="cart-drawer__loader hidden">
+    <div class="spinner"></div>
+  </div> 
+     
     <div class="cart-drawer__item-image">
       <img src="${item.image}" alt="${item.product_title}" width="80" height="80" loading="lazy">
     </div>
@@ -105,11 +109,10 @@ const itemsHTML = cart.items
         >&times;</button>
       </div>
 
-      ${
-        item.variant_title && item.variant_title !== 'Default Title'
+      ${item.variant_title && item.variant_title !== 'Default Title'
           ? `<p class="cart-drawer__item-variant">${item.variant_title}</p>`
           : ''
-      }
+        }
 
       <div class="cart-drawer__item-bottom">
         <div class="cart-drawer__qty">
@@ -122,9 +125,9 @@ const itemsHTML = cart.items
 
     </div>
   </li>
-`
-  )
-  .join('');
+  `
+    )
+    .join('');
 
   drawerBody.innerHTML = `<ul class="cart-drawer__items" role="list">${itemsHTML}</ul>`;
 
@@ -138,33 +141,44 @@ function attachDrawerEvents() {
   // Remove button
   document.querySelectorAll('.cart-drawer__item-remove').forEach((btn) => {
     btn.addEventListener('click', function () {
-      const key = this.dataset.key;
-      updateCartItem(key, 0); // quantity 0 মানে remove
-    });
+    const key = this.dataset.key;
+
+    disableItemControls(key, true);
+    toggleItemLoader(key, true); // loader show
+
+    updateCartItem(key, 0); // সরাসরি remove
+  });
   });
 
   // Quantity buttons
   document.querySelectorAll('.cart-drawer__qty-btn').forEach((btn) => {
-    btn.addEventListener('click', function () {
-      const key = this.dataset.key;
-      const action = this.dataset.action;
-      const qtyEl = this.parentElement.querySelector('.cart-drawer__qty-value');
-      let currentQty = parseInt(qtyEl.textContent);
+   btn.addEventListener('click', function () {
+    const key = this.dataset.key;
+    const action = this.dataset.action;
 
-      const newQty = action === 'increase' ? currentQty + 1 : currentQty - 1;
+    disableItemControls(key, true);
+    toggleItemLoader(key, true);
 
-      if (newQty < 1) {
-        updateCartItem(key, 0); // remove
-      } else {
-        updateCartItem(key, newQty);
-      }
-    });
+    const qtyEl = this.parentElement.querySelector('.cart-drawer__qty-value');
+    let currentQty = parseInt(qtyEl.textContent);
+
+    const newQty = action === 'increase' ? currentQty + 1 : currentQty - 1;
+
+    if (newQty < 1) {
+      updateCartItem(key, 0);
+    } else {
+      updateCartItem(key, newQty);
+    }
+  });
   });
 }
 
 // ─── Cart Item Update API ─────────────────────────────────────────────────────
 
 function updateCartItem(key, quantity) {
+  // 🔹 loader show
+  toggleItemLoader(key, true);
+
   fetch('/cart/change.json', {
     method: 'POST',
     headers: {
@@ -178,7 +192,9 @@ function updateCartItem(key, quantity) {
       updateBadge(cart.item_count);
       renderDrawerItems(cart);
     })
-    .catch((err) => console.error('Update error:', err));
+    .catch((err) => {
+      console.error('Update error:', err);
+    });
 }
 
 // ─── Format Money ─────────────────────────────────────────────────────────────
@@ -200,3 +216,24 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     .catch((err) => console.error('Initial cart load error:', err));
 });
+
+// --------------4/12/2026----------------------------------
+
+function toggleItemLoader(key, show) {
+  const item = document.querySelector(`.cart-drawer__item[data-key="${key}"]`);
+  if (!item) return;
+
+  const loader = item.querySelector('.cart-drawer__loader');
+  if (!loader) return;
+
+  loader.classList.toggle('hidden', !show);
+}
+
+function disableItemControls(key, disabled) {
+  const item = document.querySelector(`.cart-drawer__item[data-key="${key}"]`);
+  if (!item) return;
+
+  item.querySelectorAll('button').forEach(btn => {
+    btn.disabled = disabled;
+  });
+}
