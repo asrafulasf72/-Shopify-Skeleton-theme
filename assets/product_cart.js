@@ -85,55 +85,46 @@ function renderDrawerItems(cart) {
     return;
   }
 
-  const itemsHTML = cart.items
-    .map(
-      (item) => `
-    <li class="cart-drawer__item" data-key="${item.key}">
+const itemsHTML = cart.items
+  .map(
+    (item) => `
+  <li class="cart-drawer__item" data-key="${item.key}">
 
-      <div class="cart-drawer__item-image">
-        <img src="${item.image}" alt="${item.product_title}" width="80" height="80" loading="lazy">
+    <div class="cart-drawer__item-image">
+      <img src="${item.image}" alt="${item.product_title}" width="80" height="80" loading="lazy">
+    </div>
+
+    <div class="cart-drawer__item-content">
+
+      <div class="cart-drawer__item-top">
+        <a href="${item.url}" class="cart-drawer__item-title">${item.product_title}</a>
+        <button 
+          class="cart-drawer__item-remove" 
+          data-key="${item.key}"
+          aria-label="Remove ${item.product_title}"
+        >&times;</button>
       </div>
 
-      <div class="cart-drawer__item-content">
+      ${
+        item.variant_title && item.variant_title !== 'Default Title'
+          ? `<p class="cart-drawer__item-variant">${item.variant_title}</p>`
+          : ''
+      }
 
-        <div class="cart-drawer__item-top">
-          <a href="${item.url}" class="cart-drawer__item-title">${item.product_title}</a>
-
-          <!-- Remove button -->
-          <button 
-            class="cart-drawer__item-remove" 
-            data-key="${item.key}"
-            aria-label="Remove ${item.product_title}"
-          >
-            &times;
-          </button>
+      <div class="cart-drawer__item-bottom">
+        <div class="cart-drawer__qty">
+          <button class="cart-drawer__qty-btn" data-key="${item.key}" data-action="decrease">−</button>
+          <span class="cart-drawer__qty-value">${item.quantity}</span>
+          <button class="cart-drawer__qty-btn" data-key="${item.key}" data-action="increase">+</button>
         </div>
-
-        <!-- Variant -->
-        ${
-          item.variant_title && item.variant_title !== 'Default Title'
-            ? `<p class="cart-drawer__item-variant">${item.variant_title}</p>`
-            : ''
-        }
-
-        <div class="cart-drawer__item-bottom">
-
-          <!-- Quantity control -->
-          <div class="cart-drawer__qty">
-            <button class="cart-drawer__qty-btn" data-key="${item.key}" data-action="decrease">−</button>
-            <span class="cart-drawer__qty-value">${item.quantity}</span>
-            <button class="cart-drawer__qty-btn" data-key="${item.key}" data-action="increase">+</button>
-          </div>
-
-          <!-- Price -->
-          <p class="cart-drawer__item-price">${formatMoney(item.final_line_price)}</p>
-
-        </div>
+        <p class="cart-drawer__item-price">${formatMoney(item.final_line_price)}</p>
       </div>
-    </li>
-  `
-    )
-    .join('');
+
+    </div>
+  </li>
+`
+  )
+  .join('');
 
   drawerBody.innerHTML = `<ul class="cart-drawer__items" role="list">${itemsHTML}</ul>`;
 
@@ -198,3 +189,14 @@ function formatMoney(cents) {
     currency: window.Shopify?.currency?.active || 'USD',
   });
 }
+
+// Page load এ cart drawer টা JS দিয়ে render করো
+document.addEventListener('DOMContentLoaded', function () {
+  fetch('/cart.json')
+    .then((res) => res.json())
+    .then((cart) => {
+      updateBadge(cart.item_count);
+      renderDrawerItems(cart);
+    })
+    .catch((err) => console.error('Initial cart load error:', err));
+});

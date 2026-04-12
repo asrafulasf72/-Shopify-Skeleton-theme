@@ -100,47 +100,7 @@
       </header>
 
       <div class="cart-drawer__body">
-        {% if cart != empty and cart.item_count > 0 %}
-          <ul class="cart-drawer__items" role="list">
-            {% for item in cart.items %}
-              <li class="cart-drawer__item">
-                <div class="cart-drawer__item-image">
-                  {% if item.image %}
-                    {{
-                      item.image
-                      | image_url: width: 120, height: 120
-                      | image_tag: loading: 'lazy', alt: item.product.title
-                      | escape
-                    }}
-                  {% endif %}
-                </div>
-                <div class="cart-drawer__item-content">
-                  <a href="{{ item.url }}" class="cart-drawer__item-title">
-                    {{ item.product.title | escape }}
-                  </a>
-
-                  {% if item.variant.title and item.variant.title != 'Default Title' %}
-                    <p class="cart-drawer__item-variant">
-                      {{ item.variant.title | escape }}
-                    </p>
-                  {% endif %}
-
-                  <p class="cart-drawer__item-quantity">
-                    {{ 'sections.header.cart_drawer_quantity' | t: quantity: item.quantity }}
-                  </p>
-
-                  <p class="cart-drawer__item-price">
-                    {{ item.final_line_price | money }}
-                  </p>
-                </div>
-              </li>
-            {% endfor %}
-          </ul>
-        {% else %}
-          <p class="cart-drawer__empty">
-            {{ 'sections.header.cart_drawer_empty' | t }}
-          </p>
-        {% endif %}
+       
       </div>
 
       <footer class="cart-drawer__footer">
