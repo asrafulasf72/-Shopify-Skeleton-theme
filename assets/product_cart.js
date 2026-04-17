@@ -1,44 +1,53 @@
+// ─── Central Add to Cart ──────────────────────────────────────────────────────
+window.addToCart = function (variantId, quantity, btn) {
+  if (btn) {
+    btn.disabled = true;
+    btn.dataset.originalText = btn.textContent;
+    btn.textContent = 'Adding…';
+  }
+
+  return fetch('/cart/add.json', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ id: variantId, quantity: quantity || 1 })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = btn.dataset.originalText || 'Add to cart';
+      }
+      showToast(`${data.product_title} added to cart`, 'success');
+      updateCartDrawer();
+      return data;
+    })
+    .catch(err => {
+      console.error('Add to cart error:', err);
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = btn.dataset.originalText || 'Add to cart';
+      }
+    });
+};
 document.addEventListener('DOMContentLoaded', function () {
-  const addToCartBtn = document.getElementById('add-to-cart-btn');
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('[name="add"]');
+    if (!btn) return;
 
-  if (!addToCartBtn) return;
+    // product-card__button হলে skip করো — ProductCard._onClick সেটা handle করবে
+    if (btn.classList.contains('product-card__button')) return;
 
-  addToCartBtn.addEventListener('click', function (e) {
+    const form = btn.closest('.product-form');
+    if (!form) return;
+
     e.preventDefault();
 
-    const form = addToCartBtn.closest('form');
-    const formData = new FormData(form);
+    const variantId = form.querySelector('[name="id"]')?.value;
+    const quantity = form.querySelector('[name="quantity"]')?.value || 1;
 
-    addToCartBtn.disabled = true;
-    addToCartBtn.textContent = 'Adding...';
+    if (!variantId) return;
 
-    fetch('/cart/add.json', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        id: formData.get('id'),
-        quantity: formData.get('quantity') || 1
-      })
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log('Added to Cart: ', data);
-
-        addToCartBtn.disabled = false;
-        addToCartBtn.textContent = 'Add to Cart';
-
-        showToast(`${data.product_title} added to cart`, 'success');
-        updateCartDrawer();
-      })
-      .catch(err => {
-        console.error('Error: ', err);
-
-        addToCartBtn.disabled = false;
-        addToCartBtn.textContent = 'Add to Cart';
-      });
+    window.addToCart(variantId, quantity, btn);
   });
 });
 
