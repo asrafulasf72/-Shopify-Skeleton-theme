@@ -11,6 +11,19 @@
       </a>
     {% endif %}
   </div>
+
+  <button type="button" id="debug-cart-btn"> 
+      Debug Cart Btn
+    </button>
+<pre id="debug-cart-output" style="max-height: 200px; overflow: auto; font-size: 12px; background: #f4f4f4; padding: 8px;"></pre>
+
+  <button  type="button" id="ajax-add-to-cart-btn" data-variant-id={{ product.selected_or_first_available_variant.id }}>
+    Add to cart (Ajax)
+    </button>
+    <a href="{{ routes.cart_url }}" class="header__cart-link">
+  Cart
+  (<span data-cart-count>0</span>)
+</a>
 </section>
 
 {% stylesheet %}
