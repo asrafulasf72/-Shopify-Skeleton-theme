@@ -1,0 +1,221 @@
+{% doc %}
+  Renders a single product card for the featured collection section.
+
+  @param {product} product - The product to render
+  @param {section} section - The parent section object (used for settings)
+{% enddoc %}
+
+{% assign color_option_index = null %}
+{% for option in product.options_with_values %}
+  {% assign option_name_downcase = option.name | downcase %}
+  {% if option_name_downcase contains 'color' or option_name_downcase contains 'colour' %}
+    {% assign color_option_index = forloop.index0 %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% assign color_values = '' %}
+{% if color_option_index != null %}
+  {% for variant in product.variants %}
+    {% assign color_value = variant.options[color_option_index] %}
+    {% unless color_values contains color_value %}
+      {% assign color_values = color_values | append: color_value | append: '|' %}
+    {% endunless %}
+  {% endfor %}
+{% endif %}
+{% assign color_values_array = color_values | split: '|' %}
+
+{% assign has_new_tag = false %}
+{% if product.tags contains 'new' or product.tags contains 'New' %}
+  {% assign has_new_tag = true %}
+{% endif %}
+
+{% assign media_count = product.media.size %}
+
+<product-card class="product-card" data-product-id="{{ product.id }}">
+  <a href="{{ product.url }}" class="product-card__media">
+    <div class="product-card__media-inner">
+      {% if media_count > 0 %}
+        {% if section.settings.card_media_type == 'click' %}
+          <div class="product-card__click-track" data-total="{{ media_count }}">
+            {% for media in product.media %}
+              {% assign media_url = media | image_url: width: 900 %}
+              <img
+                src="{{ media_url }}"
+                alt="{{ media.alt | escape }}"
+                loading="lazy"
+                width="{{ media.width }}"
+                height="{{ media.height }}"
+                class="product-card__image product-card__click-slide{% if forloop.first %} is-active{% endif %}"
+                data-index="{{ forloop.index0 }}"
+                data-media-id="{{ media.id }}"
+              >
+            {% endfor %}
+          </div>
+
+          {% if media_count > 1 %}
+            <button
+              type="button"
+              class="product-card__nav product-card__nav--prev"
+              aria-label="Previous image"
+              data-nav="prev"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="product-card__nav product-card__nav--next"
+              aria-label="Next image"
+              data-nav="next"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M5 2L10 7L5 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <div class="product-card__dots" aria-hidden="true">
+              {% for media in product.media %}
+                <span class="product-card__dot{% if forloop.first %} is-active{% endif %}" data-dot="{{ forloop.index0 }}"></span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% else %}
+          {% for media in product.media limit: 2 %}
+            {% assign media_url = media | image_url: width: 900 %}
+            <img
+              src="{{ media_url }}"
+              alt="{{ media.alt | escape }}"
+              loading="lazy"
+              width="{{ media.width }}"
+              height="{{ media.height }}"
+              class="product-card__image{% if forloop.first %} product-card__image--primary is-active{% else %} product-card__image--secondary{% endif %}"
+              data-media-id="{{ media.id }}"
+            >
+          {% endfor %}
+        {% endif %}
+      {% else %}
+        <div class="product-card__placeholder" aria-hidden="true">
+          {{ 'product-1' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+
+      <div class="product-card__badges">
+        {% if has_new_tag %}
+          <span class="product-card__badge product-card__badge--new"> New </span>
+        {% endif %}
+
+        {% if product.compare_at_price_max > product.price %}
+          <span class="product-card__badge product-card__badge--sale">
+            <span class="product-card__badge-dot"></span>
+            Sale
+          </span>
+        {% endif %}
+
+        {% unless product.available %}
+          <span class="product-card__badge product-card__badge--soldout"> Sold out </span>
+        {% endunless %}
+      </div>
+    </div>
+  </a>
+
+  <button
+    type="button"
+    class="product-card__quick-view"
+    data-product-handle="{{ product.handle }}"
+    aria-label="Quick view {{ product.title | escape }}"
+  >
+    <a href="{{ product.url }}" class="q"> Quick view </a>
+  </button>
+
+  <div class="product-card__info">
+    <h3 class="product-card__title">
+      <a href="{{ product.url }}">
+        {{ product.title | escape }}
+      </a>
+    </h3>
+
+    {% if color_option_index != null and color_values_array.size > 0 %}
+      {% assign swatch_count = 0 %}
+      <div class="product-card__swatches" aria-label="Color options">
+        {% for color_value in color_values_array %}
+          {% if color_value != '' and swatch_count < 5 %}
+            {% assign swatch_variant = null %}
+            {% for variant in product.variants %}
+              {% if variant.options[color_option_index] == color_value %}
+                {% assign swatch_variant = variant %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+
+            {% if swatch_variant %}
+              <product-swatch
+                type="button"
+                class="product-card__swatch{% if swatch_count == 0 %} is-active{% endif %}"
+                data-variant-id="{{ swatch_variant.id }}"
+                data-variant-price="{{ swatch_variant.price | money }}"
+                data-variant-compare-at-price="{{ swatch_variant.compare_at_price | money }}"
+                data-variant-available="{{ swatch_variant.available }}"
+                {% if swatch_variant.featured_media %}
+                  data-variant-media-id="{{ swatch_variant.featured_media.id }}"
+                {% endif %}
+                aria-label="{{ color_value | escape }}"
+              >
+                <span
+                  class="product-card__swatch-inner"
+                  style="background-color: {{ color_value | escape }};"
+                ></span>
+              </product-swatch>
+              {% assign swatch_count = swatch_count | plus: 1 %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+        {% if color_values_array.size > swatch_count %}
+          <span class="product-card__swatch-more"> +{{ color_values_array.size | minus: swatch_count }} </span>
+        {% endif %}
+      </div>
+
+      {% if color_values_array.size > 1 %}
+        <p class="product-card__meta">Available in {{ color_values_array.size }} colours</p>
+      {% endif %}
+    {% endif %}
+
+    <div class="product-card__price-row">
+      <div class="product-card__price" data-product-price>
+        {% if product.compare_at_price_max > product.price %}
+          <span class="product-card__price--sale" data-price-current>
+            {{ product.price | money }}
+          </span>
+          <span class="product-card__price--compare" data-price-compare>
+            {{ product.compare_at_price_max | money }}
+          </span>
+        {% else %}
+          <span class="product-card__price--regular" data-price-current>
+            {{ product.price | money }}
+          </span>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if section.settings.show_add_to_cart and product.available %}
+      <form
+        method="post"
+        action="{{ routes.cart_add_url }}"
+        class="product-card__form"
+        data-product-id="{{ product.id }}"
+      >
+        <input
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+          data-variant-input
+        >
+        <button type="submit" class="product-card__button">Add to cart</button>
+      </form>
+    {% else %}
+      <button class="product-card__button product-card__button--out-stock" disabled>Out of stock</button>
+    {% endif %}
+  </div>
+</product-card>
