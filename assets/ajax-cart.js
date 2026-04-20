@@ -1,3 +1,6 @@
+
+/*you should commenting this code base when run this Theme Code Otherwise conflict With Cart API Functionality*/ 
+
 document.addEventListener('DOMContentLoaded', ()=>{
   const debugBtn= document.getElementById('debug-cart-btn')
   const debugCartOutput = document.getElementById('debug-cart-output')
@@ -54,12 +57,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
         const variantId = Number(addBtn.dataset.variantId)
     const quantity=1;
 
-    addToCart(variantId, quantity)
+    addToCart(variantId,quantity)
     .then(()=>{
         alert("Added to cart Via Ajax")
     }).catch((error)=>{
         console.error("Added to cart error: ", error);
-        alert("Error adding to cart")
+        alert("Error Adding to Cart")
     })
   })
 })
@@ -93,4 +96,72 @@ document.addEventListener('DOMContentLoaded', ()=>{
             .catch((error)=>console.error('Add to cart error: ', error))
         })
     }
+})
+
+
+function changeLineItem(line, quantity){
+    const body = {line,quantity};
+
+    return fetch(window.Shopify.routes.roots + 'cart/change.js', {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json',
+            'Accept':'application/json'
+        },
+        body: JSON.stringify(body),
+    })
+    .then((res)=>res.json())
+    .then((cart)=>{
+        console.log('Cart after line Change:', cart);
+        return cart;
+    })
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    const quantityInputs= document.querySelectorAll('[data-cart-quantity-input');
+
+    quantityInputs.forEach((input)=>{
+        input.addEventListener('change', ()=>{
+            const lineElement = input.closest('.cart-line');
+            if(!lineElement) return
+
+            const line = Number(lineElement.dataset.line);
+            const quantity = Number(input.value);
+
+            changeLineItem(line, quantity)
+            .then((cart)=>{
+                updateCartCount();
+            })
+            .catch((error)=>console.error('Error changing Line item: ', error));
+        })
+    })
+})
+
+
+function clearCart (){
+    return fetch(window.Shopify.routes.root + 'cart/clear.js',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'Accept':'application/json'
+        }
+    })
+    .then((res)=> res.json())
+    .then((cart)=>{
+        console.log('Cart Cleared: ', cart);
+        return cart
+    })
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    const clearBtn= document.getElementById('clear-cart-btn');
+    if(!clearBtn) return;
+
+    clearBtn.addEventListener('click', ()=>{
+        clearCart()
+        .then(()=>{
+            updateCartCount();
+        })
+        .catch((error)=> console.error('Error clearing cart:  ', error))
+    })
 })
