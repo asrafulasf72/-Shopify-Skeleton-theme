@@ -1,0 +1,93 @@
+{{ "learning-lab.css" | asset_url | stylesheet_tag: preload: true }}
+<script src="{{ 'learning-lab.js' | asset_url }}" defer="defer"></script>
+
+<section class="learning-lab" aria-labelledby="learning-lab-title-{{ section.id }}">
+  {% render 'learning-skip-link', target_id: 'learning-lab-main-' | append: section.id %}
+
+  <header class="learning-lab__header">
+    {% render 'learning-heading', heading_id: 'learning-lab-title-' | append: section.id, level: 2, text_key: 'sections.learning_lab.heading' %}
+    <p class="learning-lab__intro">
+      {{ 'sections.learning_lab.intro' | t }}
+    </p>
+  </header>
+
+  <main id="learning-lab-main-{{ section.id }}" class="learning-lab__main" tabindex="-1">
+    <div class="learning-lab__panels" data-learning-lab>
+      <section class="learning-lab__panel" aria-labelledby="lab-a11y-heading-{{ section.id }}">
+        <h3 id="lab-a11y-heading-{{ section.id }}" class="learning-lab__subheading">
+          {{ 'sections.learning_lab.accessibility_panel_title' | t }}
+        </h3>
+        <p class="learning-lab__text">
+          {{ 'sections.learning_lab.accessibility_panel_body' | t }}
+        </p>
+        <details class="learning-lab__details">
+          <summary class="learning-lab__summary">
+            {{ 'sections.learning_lab.details_summary' | t }}
+          </summary>
+          <ul class="learning-lab__list">
+            <li>{{ 'sections.learning_lab.list_skip_link' | t }}</li>
+            <li>{{ 'sections.learning_lab.list_landmarks' | t }}</li>
+            <li>{{ 'sections.learning_lab.list_headings' | t }}</li>
+            <li>{{ 'sections.learning_lab.list_focus' | t }}</li>
+          </ul>
+        </details>
+      </section>
+
+      <section class="learning-lab__panel" aria-labelledby="lab-dialog-heading-{{ section.id }}">
+        <h3 id="lab-dialog-heading-{{ section.id }}" class="learning-lab__subheading">
+          {{ 'sections.learning_lab.dialog_panel_title' | t }}
+        </h3>
+        <p class="learning-lab__text">
+          {{ 'sections.learning_lab.dialog_panel_body' | t }}
+        </p>
+        <button type="button" class="learning-lab__button" data-learning-lab-open-dialog  id='b'>
+          {{ 'sections.learning_lab.open_dialog' | t }}
+        </button>
+        <p class="learning-lab__hint">
+          {{ 'sections.learning_lab.dialog_hint' | t }}
+        </p>
+      </section>
+    </div>
+
+    <aside class="learning-lab__aside" aria-label="{{ 'sections.learning_lab.aside_label' | t }}">
+      <p class="learning-lab__text">
+        {{ 'sections.learning_lab.aside_body' | t }}
+      </p>
+    </aside>
+
+    <dialog class="learning-lab__dialog" aria-labelledby="learning-lab-dialog-title-{{ section.id }}" aria-modal="true">
+      <form method="dialog" class="learning-lab__dialog-inner">
+        <h2 id="learning-lab-dialog-title-{{ section.id }}" class="learning-lab__dialog-title">
+          {{ 'sections.learning_lab.dialog_title' | t }}
+        </h2>
+        <p class="learning-lab__text learning-lab__dialog-text" id="learning-lab-dialog-description-{{ section.id }}">
+          {{ 'sections.learning_lab.dialog_description' | t }}
+        </p>
+        <button type="submit" class="learning-lab__button learning-lab__button--secondary" data-learning-lab-close-dialog>
+          {{ 'sections.learning_lab.close_dialog' | t }}
+        </button>
+      </form>
+    </dialog>
+
+    {% content_for 'blocks' %}
+  </main>
+</section>
+
+{% schema %}
+{
+  "name": "Learning lab",
+  "tag": "section",
+  "class": "section-learning-lab",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "@theme"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Learning lab"
+    }
+  ]
+}
+{% endschema %}

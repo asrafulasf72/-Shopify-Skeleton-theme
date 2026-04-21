@@ -1,0 +1,209 @@
+ .learning-lab {
+    --learning-lab-gap: 1.5rem;
+    --learning-lab-radius: 0.75rem;
+    --learning-lab-border: 1px solid rgba(0, 0, 0, 0.08);
+    --learning-lab-bg: #ffffff;
+    --learning-lab-accent: #2563eb;
+    --learning-lab-accent-soft: rgba(37, 99, 235, 0.08);
+    --learning-lab-focus: #111827;
+    --learning-lab-text-subtle: #4b5563;
+    --learning-lab-shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.12);
+
+    display: block;
+    padding: 2.5rem clamp(1.5rem, 4vw, 3rem);
+    margin-inline: auto;
+    max-width: 72rem;
+    background: radial-gradient(circle at top left, #eff6ff, #ffffff 50%);
+    border-radius: 1.25rem;
+    border: var(--learning-lab-border);
+    box-shadow: var(--learning-lab-shadow-soft);
+  }
+
+  .learning-lab__header {
+    max-width: 42rem;
+    margin-bottom: 2rem;
+  }
+
+  .learning-lab__intro {
+    margin: 0.75rem 0 0;
+    color: var(--learning-lab-text-subtle);
+    font-size: 0.975rem;
+    line-height: 1.6;
+  }
+
+  .learning-lab__main {
+    display: grid;
+    grid-template-columns: minmax(0, 2.5fr) minmax(0, 1.5fr);
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .learning-lab__panels {
+    display: grid;
+    gap: var(--learning-lab-gap);
+  }
+
+  .learning-lab__panel {
+    padding: 1.25rem 1.5rem;
+    background: var(--learning-lab-bg);
+    border-radius: var(--learning-lab-radius);
+    border: var(--learning-lab-border);
+  }
+
+  .learning-lab__subheading {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+  }
+
+  .learning-lab__text {
+    margin: 0 0 0.75rem;
+    color: var(--learning-lab-text-subtle);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .learning-lab__details {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: var(--learning-lab-accent-soft);
+  }
+
+  .learning-lab__summary {
+    list-style: none;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .learning-lab__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .learning-lab__summary::before {
+    content: '+';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 999px;
+    background: var(--learning-lab-accent);
+    color: #ffffff;
+    font-size: 0.875rem;
+  }
+
+  .learning-lab__details[open] .learning-lab__summary::before {
+    content: '-';
+  }
+
+  .learning-lab__list {
+    margin: 0.75rem 0 0;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+    color: var(--learning-lab-text-subtle);
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .learning-lab__aside {
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--learning-lab-radius);
+    border: var(--learning-lab-border);
+    background: linear-gradient(145deg, #0f172a, #111827);
+    color: #e5e7eb;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .learning-lab__button {
+    appearance: none;
+    border: none;
+    border-radius: 999px;
+    padding: 0.55rem 1.25rem;
+    background: var(--learning-lab-accent);
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+    transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+  }
+
+  .learning-lab__button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 26px rgba(37, 99, 235, 0.45);
+    background: #1d4ed8;
+  }
+
+  .learning-lab__button:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+  }
+
+  .learning-lab__button--secondary {
+    background: #ffffff;
+    color: #111827;
+    box-shadow: none;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .learning-lab__button--secondary:hover {
+    background: #f9fafb;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);
+  }
+
+  .learning-lab__hint {
+    margin: 0.5rem 0 0;
+    font-size: 0.8rem;
+    color: var(--learning-lab-text-subtle);
+  }
+
+  .learning-lab__dialog {
+    max-width: 32rem;
+    width: 100%;
+    border: none;
+    padding: 0;
+    border-radius: 1rem;
+    box-shadow: var(--learning-lab-shadow-soft);
+  }
+
+  .learning-lab__dialog::backdrop {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(5px);
+  }
+
+  .learning-lab__dialog-inner {
+    padding: 1.75rem 1.75rem 1.5rem;
+    background: #ffffff;
+  }
+
+  .learning-lab__dialog-title {
+    margin: 0 0 0.75rem;
+    font-size: 1.2rem;
+  }
+
+  .learning-lab__dialog-text {
+    margin-bottom: 1.25rem;
+  }
+
+  .learning-lab :is(button, a, summary):focus-visible {
+    outline: 2px solid var(--learning-lab-focus);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 900px) {
+    .learning-lab {
+      padding-inline: 1.25rem;
+    }
+
+    .learning-lab__main {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }

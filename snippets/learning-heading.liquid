@@ -1,0 +1,37 @@
+{% doc %}
+  Renders a semantic heading with a configurable level.
+
+  @param {number} level - The heading level (1-6)
+  @param {string} heading_id - The id attribute for the heading element
+  @param {string} text_key - The translation key for the heading text
+
+  @example
+  {% render 'learning-heading', level: 2, heading_id: 'example', text_key: 'sections.learning_lab.heading' %}
+{% enddoc %}
+
+{% liquid
+  assign safe_level = level | default: 2
+
+  if safe_level < 1
+    assign safe_level = 1
+  endif
+
+  if safe_level > 6
+    assign safe_level = 6
+  endif
+
+  assign heading_tag = safe_level | prepend: 'h'
+%}
+
+<{{ heading_tag }} id="{{ heading_id }}" class="learning-heading">
+  {{ text_key | t }}
+</{{ heading_tag }}>
+
+{% stylesheet %}
+  .learning-heading {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+{% endstylesheet %}

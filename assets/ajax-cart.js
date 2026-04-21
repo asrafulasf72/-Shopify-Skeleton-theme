@@ -1,6 +1,6 @@
 
 /*you should commenting this code base when run this Theme Code Otherwise conflict With Cart API Functionality*/ 
-
+/*
 document.addEventListener('DOMContentLoaded', ()=>{
   const debugBtn= document.getElementById('debug-cart-btn')
   const debugCartOutput = document.getElementById('debug-cart-output')
@@ -165,3 +165,4 @@ document.addEventListener('DOMContentLoaded', ()=>{
         .catch((error)=> console.error('Error clearing cart:  ', error))
     })
 })
+    */

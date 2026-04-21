@@ -69,6 +69,27 @@
       "cart_drawer_subtotal": "Subtotal",
       "cart_drawer_view_cart": "View cart",
       "cart_drawer_checkout": "Checkout"
+    },
+     "learning_lab": {
+      "heading": "Accessibility learning lab",
+      "intro": "Use this section to experiment with skip links, landmarks, modals, and more while keeping everything accessible.",
+      "accessibility_panel_title": "Explore key accessibility patterns",
+      "accessibility_panel_body": "This panel highlights a few foundational accessibility concepts you can practice directly in this section.",
+      "details_summary": "Show a checklist of what this section demonstrates",
+      "list_skip_link": "A skip link that becomes visible on focus and jumps to the main content region.",
+      "list_landmarks": "Semantic landmarks like header, main, aside, and dialog.",
+      "list_headings": "Heading hierarchy with a configurable heading level snippet.",
+      "list_focus": "Keyboard focus management and focus-visible outlines.",
+      "dialog_panel_title": "Practice with a modal dialog",
+      "dialog_panel_body": "Open the dialog and try navigating it using only your keyboard. Then close it and confirm focus returns to the trigger.",
+      "open_dialog": "Open learning dialog",
+      "dialog_hint": "Tip: Press the Escape key or activate the close button to dismiss the dialog.",
+      "aside_label": "What this section is for",
+      "aside_body": "Use this area as a quick reference for what you are practicing: accessible structure, keyboard support, and smooth transitions.",
+      "dialog_title": "Accessible dialog example",
+      "dialog_description": "This dialog uses proper semantics, focus management, and the View Transitions API where supported to make opening and closing feel smooth and accessible.",
+      "close_dialog": "Close dialog",
+      "skip_to_content": "Skip to main content"
     }
   }
 }

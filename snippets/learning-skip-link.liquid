@@ -1,0 +1,37 @@
+{% doc %}
+  Renders an accessible skip link that becomes visible on focus.
+
+  @param {string} target_id - The id of the main content container to skip to.
+
+  @example
+  {% render 'learning-skip-link', target_id: 'main-content' %}
+{% enddoc %}
+
+<a
+  href="#{{ target_id }}"
+  class="learning-skip-link"
+>
+  {{ 'sections.learning_lab.skip_to_content' | t }}
+</a>
+
+{% stylesheet %}
+  .learning-skip-link {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    transform: translateY(-200%);
+    padding: 0.5rem 1rem;
+    background: #111827;
+    color: #ffffff;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    z-index: 50;
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
+  }
+
+  .learning-skip-link:focus-visible {
+    transform: translateY(0);
+  }
+{% endstylesheet %}
