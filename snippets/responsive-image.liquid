@@ -1,0 +1,35 @@
+{% doc %}
+  Renders a responsive image with alt text and optional decorative mode.
+
+  @param {image} image - The image object to render.
+  @param {string} [alt] - Alternative text. If omitted and image has alt, uses image.alt.
+  @param {boolean} [decorative] - When true, hides the image from assistive technology.
+  @param {string} [sizes] - The sizes attribute for responsive images.
+  @param {string} [class] - Optional class for the <img> element.
+
+  @example
+  {% render 'responsive-image', image: section.settings.image, alt: section.settings.image_alt %}
+{% enddoc %}
+
+{% if image %}
+  {% liquid
+    assign alt_text = alt
+    if alt_text == blank and image.alt != blank
+      assign alt_text = image.alt
+    endif
+  %}
+
+  {% if decorative %}
+    {{ image | image_url: width: 1600 | image_tag: class: class, alt: '', role: 'presentation', loading: 'lazy', decoding: 'async', sizes: sizes }}
+  {% else %}
+    {{ image | image_url: width: 1600 | image_tag: class: class, alt: alt_text, loading: 'lazy', decoding: 'async', sizes: sizes }}
+  {% endif %}
+{% endif %}
+
+{% stylesheet %}
+  .responsive-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+{% endstylesheet %}
