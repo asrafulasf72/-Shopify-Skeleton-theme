@@ -95,9 +95,13 @@
       "default_heading": "Welcome to our store",
     },
     "image_with_text":{
-      "default_heading": "Tell your brand story",
+       "default_heading": "Tell your brand story",
       "placeholder": "Add an image in the theme editor",
       "placeholder_alt": "Placeholder area for an image",
+    },
+    "feature_list": {
+      "default_heading": "Why shop with us",
+      "empty_state": "Add feature blocks to highlight your benefits."
     }
   }
 }
