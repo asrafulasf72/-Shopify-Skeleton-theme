@@ -90,6 +90,9 @@
       "dialog_description": "This dialog uses proper semantics, focus management, and the View Transitions API where supported to make opening and closing feel smooth and accessible.",
       "close_dialog": "Close dialog",
       "skip_to_content": "Skip to main content"
+    },
+    "text_banner":{
+      "default_heading": "Welcome to our store",
     }
   }
 }

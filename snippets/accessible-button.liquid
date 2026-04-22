@@ -1,0 +1,91 @@
+{% doc %}
+  Renders an accessible button or link styled as a button.
+
+  @param {string} label - The visible label for the button.
+  @param {string} [url] - Optional URL. When provided, the component renders an <a> element; otherwise it renders a <button>.
+  @param {string} [style] - Additional CSS class names for variant styling.
+  @param {string} [aria_description] - Extra accessible description announced to screen readers only.
+  @param {string} [description_id] - Optional id used to associate the description element with the control via aria-describedby.
+
+  @example
+  {% render 'accessible-button', label: 'Click me', url: routes.cart_url %}
+{% enddoc %}
+
+{% liquid
+  assign element = 'button'
+  if url
+    assign element = 'a'
+  endif
+%}
+
+<{{ element }}
+  class="a11y-button {{ style }}"
+  {% if element == 'a' %}
+    href="{{ url }}"
+  {% endif %}
+  {% if aria_description and description_id %}
+    aria-describedby="{{ description_id }}"
+  {% endif %}
+>
+  <span class="a11y-button__label">{{ label | escape }}</span>
+</{{ element }}>
+
+{% if aria_description and description_id %}
+  <p id="{{ description_id }}" class="visually-hidden">{{ aria_description | escape }}</p>
+{% endif %}
+
+{% stylesheet %}
+  .a11y-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    background-color: transparent;
+    color: inherit;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  }
+
+  .a11y-button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  .a11y-button:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+  }
+
+  .a11y-button:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  .a11y-button[disabled],
+  .a11y-button[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .a11y-button__label {
+    white-space: nowrap;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+{% endstylesheet %}

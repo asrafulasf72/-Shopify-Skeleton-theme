@@ -1,0 +1,132 @@
+<section
+  class="text-banner"
+  aria-labelledby="text-banner-{{ section.id }}-heading"
+>
+  <div class="text-banner__inner">
+    <header class="text-banner__header">
+      {% if section.settings.heading != blank %}
+        <h2 id="text-banner-{{ section.id }}-heading" class="text-banner__heading">
+          {{ section.settings.heading | escape }}
+        </h2>
+      {% else %}
+        <h2 id="text-banner-{{ section.id }}-heading" class="text-banner__heading">
+          {{ 'sections.text_banner.default_heading' | t | escape }}
+        </h2>
+      {% endif %}
+      {% if section.settings.subheading != blank %}
+        <p class="text-banner__subheading">{{ section.settings.subheading | escape }}</p>
+      {% endif %}
+    </header>
+
+    {% if section.settings.body != blank %}
+      <div class="text-banner__body" id="text-banner-{{ section.id }}-body">
+        {{ section.settings.body }}
+      </div>
+    {% endif %}
+
+    {% if section.settings.button_label != blank %}
+      <div class="text-banner__actions">
+        {% render 'accessible-button',
+          label: section.settings.button_label,
+          url: section.settings.button_url,
+          style: 'text-banner__button',
+          aria_description: section.settings.button_aria_description,
+          description_id: 'text-banner-' | append: section.id | append: '-button-desc'
+        %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .text-banner {
+    padding: 2rem 1.5rem;
+  }
+
+  .text-banner__inner {
+    max-width: 72rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .text-banner__heading {
+    font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.25rem);
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .text-banner__subheading {
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .text-banner__body {
+    margin-top: 1.25rem;
+  }
+
+  .text-banner__actions {
+    margin-top: 1.75rem;
+  }
+
+  .text-banner__button {
+    font-weight: 600;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.text_banner.name",
+  "tag": "section",
+  "class": "text-banner-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.text_banner.settings.header.content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.text_banner.settings.heading.label",
+      "default": "Text banner"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.text_banner.settings.subheading.label"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "t:sections.text_banner.settings.body.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.text_banner.settings.button_header.content"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.text_banner.settings.button_label.label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "t:sections.text_banner.settings.button_url.label"
+    },
+    {
+      "type": "text",
+      "id": "button_aria_description",
+      "label": "t:sections.text_banner.settings.button_aria_description.label",
+      "info": "t:sections.text_banner.settings.button_aria_description.info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.text_banner.presets.default.name",
+      "category": "t:sections.text_banner.presets.default.category"
+    }
+  ]
+}
+{% endschema %}

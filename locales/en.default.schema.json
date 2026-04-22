@@ -166,6 +166,42 @@
           "name": "Header"
         }
       }
+    },
+    "text_banner": {
+      "name": "Text banner",
+      "settings": {
+        "header": {
+          "content": "Content"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "subheading": {
+          "label": "Subheading"
+        },
+        "body": {
+          "label": "Body text"
+        },
+        "button_header": {
+          "content": "Primary action"
+        },
+        "button_label": {
+          "label": "Button label"
+        },
+        "button_url": {
+          "label": "Button link"
+        },
+        "button_aria_description": {
+          "label": "Additional description for screen readers",
+          "info": "Optional extra context read only by screen readers, such as delivery or legal information."
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "Text banner",
+          "category": "Content"
+        }
+      }
     }
   }
 }
