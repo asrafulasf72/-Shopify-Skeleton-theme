@@ -102,6 +102,10 @@
     "feature_list": {
       "default_heading": "Why shop with us",
       "empty_state": "Add feature blocks to highlight your benefits."
+    },
+    "faq":{
+      "default_heading": "Frequently asked questions",
+      "empty_state": "Add question blocks to answer common customer questions.",
     }
   }
 }

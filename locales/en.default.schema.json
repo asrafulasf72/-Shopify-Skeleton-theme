@@ -255,6 +255,39 @@
           "category": "Content"
         }
       }
+    },
+    "faq": {
+      "name": "FAQ",
+      "settings": {
+        "header": {
+          "content": "Content"
+        },
+        "heading": {
+          "label": "Section heading"
+        },
+        "subheading": {
+          "label": "Section subheading"
+        }
+      },
+      "blocks": {
+        "question": {
+          "name": "Question",
+          "settings": {
+            "question": {
+              "label": "Question"
+            },
+            "answer": {
+              "label": "Answer"
+            }
+          }
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "FAQ",
+          "category": "Content"
+        }
+      }
     }
   }
 }
