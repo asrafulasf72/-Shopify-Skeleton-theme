@@ -171,43 +171,43 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 /**Section Redering Api Added Here */
 
-document.addEventListener("DOMContentLoaded", ()=>{
-    document.addEventListener('submit', function(e){
-        if(!e.target.matches(".ajax-add-to-cart")) return
+// document.addEventListener("DOMContentLoaded", ()=>{
+//     document.addEventListener('submit', function(e){
+//         if(!e.target.matches(".ajax-add-to-cart")) return
 
-        e.preventDefault();
+//         e.preventDefault();
 
-        const form = e.target
-        const button = form.querySelector('button');
+//         const form = e.target
+//         const button = form.querySelector('button');
 
-        const formData= new FormData(form);
+//         const formData= new FormData(form);
 
-        button.disabled = true;
-        button.textContent = "Adding...";
+//         button.disabled = true;
+//         button.textContent = "Adding...";
 
 
-        fetch('cart/add.js',{
-            method:'POST',
-            body: formData
-        })
-        .then(res=> res.json())
+//         fetch('cart/add.js',{
+//             method:'POST',
+//             body: formData
+//         })
+//         .then(res=> res.json())
 
-        .then(()=>{
-            return fetch("/?sections=cart-drawer");
-        })
-        .then(res=>res.json())
+//         .then(()=>{
+//             return fetch("/?sections=cart-drawer");
+//         })
+//         .then(res=>res.json())
 
-        .then(data=>{
-            document.getElementById('cart-drawer').innerHTML=data['cart-drawer'];
+//         .then(data=>{
+//             document.getElementById('cart-drawer').innerHTML=data['cart-drawer'];
 
-            document.getElementById('cart-drawer').classList.add("active");
-        })
+//             document.getElementById('cart-drawer').classList.add("active");
+//         })
 
-        .catch(err=> console.error(err))
-        .finally(()=>{
-            button.disabled=false;
-            button.textContent= "Add to Cart"; 
-        })
-    })
-}) 
+//         .catch(err=> console.error(err))
+//         .finally(()=>{
+//             button.disabled=false;
+//             button.textContent= "Add to Cart"; 
+//         })
+//     })
+// }) 
 
