@@ -1,0 +1,105 @@
+{% comment %}
+  ============================================================
+  SNIPPET: snippets/product-card.liquid
+  
+  USAGE in any section or template:
+    {% render 'product-card', product: product, show_badge: true %}
+  
+  VARIABLES you can pass:
+    product      — (required) Shopify product object
+    show_badge   — (optional) true/false — show SALE badge, default true
+    marquee_text — (optional) override marquee string, default uses metafield or fallback
+  ============================================================
+{% endcomment %}
+
+{% assign show_badge = show_badge | default: true %}
+
+{% comment %} Calculate discount % {% endcomment %}
+{% if product.compare_at_price > product.price %}
+  {% assign discount_amount = product.compare_at_price | minus: product.price %}
+  {% assign discount_pct = discount_amount | times: 100 | divided_by: product.compare_at_price %}
+{% else %}
+  {% assign discount_pct = 0 %}
+{% endif %}
+
+{% comment %} Marquee text — use metafield OR section setting OR fallback {% endcomment %}
+{% assign marquee_text = marquee_text | default: product.metafields.custom.marquee_text | default: 'Flash sale · New arrival · Limited stock · Hot Seal' %}
+{% assign marquee_items = marquee_text | split: '·' %}
+
+<div class="pc-card" data-product-id="{{ product.id }}">
+
+  {% comment %} ── Top info ── {% endcomment %}
+  <div class="pc-top">
+    <div class="pc-title-row">
+      <span class="pc-title">{{ product.title }}</span>
+      {% if show_badge and discount_pct > 0 %}
+        <span class="pc-badge">SALE -{{ discount_pct }}%</span>
+      {% endif %}
+    </div>
+
+    <div class="pc-price">
+      {% if product.compare_at_price > product.price %}
+        <span class="pc-price-orig">{{ product.compare_at_price | money }}</span>
+      {% endif %}
+      <span class="pc-price-sale">{{ product.price | money }}</span>
+    </div>
+  </div>
+
+  {% comment %} ── Product image ── {% endcomment %}
+  <a href="{{ product.url }}" class="pc-image-link" aria-label="{{ product.title }}">
+    <div class="pc-image">
+      {% if product.featured_image %}
+        {{
+          product.featured_image
+          | image_url: width: 480
+          | image_tag:
+            alt: product.featured_image.alt | default: product.title,
+            loading: 'lazy',
+            width: product.featured_image.width,
+            height: product.featured_image.height
+        }}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'pc-placeholder-svg' }}
+      {% endif %}
+    </div>
+  </a>
+
+  {% comment %} ── Black marquee bar ── {% endcomment %}
+  <div class="pc-marquee-bar" aria-hidden="true">
+    <div class="pc-marquee-track">
+      {% comment %} Render items twice for seamless infinite loop {% endcomment %}
+      {% for i in (1..2) %}
+        {% for item in marquee_items %}
+          {% assign label = item | strip %}
+          {% if label != '' %}
+            <span class="pc-marquee-item">
+              {{ label }}<span class="pc-marquee-dot"></span>
+            </span>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+
+  {% comment %} ── Hover overlay ── {% endcomment %}
+  <div class="pc-overlay" aria-hidden="true">
+    <button
+      class="pc-overlay-btn pc-quick-view"
+      data-product-handle="{{ product.handle }}"
+      data-product-url="{{ product.url }}"
+      type="button"
+    >
+      Quick view
+    </button>
+
+    <button
+      class="pc-overlay-btn pc-add-bag"
+      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+      data-product-title="{{ product.title | escape }}"
+      type="button"
+    >
+      Add to bag
+    </button>
+  </div>
+
+</div>

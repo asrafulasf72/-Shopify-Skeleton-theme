@@ -1,0 +1,633 @@
+{% comment %}
+  ============================================================
+  SECTION: sections/product-card-collection.liquid
+
+  ADD TO THEME:
+    1. Copy this file → sections/product-card-collection.liquid
+    2. Copy snippets/product-card.liquid → snippets/product-card.liquid
+    3. In Shopify Admin → Online Store → Customize
+    4. Add section "Product Card Collection" anywhere on the page
+    5. Pick your collection + configure settings in the sidebar
+  ============================================================
+{% endcomment %}
+
+<section
+  class="pc-section"
+  id="pc-section-{{ section.id }}"
+  style="
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.bg_color }};
+  "
+>
+
+  {% comment %} ── Section heading ── {% endcomment %}
+  {% if section.settings.heading != blank %}
+    <div class="pc-section-header">
+      <h2 class="pc-section-title">{{ section.settings.heading }}</h2>
+      {% if section.settings.subheading != blank %}
+        <p class="pc-section-sub">{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% comment %} ── Product grid ── {% endcomment %}
+  {% assign collection = collections[section.settings.collection] %}
+
+  {% if collection != blank and collection.products.size > 0 %}
+    <div
+      class="pc-grid"
+      style="--pc-cols: {{ section.settings.columns_desktop }};"
+    >
+      {% for product in collection.products limit: section.settings.products_to_show %}
+        {% render 'product-card2',
+          product: product,
+          show_badge: section.settings.show_sale_badge,
+          marquee_text: section.settings.marquee_text
+        %}
+      {% endfor %}
+    </div>
+
+    {% comment %} ── View all button ── {% endcomment %}
+    {% if section.settings.show_view_all and collection.products.size > section.settings.products_to_show %}
+      <div class="pc-view-all-wrap">
+        <a href="{{ collection.url }}" class="pc-view-all-btn">
+          {{ section.settings.view_all_label | default: 'View all' }}
+        </a>
+      </div>
+    {% endif %}
+
+  {% else %}
+    <div  class="featured-collection__grid"
+      style="
+        --columns-desktop: {{ section.settings.columns_desktop }};
+        --columns-mobile: {{ section.settings.columns_mobile }};
+        --card-gap: {{ section.settings.card_gap }}px;
+      ">
+                  {% for i in (1..6) %}
+        <article class="product-card product-card--placeholder">
+          <div class="product-card__media">
+            <div class="product-card__placeholder">
+              {{ 'product-1' | placeholder_svg_tag }}
+            </div>
+          </div>
+          <div class="product-card__info">
+            <h3 class="product-card__title">
+              <span>Product title</span>
+            </h3>
+            <p class="product-card__meta">Available in multiple colours</p>
+            <div class="product-card__price">
+              <span class="product-card__price--regular"> $0.00 </span>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+
+{% comment %} ============================================================
+  STYLES
+  ============================================================ {% endcomment %}
+{% style %}
+
+  /* ── Layout ── */
+  #pc-section-{{ section.id }} .pc-section-header {
+    text-align: {{ section.settings.heading_align }};
+    margin-bottom: 32px;
+    padding: 0 16px;
+  }
+
+  .pc-section-title {
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: inherit;
+    letter-spacing: -0.02em;
+  }
+
+  .pc-section-sub {
+    font-size: 15px;
+    opacity: 0.6;
+    margin: 0;
+  }
+
+  .pc-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--pc-cols, 4), 1fr);
+    gap: {{ section.settings.card_gap }}px;
+    padding: 0 {{ section.settings.section_padding_x }}px;
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 1024px) {
+    .pc-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .pc-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  }
+
+  @media (max-width: 480px) {
+    .pc-grid { grid-template-columns: repeat(1, 1fr); }
+  }
+
+  /* ── Card base ── */
+  .pc-card {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    /* border-radius: 14px; */
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.25s ease, transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pc-card:hover {
+    border-color: #c0c0c0;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.09);
+    transform: translateY(-2px);
+  }
+
+  /* ── Top info ── */
+  .pc-top {
+    padding: 14px 14px 0;
+  }
+
+  .pc-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .pc-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    line-height: 1.35;
+    flex: 1;
+  }
+
+  .pc-badge {
+    font-size: 10px;
+    font-weight: 600;
+    background: #111;
+    color: #fff;
+    padding: 3px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.03em;
+  }
+
+  .pc-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .pc-price-orig {
+    font-size: 13px;
+    color: #bbb;
+    text-decoration: line-through;
+  }
+
+  .pc-price-sale {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111;
+  }
+
+  /* ── Image ── */
+  .pc-image-link {
+    display: block;
+    text-decoration: none;
+  }
+
+  .pc-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #f5f5f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .pc-image img,
+  .pc-image svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 12px;
+    transition: transform 0.35s ease;
+  }
+
+  .pc-card:hover .pc-image img {
+    transform: scale(1.05);
+  }
+
+  .pc-placeholder-svg {
+    width: 80px;
+    height: 80px;
+    opacity: 0.25;
+  }
+
+  /* ── Marquee bar ── */
+  .pc-marquee-bar {
+    height: 36px;
+    background: #111;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .pc-marquee-track {
+    display: flex;
+    white-space: nowrap;
+    animation: pcMarquee 9s linear infinite;
+  } 
+
+  .pc-card:hover .pc-marquee-track {
+    animation-duration: 4.5s;
+  }
+
+  .pc-marquee-item {
+    font-size: 11px;
+    font-weight: 500;
+    color: #ffffff;
+    padding: 0 16px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pc-marquee-dot {
+    width: 3px;
+    height: 3px;
+    background: #555;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  @keyframes pcMarquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── Hover overlay ── */
+  .pc-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #ffffff;
+    border-top: 1px solid #ebebeb;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  .pc-card:hover .pc-overlay {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  .pc-overlay-btn {
+    font-size: 12px;
+    font-weight: 500;
+    color: #111;
+    background: transparent;
+    border: none;
+    padding: 12px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.15s ease;
+    letter-spacing: 0.02em;
+    font-family: inherit;
+  }
+
+  .pc-overlay-btn:hover {
+    background: #f5f5f3;
+  }
+
+  .pc-overlay-btn + .pc-overlay-btn {
+    border-left: 1px solid #ebebeb;
+  }
+
+  .pc-add-bag {
+    background: #111 !important;
+    color: #fff !important;
+  }
+
+  .pc-add-bag:hover {
+    background: #333 !important;
+  }
+
+  /* ── View all ── */
+  .pc-view-all-wrap {
+    text-align: center;
+    margin-top: 40px;
+    padding: 0 16px;
+  }
+
+  .pc-view-all-btn {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    background: transparent;
+    border: 1.5px solid #111;
+    border-radius: 40px;
+    padding: 12px 36px;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+
+  .pc-view-all-btn:hover {
+    background: #111;
+    color: #fff;
+  }
+
+  .pc-empty {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    padding: 40px 16px;
+  }
+
+{% endstyle %}
+
+
+{% comment %} ============================================================
+  JAVASCRIPT — Add to cart (AJAX) + Quick View
+  ============================================================ {% endcomment %}
+<script>
+(function () {
+
+  /* ── DOM ready হলে তারপর কাজ শুরু করো ── */
+  function init() {
+    var section = document.getElementById('pc-section-{{ section.id }}');
+    if (!section) return;
+
+    /* ─── ADD TO BAG ─────────────────────────────────────────
+       window.addToCart() তোমার product_card.js এ defined আছে।
+       সেটাই call করলে:
+         ✅ cart drawer open হবে (updateCartDrawer চলবে)
+         ✅ toast দেখাবে
+         ✅ badge update হবে
+         ✅ button loading state handle হবে
+    ──────────────────────────────────────────────────────── */
+    section.querySelectorAll('.pc-add-bag').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var variantId = btn.getAttribute('data-variant-id');
+
+        if (!variantId) {
+          console.warn('pc-card: no variantId found');
+          return;
+        }
+
+        /* window.addToCart থাকলে সেটা use করো */
+        if (typeof window.addToCart === 'function') {
+          window.addToCart(variantId, 1, btn);
+        } else {
+          /* fallback — product_card.js load না হলে নিজে করবে */
+          console.warn('window.addToCart not found, using fallback');
+          pcFallbackAddToCart(variantId, btn);
+        }
+      });
+    });
+
+    /* ─── QUICK VIEW ─────────────────────────────────────────
+       Custom event dispatch করছে — তোমার theme এর
+       quick-view drawer যদি থাকে সে listen করবে।
+       না থাকলে product page এ navigate করবে।
+    ──────────────────────────────────────────────────────── */
+    section.querySelectorAll('.pc-quick-view').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var handle = btn.getAttribute('data-product-handle');
+        var url    = btn.getAttribute('data-product-url');
+
+        /* Custom event — theme এর quick-view এই event listen করলে modal খুলবে */
+        document.dispatchEvent(new CustomEvent('pc:quickview', {
+          bubbles: true,
+          detail: { handle: handle, url: url }
+        }));
+
+        /* যদি theme এ quick-view না থাকে তাহলে product page এ যাবে */
+        /* window.location.href = url; */
+      });
+    });
+  }
+
+  /* ─── FALLBACK: product_card.js load না হলে use হবে ────── */
+  function pcFallbackAddToCart(variantId, btn) {
+    var original = btn ? btn.textContent : '';
+    if (btn) { btn.disabled = true; btn.textContent = 'Adding…'; }
+
+    fetch('/cart/add.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ id: variantId, quantity: 1 })
+    })
+    .then(function (res) { return res.json(); })
+    .then(function () {
+      if (btn) { btn.disabled = false; btn.textContent = original; }
+
+      /* updateCartDrawer global থাকলে call করো */
+      if (typeof updateCartDrawer === 'function') {
+        updateCartDrawer();
+      }
+    })
+    .catch(function (err) {
+      console.error('pc-card fallback cart error:', err);
+      if (btn) { btn.disabled = false; btn.textContent = original; }
+    });
+  }
+
+  /* DOMContentLoaded হয়ে গেলে init, না হলে wait করো */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product Card Collection",
+  "tag": "section",
+  "class": "pc-section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "Featured Products"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading (optional)",
+      "default": "Best Selling"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left",   "label": "Left"   },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right"  }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "label": "Products to show",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Columns on desktop",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "label": "Gap between cards (px)",
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_x",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "label": "Horizontal padding (px)",
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 40,
+      "label": "Max width (px)",
+      "default": 1280,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "label": "Padding top",
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "label": "Padding bottom",
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background color",
+      "default": "#f0efe9"
+    },
+    {
+      "type": "header",
+      "content": "Card settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sale_badge",
+      "label": "Show sale badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "marquee_text",
+      "label": "Marquee text (separate items with ·)",
+      "default": "Flash sale · New arrival · Limited stock · Free shipping"
+    },
+    {
+      "type": "header",
+      "content": "View all button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show view all button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Button label",
+      "default": "View all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Card Collection",
+      "settings": {
+        "heading": "Featured Products",
+        "products_to_show": 8,
+        "columns_desktop": 4
+      }
+    }
+  ]
+}
+{% endschema %}
