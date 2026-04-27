@@ -64,7 +64,7 @@
         --columns-mobile: {{ section.settings.columns_mobile }};
         --card-gap: {{ section.settings.card_gap }}px;
       ">
-                  {% for i in (1..6) %}
+                  {% for i in (1..4) %}
         <article class="product-card product-card--placeholder">
           <div class="product-card__media">
             <div class="product-card__placeholder">
@@ -226,7 +226,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: 12px;
+    /* padding: 12px; */
     transition: transform 0.35s ease;
   }
 
@@ -373,6 +373,163 @@
     padding: 40px 16px;
   }
 
+
+  /* --------------------------- */
+  /* ══ PC-CARD IMAGE STRUCTURE ══ */
+.pc-image--media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  background: #f5f5f3;
+  display: block;
+  padding: 0;
+  align-items: unset;
+  justify-content: unset;
+}
+
+.pc-image-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ══ HOVER MODE ══ */
+.pc-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* — SLIDE — */
+[data-media-type="hover"][data-hover-style="slide"] .pc-img {
+  transition: opacity 580ms ease, transform 580ms ease;
+}
+[data-media-type="hover"][data-hover-style="slide"] .pc-img--primary {
+  opacity: 1; transform: translateX(0);
+}
+[data-media-type="hover"][data-hover-style="slide"] .pc-img--secondary {
+  opacity: 0; transform: translateX(100%);
+}
+[data-media-type="hover"][data-hover-style="slide"]:hover .pc-img--primary {
+  opacity: 0; transform: translateX(-100%);
+}
+[data-media-type="hover"][data-hover-style="slide"]:hover .pc-img--secondary {
+  opacity: 1; transform: translateX(0);
+}
+
+/* — FADE — */
+[data-media-type="hover"][data-hover-style="fade"] .pc-img {
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+[data-media-type="hover"][data-hover-style="fade"] .pc-img--primary {
+  opacity: 1; transform: scale(1);
+}
+[data-media-type="hover"][data-hover-style="fade"] .pc-img--secondary {
+  opacity: 0; transform: scale(1.02);
+}
+[data-media-type="hover"][data-hover-style="fade"]:hover .pc-img--primary {
+  opacity: 0; transform: scale(1.04);
+}
+[data-media-type="hover"][data-hover-style="fade"]:hover .pc-img--secondary {
+  opacity: 1; transform: scale(1.04);
+}
+
+/* — FLIP — */
+[data-media-type="hover"][data-hover-style="flip"] .pc-img {
+  transition: opacity 520ms ease, transform 520ms ease;
+  backface-visibility: hidden;
+}
+[data-media-type="hover"][data-hover-style="flip"] .pc-img--primary {
+  opacity: 1; transform: rotateY(0deg);
+}
+[data-media-type="hover"][data-hover-style="flip"] .pc-img--secondary {
+  opacity: 0; transform: rotateY(-180deg);
+}
+[data-media-type="hover"][data-hover-style="flip"]:hover .pc-img--primary {
+  opacity: 0; transform: rotateY(180deg);
+}
+[data-media-type="hover"][data-hover-style="flip"]:hover .pc-img--secondary {
+  opacity: 1; transform: rotateY(0deg);
+}
+
+/* ══ CLICK MODE ══ */
+.pc-click-track {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.pc-click-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 320ms ease;
+  pointer-events: none;
+}
+
+.pc-click-slide.is-active { opacity: 1; }
+
+.pc-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 2rem; height: 2rem;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.92);
+  color: #111;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 160ms ease, background 160ms ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.pc-nav--prev { left: 0.5rem; }
+.pc-nav--next { right: 0.5rem; }
+
+.pc-card:hover .pc-nav { opacity: 1; }
+.pc-nav:hover { background: #111; color: #fff; }
+
+.pc-dots {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.pc-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  transition: background 200ms ease, transform 200ms ease;
+}
+
+.pc-dot.is-active {
+  background: #fff;
+  transform: scale(1.35);
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+}
+/* .pc-nav svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+  flex-shrink: 0;
+  background: #da1b1b;
+} */
+
 {% endstyle %}
 
 
@@ -382,93 +539,93 @@
 <script>
 (function () {
 
-  /* ── DOM ready হলে তারপর কাজ শুরু করো ── */
   function init() {
     var section = document.getElementById('pc-section-{{ section.id }}');
     if (!section) return;
 
-    /* ─── ADD TO BAG ─────────────────────────────────────────
-       window.addToCart() তোমার product_card.js এ defined আছে।
-       সেটাই call করলে:
-         ✅ cart drawer open হবে (updateCartDrawer চলবে)
-         ✅ toast দেখাবে
-         ✅ badge update হবে
-         ✅ button loading state handle হবে
-    ──────────────────────────────────────────────────────── */
+    /* ─── ADD TO BAG ─── */
     section.querySelectorAll('.pc-add-bag').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-
         var variantId = btn.getAttribute('data-variant-id');
-
-        if (!variantId) {
-          console.warn('pc-card: no variantId found');
-          return;
-        }
-
-        /* window.addToCart থাকলে সেটা use করো */
+        if (!variantId) return;
         if (typeof window.addToCart === 'function') {
           window.addToCart(variantId, 1, btn);
         } else {
-          /* fallback — product_card.js load না হলে নিজে করবে */
-          console.warn('window.addToCart not found, using fallback');
           pcFallbackAddToCart(variantId, btn);
         }
       });
     });
 
-    /* ─── QUICK VIEW ─────────────────────────────────────────
-       Custom event dispatch করছে — তোমার theme এর
-       quick-view drawer যদি থাকে সে listen করবে।
-       না থাকলে product page এ navigate করবে।
-    ──────────────────────────────────────────────────────── */
+    /* ─── QUICK VIEW ─── */
     section.querySelectorAll('.pc-quick-view').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-
         var handle = btn.getAttribute('data-product-handle');
         var url    = btn.getAttribute('data-product-url');
-
-        /* Custom event — theme এর quick-view এই event listen করলে modal খুলবে */
         document.dispatchEvent(new CustomEvent('pc:quickview', {
           bubbles: true,
           detail: { handle: handle, url: url }
         }));
-
-        /* যদি theme এ quick-view না থাকে তাহলে product page এ যাবে */
-        /* window.location.href = url; */
       });
     });
-  }
 
-  /* ─── FALLBACK: product_card.js load না হলে use হবে ────── */
+    /* ─── CLICK MODE IMAGE SLIDER ─── */
+    section.querySelectorAll('.pc-card').forEach(function(card) {
+      var track = card.querySelector('.pc-click-track');
+      if (!track) return;
+
+      var slides = Array.from(track.querySelectorAll('.pc-click-slide'));
+      var dots   = Array.from(card.querySelectorAll('.pc-dot'));
+      var total  = slides.length;
+      if (total <= 1) return;
+
+      var current = 0;
+
+      function goTo(index) {
+        index = (index + total) % total;
+        slides[current].classList.remove('is-active');
+        dots[current] && dots[current].classList.remove('is-active');
+        slides[index].classList.add('is-active');
+        dots[index]   && dots[index].classList.add('is-active');
+        current = index;
+      }
+
+      var prevBtn = card.querySelector('[data-nav="prev"]');
+      var nextBtn = card.querySelector('[data-nav="next"]');
+
+      if (prevBtn) prevBtn.addEventListener('click', function(e) {
+        e.preventDefault(); e.stopPropagation(); goTo(current - 1);
+      });
+      if (nextBtn) nextBtn.addEventListener('click', function(e) {
+        e.preventDefault(); e.stopPropagation(); goTo(current + 1);
+      });
+    });
+
+  } // ← init() এর সঠিক closing brace
+
+  /* ─── FALLBACK ─── */
   function pcFallbackAddToCart(variantId, btn) {
     var original = btn ? btn.textContent : '';
     if (btn) { btn.disabled = true; btn.textContent = 'Adding…'; }
-
     fetch('/cart/add.json', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({ id: variantId, quantity: 1 })
     })
-    .then(function (res) { return res.json(); })
-    .then(function () {
+    .then(function(res) { return res.json(); })
+    .then(function() {
       if (btn) { btn.disabled = false; btn.textContent = original; }
-
-      /* updateCartDrawer global থাকলে call করো */
-      if (typeof updateCartDrawer === 'function') {
-        updateCartDrawer();
-      }
+      if (typeof updateCartDrawer === 'function') updateCartDrawer();
     })
-    .catch(function (err) {
+    .catch(function(err) {
       console.error('pc-card fallback cart error:', err);
       if (btn) { btn.disabled = false; btn.textContent = original; }
     });
   }
 
-  /* DOMContentLoaded হয়ে গেলে init, না হলে wait করো */
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
@@ -617,7 +774,30 @@
       "id": "view_all_label",
       "label": "Button label",
       "default": "View all"
-    }
+    },
+    {
+  "type": "select",
+  "id": "card_media_type",
+  "label": "Product image browsing style",
+  "options": [
+    { "value": "hover", "label": "Auto-switch on hover" },
+    { "value": "click", "label": "Click arrows to browse" }
+  ],
+  "default": "hover"
+},
+{
+  "type": "select",
+  "id": "image_hover_style",
+  "label": "Image hover transition effect",
+  "info": "Only applies when 'Auto-switch on hover' is selected",
+  "options": [
+    { "value": "slide", "label": "Slide" },
+    { "value": "fade",  "label": "Fade" },
+    { "value": "flip",  "label": "Flip" }
+  ],
+  "default": "slide",
+  "visible_if": "{{ section.settings.card_media_type == 'hover' }}"
+},
   ],
   "presets": [
     {

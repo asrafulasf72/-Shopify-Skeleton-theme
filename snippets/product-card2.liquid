@@ -45,24 +45,71 @@
     </div>
   </div>
 
-  {% comment %} ── Product image ── {% endcomment %}
-  <a href="{{ product.url }}" class="pc-image-link" aria-label="{{ product.title }}">
-    <div class="pc-image">
-      {% if product.featured_image %}
-        {{
-          product.featured_image
-          | image_url: width: 480
-          | image_tag:
-            alt: product.featured_image.alt | default: product.title,
-            loading: 'lazy',
-            width: product.featured_image.width,
-            height: product.featured_image.height
-        }}
+{% comment %} ── Product image (hover/click mode) ── {% endcomment %}
+{% assign pc_media_type = section.settings.card_media_type | default: 'hover' %}
+{% assign pc_hover_style = section.settings.image_hover_style | default: 'slide' %}
+
+<a href="{{ product.url }}" class="pc-image-link" aria-label="{{ product.title }}">
+  <div class="pc-image pc-image--media" data-media-type="{{ pc_media_type }}" data-hover-style="{{ pc_hover_style }}">
+    <div class="pc-image-inner">
+
+      {% if pc_media_type == 'click' %}
+        {% comment %} CLICK MODE {% endcomment %}
+        <div class="pc-click-track">
+          {% for media in product.media limit: 5 %}
+            <img
+              class="pc-click-slide {% if forloop.first %}is-active{% endif %}"
+              src="{{ media | image_url: width: 480 }}"
+              alt="{{ media.alt | default: product.title }}"
+              loading="lazy"
+              width="480" height=""
+            >
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'pc-placeholder-svg' }}
+          {% endfor %}
+        </div>
+
+        {% if product.media.size > 1 %}
+          <button class="pc-nav pc-nav--prev" data-nav="prev" aria-label="Previous">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M6.5 2L3.5 5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="pc-nav pc-nav--next" data-nav="next" aria-label="Next">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3.5 2L6.5 5l-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="pc-dots">
+            {% for media in product.media limit: 5 %}
+              <span class="pc-dot {% if forloop.first %}is-active{% endif %}"></span>
+            {% endfor %}
+          </div>
+        {% endif %}
+
       {% else %}
-        {{ 'product-1' | placeholder_svg_tag: 'pc-placeholder-svg' }}
+        {% comment %} HOVER MODE {% endcomment %}
+        {% if product.media.size > 0 %}
+          <img
+            class="pc-img pc-img--primary"
+            src="{{ product.media[0] | image_url: width: 480 }}"
+            alt="{{ product.media[0].alt | default: product.title }}"
+            loading="lazy"
+            width="480" height=""
+          >
+          {% if product.media.size > 1 %}
+            <img
+              class="pc-img pc-img--secondary"
+              src="{{ product.media[1] | image_url: width: 480 }}"
+              alt="{{ product.media[1].alt | default: product.title }}"
+              loading="lazy"
+              width="480" height=""
+            >
+          {% endif %}
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag: 'pc-placeholder-svg' }}
+        {% endif %}
       {% endif %}
+
     </div>
-  </a>
+  </div>
+</a>
 
   {% comment %} ── Black marquee bar ── {% endcomment %}
   <div class="pc-marquee-bar" aria-hidden="true">
