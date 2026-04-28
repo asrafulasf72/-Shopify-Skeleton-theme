@@ -1,110 +1,360 @@
-<section class="example-hero" aria-labelledby="example-hero-title">
-  <div class="example-hero__inner">
-    {% render 'example-heading',
-  heading: section.settings.heading,
-  subheading: section.settings.text
-%}
+{{ 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css' | stylesheet_tag }}
+{{ 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js' | script_tag }}
 
-    {% if section.settings.show_button and section.settings.button_label != blank and section.settings.button_link != blank %}
-      <a href="{{ section.settings.button_link }}" class="example-hero__button">
-        {{ section.settings.button_label | escape }}
-      </a>
+<section class="example-hero">
+  <div class="swiper hero-swiper">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide" 
+             data-background-type="{{ block.settings.background_type }}"
+             style="{% if block.settings.background_type == 'image' and block.settings.background_image != blank %}
+                      background-image: url('{{ block.settings.background_image | img_url: '2000x' }}');
+                    {% endif %}">
+          
+          {% if block.settings.background_type == 'video' and block.settings.background_video != blank %}
+            <video class="hero-video-bg" autoplay muted loop playsinline>
+              <source src="{{ block.settings.background_video }}" type="video/mp4">
+            </video>
+          {% endif %}
+          
+          <div class="hero-overlay" style="background: {{ block.settings.overlay_color }}; opacity: {{ block.settings.overlay_opacity }}"></div>
+          
+          <div class="example-hero__inner">
+            {% render 'example-heading',
+              heading: block.settings.heading,
+              subheading: block.settings.subheading,
+              parallax_offset: '-300'
+            %}
+            
+            {% if block.settings.show_button and block.settings.button_label != blank and block.settings.button_link != blank %}
+              <a href="{{ block.settings.button_link }}" class="example-hero__button" data-swiper-parallax="-200">
+                {{ block.settings.button_label | escape }}
+                <svg class="button-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    {% if section.blocks.size > 1 %}
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
     {% endif %}
   </div>
 
-  <button type="button" id="debug-cart-btn"> 
-      Debug Cart Btn
-    </button>
-<pre id="debug-cart-output" style="max-height: 200px; overflow: auto; font-size: 12px; background: #f4f4f4; padding: 8px;"></pre>
-
-  <button  type="button" id="ajax-add-to-cart-btn" data-variant-id={{ product.selected_or_first_available_variant.id }}>
-    Add to cart (Ajax)
-    </button>
-    <a href="{{ routes.cart_url }}" class="header__cart-link">
-  Cart
-  (<span data-cart-count>0</span>)
-</a>
 </section>
 
 {% stylesheet %}
   .example-hero {
-    padding-block: 4rem;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .hero-swiper {
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+  }
+
+  .swiper-slide {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
   }
 
   .example-hero__inner {
-    max-width: 60rem;
-    margin-inline: auto;
-    padding-inline: 1.5rem;
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
     text-align: center;
-  }
-
-  .example-hero__title {
-    font-size: clamp(2rem, 1.5rem + 1.5vw, 2.75rem);
-    font-weight: 600;
-  }
-
-  .example-hero__text {
-    margin-top: 0.75rem;
-    color: rgba(0, 0, 0, 0.75);
   }
 
   .example-hero__button {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    margin-top: 1.5rem;
-    padding: 0.75rem 1.5rem;
-    border-radius: 999px;
-    background: #111827;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: #ffffff;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
   }
 
-  .example-hero__button:focus-visible {
-    outline: 2px solid #111827;
-    outline-offset: 2px;
+  .example-hero__button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .example-hero__button:hover::before {
+    left: 100%;
+  }
+
+  .example-hero__button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  .button-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .example-hero__button:hover .button-icon {
+    transform: translateX(5px);
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 50px !important;
+    height: 50px !important;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    /* border-radius: 50%; */
+    transition: all 0.3s ease;
+  }
+
+  .swiper-button-prev:hover,
+  .swiper-button-next:hover {
+    background: rgba(255,255,255,0.4);
+    transform: scale(1.1);
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: bold;
+  }
+
+  .swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background: rgba(255,255,255,0.5);
+    opacity: 1;
+    transition: all 0.3s ease;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: #ffffff;
+    width: 30px;
+    border-radius: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .hero-swiper {
+      height: 80vh;
+      min-height: 500px;
+    }
+
+    .example-hero__inner {
+      padding: 1rem;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+      width: 35px;
+      height: 35px;
+    }
+
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+      font-size: 14px;
+    }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "t:sections.example_hero.name",
-  "settings": [
+  "name": "Professional Hero Slider",
+  "max_blocks": 6,
+  "blocks": [
     {
-      "type": "text",
-      "id": "heading",
-      "label": "t:sections.example_hero.settings.heading.label",
-      "default": "Example hero section"
-    },
-    {
-      "type": "textarea",
-      "id": "text",
-      "label": "t:sections.example_hero.settings.text.label",
-      "default": "Use this section to learn how theme sections work."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_button",
-      "label": "t:sections.example_hero.settings.show_button.label",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "t:sections.example_hero.settings.button_label.label",
-      "default": "Shop now"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "t:sections.example_hero.settings.button_link.label"
+      "type": "slide",
+      "name": "Hero Slide",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "select",
+          "id": "background_type",
+          "label": "Background Type",
+          "options": [
+            {
+              "value": "image",
+              "label": "Image"
+            },
+            {
+              "value": "video",
+              "label": "Video"
+            }
+          ],
+          "default": "image"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "url",
+          "id": "background_video",
+          "label": "Background Video URL",
+          "info": "Add a direct link to an MP4 video file"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay Color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay Opacity",
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "default": 0.4
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Welcome to Our Store"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Discover amazing products at incredible prices"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "label": "Show Button",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "t:sections.example_hero.presets.default.name"
+      "name": "Professional Hero Slider",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "heading": "Summer Collection 2024",
+            "subheading": "Discover the latest trends with up to 50% off"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "heading": "Limited Edition",
+            "subheading": "Exclusive designs just for you"
+          }
+        }
+      ]
     }
   ]
 }
 {% endschema %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize Swiper with parallax effect
+  const swiper = new Swiper('.hero-swiper', {
+    speed: 1000,
+    parallax: true,
+    spaceBetween: 0,
+    effect: 'slide',
+    loop: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      dynamicBullets: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    keyboard: {
+      enabled: true,
+    },
+    on: {
+      init: function() {
+        document.querySelectorAll('.swiper-slide[data-background-type="video"]').forEach(slide => {
+          const video = slide.querySelector('.hero-video-bg');
+          if (video) video.play().catch(e => console.log('Auto-play prevented'));
+        });
+      },
+      slideChangeTransitionStart: function() {
+        document.querySelectorAll('.hero-video-bg').forEach(video => video.pause());
+      },
+      slideChangeTransitionEnd: function() {
+        const activeSlide = document.querySelector('.swiper-slide-active');
+        if (activeSlide && activeSlide.querySelector('.hero-video-bg')) {
+          activeSlide.querySelector('.hero-video-bg').play().catch(e => console.log('Video play prevented'));
+        }
+      }
+    }
+  });
+ 
+});
+</script>
