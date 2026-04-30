@@ -1,0 +1,659 @@
+{% comment %}
+  Section : collection-product-grid.liquid
+  Install : Shopify Admin → Themes → Edit code → Sections → Add file
+  Use     : Customize → Add section → "Collection Product Grid"
+            Pick your collection from the right-hand settings panel.
+{% endcomment %}
+
+{%- liquid
+  assign col          = section.settings.collection
+  assign limit        = section.settings.products_to_show | default: 8
+  assign heading      = section.settings.title
+  assign show_heading = section.settings.show_heading
+  assign heading_align = section.settings.heading_align | default: 'left'
+  assign columns_desk  = section.settings.columns_desktop | default: 4
+  assign bg_color      = section.settings.bg_color | default: '#ffffff'
+  assign show_vendor   = section.settings.show_vendor | default: false
+  assign show_sale     = section.settings.show_sale_badge | default: true
+  assign enable_slider = section.settings.enable_slider | default: false
+-%}
+
+<section
+  class="cpg"
+  id="cpg-{{ section.id }}"
+  style="
+    --cpg-bg: {{ bg_color }};
+    --cpg-cols: {{ columns_desk }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+  aria-labelledby="{% if show_heading %}cpg-h-{{ section.id }}{% endif %}"
+>
+  <div class="cpg__inner">
+
+    {%- if show_heading and heading != blank -%}
+      <div class="cpg__header cpg__header--{{ heading_align }}">
+        <h2 class="cpg__heading" id="cpg-h-{{ section.id }}">{{ heading }}</h2>
+        {%- if section.settings.subtext != blank -%}
+          <p class="cpg__subtext">{{ section.settings.subtext }}</p>
+        {%- endif -%}
+        {%- if section.settings.view_all_label != blank and col != blank -%}
+          <a class="cpg__view-all" href="{{ col.url }}">{{ section.settings.view_all_label }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if col != blank -%}
+      <ul class="cpg__grid" role="list">
+        {%- for product in col.products limit: limit -%}
+          <li class="cpg__item">
+            {%- render 'product-card3',
+              product: product,
+              show_sale_badge: show_sale,
+              show_vendor: show_vendor
+            -%}
+          </li>
+        {%- else -%}
+          <li class="cpg__empty" style="grid-column:1/-1">
+            No products found in this collection.
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="cpg__empty">
+        Please select a collection in the section settings →
+      </p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{%- comment %} ═══════════════════ STYLES ═══════════════════ {% endcomment %}
+<style>
+/* ── Tokens ──────────────────────────────────────── */
+#cpg-{{ section.id }} {
+  --pc-card-bg:      #f2f2f2;
+  --pc-white:        #ffffff;
+  --pc-text:         #111111;
+  --pc-text-light:   #555555;
+  --pc-muted:        #9a9a9a;
+  --pc-sale-bg:      #111111;
+  --pc-sale-txt:     #ffffff;
+  --pc-sold-bg:      #6b7280;
+  --pc-sale-price:   #111111;
+  --pc-btn-bg:       rgba(255,255,255,0.97);
+  --pc-btn-txt:      #111111;
+  --pc-btn-divider:  rgba(0,0,0,0.10);
+  --pc-radius:       6px;
+  --pc-ease:         cubic-bezier(0.4, 0, 0.2, 1);
+  --pc-dur:          0.26s;
+  --pc-action-h:     48px;
+  --pc-gap:          12px;
+}
+
+/* ── Section ─────────────────────────────────────── */
+.cpg {
+  background: var(--cpg-bg, #fff);
+}
+.cpg__inner {
+  max-width: 1300px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ── Header ──────────────────────────────────────── */
+.cpg__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
+}
+.cpg__header--center { justify-content: center; text-align: center; }
+.cpg__header--right  { justify-content: flex-end; text-align: right; }
+
+.cpg__heading {
+  font-size: clamp(1.3rem, 3.5vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--pc-text);
+}
+.cpg__subtext {
+  width: 100%;
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: var(--pc-muted);
+  line-height: 1.5;
+}
+.cpg__view-all {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--pc-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cpg__view-all:hover { opacity: 0.6; }
+.cpg__empty {
+  padding: 2.5rem;
+  text-align: center;
+  color: var(--pc-muted);
+  font-size: 0.875rem;
+}
+
+/* ── Grid ────────────────────────────────────────── */
+.cpg__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--pc-gap);
+  /* Mobile first: 2 columns */
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 640px) {
+  .cpg__grid { gap: 16px; }
+}
+@media (min-width: 768px) {
+  .cpg__grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1100px) {
+  .cpg__grid {
+    grid-template-columns: repeat(var(--cpg-cols, 4), 1fr);
+    gap: 20px;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   CARD  (.pc)
+   Layout: title + price ON TOP → image block BELOW
+══════════════════════════════════════════════════ */
+.pc {
+  display: flex;
+  flex-direction: column;        /* ← info first, image second */
+  background: var(--pc-card-bg);
+  {% comment %} border-radius: var(--pc-radius); {% endcomment %}
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── 1. Info block (title + price) ──────────────── */
+.pc__info {
+  padding: 0.7rem 0.75rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  order: 1;                       /* forces info to render first */
+}
+.pc__vendor {
+  margin: 0;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pc-muted);
+}
+.pc__title {
+  font-size: clamp(0.72rem, 1.6vw, 0.85rem);
+  font-weight: 500;
+  line-height: 1.35;
+  margin: 0;
+  color: var(--pc-text);
+  /* Clamp to 2 lines on small screens */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pc__title a {
+  color: inherit;
+  text-decoration: none;
+}
+.pc__title a:hover,
+.pc__title a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  outline: none;
+}
+.pc__price {
+  margin: 0;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+.pc__price--compare {
+  color: var(--pc-muted);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+.pc__price--sale {
+  color: var(--pc-sale-price);
+  font-weight: 700;
+}
+.pc__price--regular { font-weight: 600; }
+
+/* ── 2. Image block ──────────────────────────────── */
+.pc__img-wrap {
+  position: relative;
+  order: 2;                       /* image renders after info */
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--pc-card-bg);
+  flex-shrink: 0;
+}
+
+/* Badges */
+.pc__badges {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+.pc__badge {
+  display: inline-block;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 6px;
+  border-radius: 2px;
+  line-height: 1;
+  user-select: none;
+}
+.pc__badge--sale {
+  background: var(--pc-sale-bg);
+  color: var(--pc-sale-txt);
+}
+.pc__badge--sold {
+  background: var(--pc-sold-bg);
+  color: var(--pc-white);
+}
+
+/* Wishlist */
+.pc__wishlist {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
+  background: var(--pc-white);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--pc-text-light);
+  opacity: 0;
+  transform: scale(0.85);
+  transition:
+    opacity var(--pc-dur) var(--pc-ease),
+    transform var(--pc-dur) var(--pc-ease),
+    color var(--pc-dur) var(--pc-ease);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+  -webkit-tap-highlight-color: transparent;
+}
+.pc__wishlist:hover,
+.pc__wishlist.is-wishlisted { color: #e53e3e; }
+.pc__wishlist:focus-visible {
+  outline: 2px solid var(--pc-text);
+  outline-offset: 2px;
+}
+
+/* Images */
+.pc__img-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.pc__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8%;
+  transition:
+    opacity var(--pc-dur) var(--pc-ease),
+    transform var(--pc-dur) var(--pc-ease);
+  will-change: opacity, transform;
+}
+.pc__img--primary { opacity: 1; transform: scale(1); z-index: 1; }
+.pc__img--hover   { opacity: 0; transform: scale(1.04); z-index: 2; }
+.pc__img-placeholder {
+  position: absolute;
+  inset: 0;
+  background: #e8e8e8;
+}
+
+/* Action bar */
+.pc__actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  height: var(--pc-action-h);
+  transform: translateY(100%);
+  opacity: 0;
+  transition:
+    transform var(--pc-dur) var(--pc-ease),
+    opacity var(--pc-dur) var(--pc-ease);
+  will-change: transform, opacity;
+}
+.pc__btn {
+  flex: 1;
+  border: none;
+  border-top: 1px solid var(--pc-btn-divider);
+  background: var(--pc-btn-bg);
+  color: var(--pc-btn-txt);
+  font-size: clamp(0.65rem, 1.4vw, 0.72rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  padding: 0 0.4rem;
+  transition:
+    background var(--pc-dur) var(--pc-ease),
+    color var(--pc-dur) var(--pc-ease);
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  line-height: 1;
+}
+.pc__btn + .pc__btn { border-left: 1px solid var(--pc-btn-divider); }
+.pc__btn:hover,
+.pc__btn:focus-visible {
+  background: var(--pc-text);
+  color: var(--pc-white);
+  outline: none;
+}
+.pc__btn:focus-visible { outline: 2px solid var(--pc-text); outline-offset: -2px; }
+.pc__btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+/* ── Hover / active states ───────────────────────── */
+/* Desktop hover or mobile .is-active */
+.pc:hover .pc__img--primary,
+.pc.is-active .pc__img--primary {
+  opacity: 0;
+  transform: scale(0.97);
+}
+.pc:hover .pc__img--hover,
+.pc.is-active .pc__img--hover {
+  opacity: 1;
+  transform: scale(1);
+}
+.pc:hover .pc__actions,
+.pc__actions:focus-within,
+.pc.is-active .pc__actions {
+  transform: translateY(0);
+  opacity: 1;
+}
+.pc:hover .pc__wishlist,
+.pc.is-active .pc__wishlist {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Reduced motion ──────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .pc__img, .pc__actions, .pc__btn, .pc__wishlist { transition: none; }
+}
+</style>
+
+{%- comment %} ═══════════════════ JAVASCRIPT ═══════════════════ {% endcomment %}
+<script>
+(function () {
+  'use strict';
+
+  /* ── Add to Cart ──────────────────────────────── */
+  function addToCart(variantId, btn) {
+    if (!variantId || btn.disabled) return;
+    btn.disabled = true;
+    var label = btn.textContent.trim();
+    btn.textContent = 'Adding…';
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ id: variantId, quantity: 1 })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.status && data.status !== 200) throw new Error(data.description);
+        btn.textContent = 'Added ✓';
+        document.dispatchEvent(new CustomEvent('cart:updated', { bubbles: true }));
+        setTimeout(function () { btn.textContent = label; btn.disabled = false; }, 2200);
+      })
+      .catch(function () {
+        btn.textContent = 'Error';
+        setTimeout(function () { btn.textContent = label; btn.disabled = false; }, 2200);
+      });
+  }
+
+  /* ── Quick View ───────────────────────────────── */
+  function openQuickView(url) {
+    document.dispatchEvent(new CustomEvent('quickview:open', { detail: { url: url }, bubbles: true }));
+  }
+
+  /* ── Wishlist toggle (visual only) ───────────── */
+  function toggleWishlist(btn) {
+    btn.classList.toggle('is-wishlisted');
+    var inWishlist = btn.classList.contains('is-wishlisted');
+    btn.setAttribute('aria-label', inWishlist ? 'Remove from wishlist' : btn.getAttribute('aria-label'));
+    /* Fill heart SVG path when wishlisted */
+    var path = btn.querySelector('path');
+    if (path) path.setAttribute('fill', inWishlist ? 'currentColor' : 'none');
+    document.dispatchEvent(new CustomEvent('wishlist:toggle', {
+      detail: { productId: btn.dataset.productId, added: inWishlist },
+      bubbles: true
+    }));
+  }
+
+  /* ── Mobile tap-to-reveal ─────────────────────── */
+  var isTouch = window.matchMedia('(hover: none)').matches;
+
+  function initSection() {
+    var section = document.getElementById('cpg-{{ section.id }}');
+    if (!section) return;
+
+    section.querySelectorAll('.pc').forEach(function (card) {
+
+      /* Cart */
+      var cartBtn = card.querySelector('.pc__btn--cart');
+      if (cartBtn) {
+        cartBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          addToCart(cartBtn.dataset.variantId, cartBtn);
+        });
+      }
+
+      /* Quick view */
+      var quickBtn = card.querySelector('.pc__btn--quick');
+      if (quickBtn) {
+        quickBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          openQuickView(quickBtn.dataset.productUrl);
+        });
+      }
+
+      /* Wishlist */
+      var wishBtn = card.querySelector('.pc__wishlist');
+      if (wishBtn) {
+        wishBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          toggleWishlist(wishBtn);
+        });
+      }
+
+      /* Mobile: tap image area to reveal action bar */
+      if (isTouch) {
+        var imgWrap = card.querySelector('.pc__img-wrap');
+        if (imgWrap) {
+          imgWrap.addEventListener('click', function (e) {
+            if (e.target.closest('.pc__btn, .pc__wishlist, .pc__img-link')) return;
+            card.classList.toggle('is-active');
+            section.querySelectorAll('.pc.is-active').forEach(function (other) {
+              if (other !== card) other.classList.remove('is-active');
+            });
+          });
+        }
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSection);
+  } else {
+    initSection();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Collection Product Grid",
+  "tag": "section",
+  "class": "section-cpg",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show section heading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading text",
+      "default": "Featured Products"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext (optional)",
+      "default": "Sub Text"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left",   "label": "Left"   },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right"  }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "\"View all\" link label",
+      "default": "View all"
+    },
+    {
+      "type": "header",
+      "content": "Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 24,
+      "step": 2,
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "header",
+      "content": "Card options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sale_badge",
+      "label": "Show SALE badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show product vendor",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Product Grid",
+      "settings": {
+        "title": "Featured Products",
+        "products_to_show": 8,
+        "columns_desktop": "4",
+        "show_heading": true
+      }
+    }
+  ]
+}
+{% endschema %}

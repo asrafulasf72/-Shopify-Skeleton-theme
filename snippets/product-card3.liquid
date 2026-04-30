@@ -1,0 +1,120 @@
+{% comment %}
+  Snippet : product-card.liquid
+  Usage   : {% render 'product-card', product: product %}
+  Optional variables:
+    show_sale_badge  – true/false (default true)
+    show_vendor      – true/false (default false)
+{% endcomment %}
+
+{%- liquid
+  assign show_sale_badge = show_sale_badge | default: true
+  assign show_vendor     = show_vendor     | default: false
+  assign compare_price   = product.compare_at_price
+  assign current_price   = product.price
+  assign on_sale         = false
+  if compare_price > current_price
+    assign on_sale = true
+  endif
+  assign product_url = product.url | within: collection
+  assign primary_img = product.featured_image
+  assign hover_img   = product.images[1]
+  assign variant     = product.selected_or_first_available_variant
+-%}
+
+<article class="pc" aria-label="{{ product.title | escape }}">
+
+  {%- comment %} ── 1. Info: title + price (always on top) ── {% endcomment %}
+  <div class="pc__info">
+    {%- if show_vendor and product.vendor != blank -%}
+      <p class="pc__vendor">{{ product.vendor }}</p>
+    {%- endif -%}
+
+    <h3 class="pc__title">
+      <a href="{{ product_url }}">{{ product.title }}</a>
+    </h3>
+
+    <p class="pc__price">
+      {%- if on_sale -%}
+        <s class="pc__price--compare" aria-label="Original price">{{ compare_price | money }}</s>
+        <span class="pc__price--sale" aria-label="Sale price">{{ current_price | money }}</span>
+      {%- else -%}
+        <span class="pc__price--regular">{{ current_price | money }}</span>
+      {%- endif -%}
+    </p>
+  </div>
+
+  {%- comment %} ── 2. Image block (below info) ── {% endcomment %}
+  <div class="pc__img-wrap">
+
+    {%- comment %} Badges: top-right {% endcomment %}
+    {%- if on_sale and show_sale_badge or product.available == false -%}
+      <div class="pc__badges" aria-hidden="true">
+        {%- if on_sale and show_sale_badge -%}
+          <span class="pc__badge pc__badge--sale">SALE</span>
+        {%- endif -%}
+        {%- unless product.available -%}
+          <span class="pc__badge pc__badge--sold">Sold out</span>
+        {%- endunless -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment %} Wishlist icon: top-left {% endcomment %}
+     <button
+      class="pc__wishlist"
+      type="button"
+      aria-label="Add {{ product.title | escape }} to wishlist"
+      data-product-id="{{ product.id }}"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+    </button> 
+
+    {%- comment %} Product images {% endcomment %}
+    <a href="{{ product_url }}" class="pc__img-link" tabindex="-1" aria-hidden="true">
+      {%- if primary_img -%}
+        <img
+          class="pc__img pc__img--primary"
+          src="{{ primary_img | image_url: width: 600 }}"
+          alt="{{ primary_img.alt | escape | default: product.title }}"
+          width="600" height="600"
+          loading="lazy" decoding="async"
+        >
+      {%- else -%}
+        <div class="pc__img-placeholder" aria-hidden="true"></div>
+      {%- endif -%}
+
+      {%- if hover_img -%}
+        <img
+          class="pc__img pc__img--hover"
+          src="{{ hover_img | image_url: width: 600 }}"
+          alt="{{ hover_img.alt | escape | default: product.title }}"
+          width="600" height="600"
+          loading="lazy" decoding="async"
+        >
+      {%- endif -%}
+    </a>
+
+    {%- comment %} Hover action bar — slides up from bottom {% endcomment %}
+    <div class="pc__actions" role="group" aria-label="Quick actions for {{ product.title | escape }}">
+      <button
+        class="pc__btn pc__btn--quick"
+        type="button"
+        data-product-url="{{ product_url }}"
+        aria-label="Quick view {{ product.title | escape }}"
+      >Quick view</button>
+
+      <button
+        class="pc__btn pc__btn--cart"
+        type="button"
+        data-variant-id="{{ variant.id }}"
+        aria-label="Add {{ product.title | escape }} to bag"
+        {%- unless product.available %} disabled aria-disabled="true"{%- endunless %}
+      >
+        {%- if product.available -%}Add to bag{%- else -%}Sold out{%- endif -%}
+      </button>
+    </div>
+
+  </div>
+
+</article>
