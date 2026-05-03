@@ -1,0 +1,24 @@
+<button>
+    {{ block.settings.text }}
+    </button>
+
+    {% schema %}
+    {
+      "name": "Button",
+      "settings": [
+        {
+            "type": "text",
+            "id": "text",
+            "label": "Text"
+        }
+      ],
+      "presets": [
+        {
+            "name": "Button",
+            "settings": {
+                "text":"Click Me"
+            }
+        }
+      ]  
+    }
+    {% endschema %}

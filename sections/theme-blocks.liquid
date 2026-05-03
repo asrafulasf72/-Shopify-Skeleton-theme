@@ -1,0 +1,24 @@
+<section>
+    <h1>Hello World</h1>
+
+    {% content_for 'blocks' %}
+</section>
+{% schema %}
+{
+    "name": "Theme Blocks",
+    "settings": [],
+    "blocks": [
+        {
+          "type": "@theme"
+        },
+        {
+            "type": "@app"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Theme Blocks"
+        }
+    ]
+}
+{% endschema %}

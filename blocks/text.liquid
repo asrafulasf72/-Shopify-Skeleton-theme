@@ -11,6 +11,8 @@
   {{ block.shopify_attributes }}
 >
   {{ block.settings.text }}
+
+  {% content_for 'blocks' %}
 </div>
 
 {% stylesheet %}
@@ -52,6 +54,11 @@
       "id": "alignment",
       "label": "t:labels.alignment",
       "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+    "type": "@theme"
     }
   ],
   "presets": [{ "name": "t:general.text" }]
