@@ -1,0 +1,243 @@
+{%- liquid
+  assign col_heading_cats   = block.settings.col_heading_cats   | default: 'Categories'
+  assign col_heading_brands = block.settings.col_heading_brands | default: 'Brands'
+  assign col_heading_feat   = block.settings.col_heading_feat   | default: 'Featured'
+  assign marquee_text_1     = block.settings.marquee_text_1     | default: 'Check out our latest products!'
+  assign marquee_text_2     = block.settings.marquee_text_2     | default: "Discover what's new in store!"
+  assign featured_product   = block.settings.featured_product
+  assign hero_image         = block.settings.hero_image
+  assign cat_list           = linklists[block.settings.categories_menu]
+  assign brand_list         = linklists[block.settings.brands_menu]
+-%}
+
+<div
+  class="sop-mega-menu"
+  id="sop-mega-{{ block.id }}"
+  role="dialog"
+  aria-label="Mega menu"
+  aria-hidden="true"
+  data-sop-mega-panel
+>
+  <div class="sop-mega-menu__inner container">
+
+    {%- comment -%} ── COL 1: CATEGORIES ── {%- endcomment -%}
+    <div class="sop-mega-menu__col sop-mega-menu__col--cats">
+      <p class="sop-mega-menu__col-heading">{{ col_heading_cats | upcase }}</p>
+
+      {%- if cat_list and cat_list.links.size > 0 -%}
+        <ul class="sop-mega-menu__cat-list" role="list">
+          {%- for link in cat_list.links -%}
+            <li>
+              
+             <a  href="{{ link.url }}"
+                class="sop-mega-menu__cat-link{% if link.active %} is-active{% endif %}"
+              >
+                <span class="sop-mega-menu__cat-name">{{ link.title | escape }}</span>
+                {%- if link.object and link.object.all_products_count -%}
+                  <span class="sop-mega-menu__cat-count">
+                    {{ link.object.all_products_count }}
+                  </span>
+                {%- endif -%}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p style="font-size:0.8125rem; color:var(--sop-header-color-muted); padding: 0 0 1rem;">
+          No categories menu selected.
+        </p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ── COL 2: BRANDS ── {%- endcomment -%}
+    <div class="sop-mega-menu__col sop-mega-menu__col--brands">
+      <p class="sop-mega-menu__col-heading">{{ col_heading_brands | upcase }}</p>
+
+      {%- if brand_list and brand_list.links.size > 0 -%}
+        <ul class="sop-mega-menu__brand-list" role="list">
+          {%- for link in brand_list.links -%}
+            <li class="sop-mega-menu__brand-item">
+              
+              <a  href="{{ link.url }}"
+                class="sop-mega-menu__brand-link{% if link.active %} is-active{% endif %}"
+              >
+                <span class="sop-mega-menu__brand-name">{{ link.title | escape }}</span>
+                {%- if link.object and link.object.all_products_count -%}
+                  <span class="sop-mega-menu__brand-count">
+                    {{ link.object.all_products_count }}
+                  </span>
+                {%- endif -%}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p style="font-size:0.8125rem; color:var(--sop-header-color-muted); padding: 0 0 1rem;">
+          No brands menu selected.
+        </p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ── COL 3: FEATURED PRODUCT ── {%- endcomment -%}
+    <div class="sop-mega-menu__col sop-mega-menu__col--featured">
+      <div class="sop-mega-menu__featured-header">
+        <p class="sop-mega-menu__col-heading" style="margin:0">
+          {{ col_heading_feat | upcase }}
+        </p>
+        <div class="sop-mega-menu__featured-arrows">
+          <button
+            type="button"
+            class="sop-mega-menu__arrow-btn"
+            aria-label="Previous"
+            data-sop-slide-prev
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="sop-mega-menu__arrow-btn"
+            aria-label="Next"
+            data-sop-slide-next
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {%- if featured_product != blank -%}
+        {%- assign product = all_products[featured_product] -%}
+        {%- assign product_images = product.images -%}
+        {%- assign image_count = product_images | size -%}
+
+        <div class="sop-mega-menu__slider-wrap" data-sop-slider>
+          <div class="sop-mega-menu__slides" data-sop-slides>
+
+            {%- if image_count > 0 -%}
+              {%- for image in product_images limit: 5 -%}
+                <div class="sop-mega-menu__slide" data-sop-slide>
+                  
+                 <a   href="{{ product.url }}"
+                    class="sop-mega-menu__product-card"
+                    style="text-decoration:none; display:flex; flex-direction:column; gap:0.75rem;"
+                  >
+                    <div class="sop-mega-menu__product-img-wrap">
+                      <img
+                        src="{{ image | image_url: width: 400 }}"
+                        alt="{{ image.alt | escape }}"
+                        class="sop-mega-menu__product-img"
+                        loading="lazy"
+                        width="400"
+                        height="{{ 400 | divided_by: image.aspect_ratio | round }}"
+                      >
+                    </div>
+                    <div class="sop-mega-menu__product-title">{{ product.title }}</div>
+                    <div class="sop-mega-menu__product-price">
+                      {%- if product.compare_at_price > product.price -%}
+                        <span class="sop-mega-menu__price-original">
+                          {{ product.compare_at_price | money }}
+                        </span>
+                      {%- endif -%}
+                      <span class="sop-mega-menu__price-sale">{{ product.price | money }}</span>
+                    </div>
+                  </a>
+                </div>
+              {%- endfor -%}
+
+            {%- else -%}
+              <div class="sop-mega-menu__slide" data-sop-slide>
+                
+                <a  href="{{ product.url }}"
+                  class="sop-mega-menu__product-card"
+                  style="text-decoration:none; display:flex; flex-direction:column; gap:0.75rem;"
+                >
+                  <div class="sop-mega-menu__product-img-wrap">
+                    {%- if product.featured_image -%}
+                      <img
+                        src="{{ product.featured_image | image_url: width: 400 }}"
+                        alt="{{ product.featured_image.alt | escape }}"
+                        class="sop-mega-menu__product-img"
+                        loading="lazy"
+                        width="400"
+                        height="{{ 400 | divided_by: product.featured_image.aspect_ratio | round }}"
+                      >
+                    {%- endif -%}
+                  </div>
+                  <div class="sop-mega-menu__product-title">{{ product.title }}</div>
+                  <div class="sop-mega-menu__product-price">
+                    {%- if product.compare_at_price > product.price -%}
+                      <span class="sop-mega-menu__price-original">
+                        {{ product.compare_at_price | money }}
+                      </span>
+                    {%- endif -%}
+                    <span class="sop-mega-menu__price-sale">{{ product.price | money }}</span>
+                  </div>
+                </a>
+              </div>
+            {%- endif -%}
+
+          </div>
+        </div>
+
+        {%- assign dot_count = product_images | size -%}
+        {%- if dot_count == 0 -%}{%- assign dot_count = 1 -%}{%- endif -%}
+        {%- if dot_count > 1 -%}
+          <div class="sop-mega-menu__dots" data-sop-dots aria-hidden="true">
+            {%- for i in (1..dot_count) limit: 5 -%}
+              <button
+                type="button"
+                class="sop-mega-menu__dot{% if forloop.first %} is-active{% endif %}"
+                data-sop-dot="{{ forloop.index0 }}"
+                aria-label="Image {{ forloop.index }}"
+              ></button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+      {%- else -%}
+        <p style="font-size:0.875rem; color:var(--sop-header-color-muted);">
+          No product selected.
+        </p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ── COL 4: HERO IMAGE + MARQUEE ── {%- endcomment -%}
+    <div class="sop-mega-menu__col sop-mega-menu__col--hero">
+      {%- if hero_image != blank -%}
+        <img
+          src="{{ hero_image | image_url: width: 900 }}"
+          alt="{{ hero_image.alt | escape }}"
+          class="sop-mega-menu__hero-img"
+          loading="lazy"
+          width="900"
+          height="600"
+        >
+      {%- else -%}
+        <div style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:0.875rem;color:var(--sop-header-color-muted);">Add hero image</span>
+        </div>
+      {%- endif -%}
+
+      <div class="sop-mega-menu__marquee-wrap" aria-hidden="true">
+        <div class="sop-mega-menu__marquee-row sop-mega-menu__marquee-row--left">
+          <div class="sop-mega-menu__marquee-track">
+            {%- for i in (1..10) -%}
+              <span>{{ marquee_text_1 }}</span>
+            {%- endfor -%}
+          </div>
+        </div>
+        <div class="sop-mega-menu__marquee-row sop-mega-menu__marquee-row--right">
+          <div class="sop-mega-menu__marquee-track">
+            {%- for i in (1..10) -%}
+              <span>{{ marquee_text_2 }}</span>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
