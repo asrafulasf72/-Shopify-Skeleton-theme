@@ -1,123 +1,310 @@
-<section class="announcement-bar" aria-label="{{ 'sections.announcement_bar.aria_label' | t }}">
-  <div class="announcement-bar__inner" style="--announcement-bg: {{ section.settings.background_color }}; --announcement-color: {{ section.settings.text_color }};">
-    {% if section.settings.show_icon %}
-      <span class="announcement-bar__icon" aria-hidden="true">{{ section.settings.icon }}</span>
-    {% endif %}
 
-    {% if section.settings.text != blank %}
-      <p class="announcement-bar__text">
-        {{ section.settings.text | escape }}
-      </p>
-    {% endif %}
+<div
+  class="sop-announcement-bar sop-container color-{{ section.settings.color_scheme }}"
+  role="region"
+  {% comment %} aria-label="{{ 'sections.announcement_bar.label' | t }}" {% endcomment %}
+  aria-label="Announcement Bar"
+>
+  <div class="sop-announcement-bar-wrapper">
+    {%- comment -%} LEFT — contact info (laptop only) {%- endcomment -%}
+    <div class="sop-announcement-bar-left" aria-hidden="true">
+      {%- if section.settings.contact_text != blank -%}
+        <span class="sop-announcement-bar-contact">
+          {{ section.settings.contact_text }}
+        </span>
+      {%- endif -%}
+    </div>
 
-    {% if section.settings.show_link and section.settings.link_label != blank and section.settings.link_url != blank %}
-      <a href="{{ section.settings.link_url }}" class="announcement-bar__link">
-        {{ section.settings.link_label | escape }}
-      </a>
-    {% endif %}
+    {%- comment -%} CENTRE — rotating messages {%- endcomment -%}
+    <div class="sop-announcement-bar-center">
+      <button
+        class="sop-announcement-bar-arrow sop-announcement-bar-arrow--prev"
+        aria-label="Previous announcement"
+        {% if section.blocks.size <= 1 %}
+          hidden
+        {% endif %}
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.75 16.25L2.5 10L8.75 3.75M2.5 10H17.5" stroke="white" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="sop-announcement-bar-slider">
+        {%- for block in section.blocks -%}
+          <div class="swiper-slide sop-announcement-bar-slide" {{ block.shopify_attributes }}>
+            <p>
+              {%- if block.settings.url != blank -%}
+                <a href="{{ block.settings.url }}" class="sop-announcement-bar-link">
+                  {{ block.settings.text | escape }}
+                </a>
+              {%- else -%}
+                {{ block.settings.text | escape }}
+              {%- endif -%}
+            </p>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <button
+        class="sop-announcement-bar-arrow sop-announcement-bar-arrow--next"
+        aria-label="Next announcement"
+        {% if section.blocks.size <= 1 %}
+          hidden
+        {% endif %}
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="white" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    {%- comment -%} RIGHT — locale/currency selector (laptop only) {%- endcomment -%}
+    <div class="sop-announcement-bar-right" aria-hidden="true">
+      {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
+        <div class="sop-announcement-bar-locale">
+          {%- form 'localization', id: 'sop-country-form-header' -%}
+            <button
+              type="button"
+              class="sop-announcement-bar-locale-btn"
+              aria-expanded="false"
+              aria-controls="sop-locale-panel"
+            >
+              {{ localization.country.name }} | ({{ localization.country.currency.iso_code }}
+              {{ localization.country.currency.symbol }})
+              <span class="sop-announcement-bar-chevron" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19.5 8.25L12 15.75L4.5 8.25" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+            <ul
+              id="sop-country-list"
+              class="sop-announcement-bar__country-list"
+              role="list"
+              hidden
+            >
+              {%- for country in localization.available_countries -%}
+                <li role="listitem">
+                  <button
+                    type="submit"
+                    name="country_code"
+                    value="{{ country.iso_code }}"
+                    class="sop-announcement-bar-country-option"
+                  >
+                    {{ country.name }}
+                    ({{ country.currency.iso_code }}
+                    {{ country.currency.symbol }})
+                  </button>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+    </div>
   </div>
-</section>
+  {% comment %} Panel {% endcomment %}
+  <div id="sop-locale-panel" class="sop-locale-panel" hidden>
+    <div class="sop-locale-panel-inner">
+      <!-- Language Row -->
+      <button type="button" class="sop-locale-row" id="sop-lang-btn">
+        <span class="sop-locale-row-label">Language</span>
+        <span class="sop-locale-row-value">
+          English
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.25 4.5L15.75 12L8.25 19.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg> 
+        </span>
+      </button>
 
-{% stylesheet %}
-  .announcement-bar {
-    background-color: var(--announcement-bg, #111827);
-    color: var(--announcement-color, #ffffff);
-    font-size: 0.875rem;
-  }
+      <!-- Currency Row -->
+      {%- form 'localization', id: 'sop-country-form-panel' -%}
+        <button type="button" class="sop-locale-row" id="sop-currency-btn">
+          <span class="sop-locale-row-label">Currency</span>
+          <span class="sop-locale-row-value">
+            {{ localization.country.currency.iso_code }}
+            ({{ localization.country.currency.symbol }})
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8.25 4.5L15.75 12L8.25 19.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </button>
+      {%- endform -%}
+      <div class="sop-locale-row-empty"></div>
+    </div>
+     
+  </div>
+</div>
 
-  .announcement-bar__inner {
-    max-width: 80rem;
-    margin-inline: auto;
-    padding: 0.5rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    text-align: center;
-  }
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const slides = document.querySelectorAll('.sop-announcement-bar-slide');
+      const nextBtn = document.querySelector('.sop-announcement-bar-arrow--next');
+      const prevBtn = document.querySelector('.sop-announcement-bar-arrow--prev');
 
-  .announcement-bar__icon {
-    font-size: 1rem;
-  }
+      if (!slides.length) return;
 
-  .announcement-bar__text {
-    margin: 0;
-  }
+      let current = 0;
+      let autoplay;
 
-  .announcement-bar__link {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
-    font-weight: 500;
-  }
+      slides[current].classList.add('is-active');
 
-  .announcement-bar__link:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 2px;
-  }
+      function goToSlide(nextIndex) {
+        if (nextIndex === current) return;
 
-  @media (max-width: 600px) {
-    .announcement-bar__inner {
-      flex-wrap: wrap;
-    }
+        const currentSlide = slides[current];
+        const nextSlide = slides[nextIndex];
+
+        currentSlide.classList.remove('is-active');
+        currentSlide.classList.add('is-exit');
+
+        nextSlide.classList.add('is-active');
+
+        setTimeout(() => {
+          currentSlide.classList.remove('is-exit');
+        }, 600);
+
+        current = nextIndex;
+      }
+
+      function nextSlide() {
+        let next = current + 1;
+
+        if (next >= slides.length) {
+          next = 0;
+        }
+
+        goToSlide(next);
+      }
+
+      function prevSlide() {
+        let prev = current - 1;
+
+        if (prev < 0) {
+          prev = slides.length - 1;
+        }
+
+        goToSlide(prev);
+      }
+
+      /* Next Arrow */
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function () {
+          nextSlide();
+          restartAutoplay();
+        });
+      }
+
+      /* Prev Arrow */
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function () {
+          prevSlide();
+          restartAutoplay();
+        });
+      }
+
+      /* Autoplay */
+      {% if section.settings.autoplay %}
+        function startAutoplay() {
+          autoplay = setInterval(nextSlide, {{ section.settings.autoplay_speed | times: 1000 }});
+        }
+
+        function restartAutoplay() {
+          clearInterval(autoplay);
+          startAutoplay();
+        }
+
+        startAutoplay();
+      {% endif %}
+
+
+      const localeBtn = document.querySelector('.sop-announcement-bar-locale-btn');
+      const localePanel = document.getElementById('sop-locale-panel');
+
+  if (localeBtn && localePanel) {
+    localeBtn.addEventListener('click', function () {
+      const isOpen = localeBtn.getAttribute('aria-expanded') === 'true';
+      localeBtn.setAttribute('aria-expanded', String(!isOpen));
+      localePanel.hidden = isOpen;
+    });
+
+    // Close panel when clicking outside
+    document.addEventListener('click', function (e) {
+      if (!localeBtn.contains(e.target) && !localePanel.contains(e.target)) {
+        localeBtn.setAttribute('aria-expanded', 'false');
+        localePanel.hidden = true;
+      }
+    });
   }
-{% endstylesheet %}
+    });
+</script>
 
 {% schema %}
 {
-  "name": "t:sections.announcement_bar.name",
+  "name": "Announcement Bar",
+  "tag": "section",
+  "class": "sop-section-announcement-bar",
+  "limit": 1,
   "settings": [
     {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "contact_text",
+      "label": "Contact info",
+      "default": "Contact us: hello@demo.com"
+    },
+    {
       "type": "checkbox",
-      "id": "show_icon",
-      "label": "t:sections.announcement_bar.settings.show_icon.label",
+      "id": "show_country_selector",
+      "label": "Show country/currency selector",
       "default": true
     },
     {
-      "type": "text",
-      "id": "icon",
-      "label": "t:sections.announcement_bar.settings.icon.label",
-      "default": "★"
-    },
-    {
-      "type": "textarea",
-      "id": "text",
-      "label": "t:sections.announcement_bar.settings.text.label",
-      "default": "Free shipping on orders over $50"
-    },
-    {
       "type": "checkbox",
-      "id": "show_link",
-      "label": "t:sections.announcement_bar.settings.show_link.label",
-      "default": false
+      "id": "autoplay",
+      "label": "Auto-play announcements",
+      "default": true
     },
     {
-      "type": "text",
-      "id": "link_label",
-      "label": "t:sections.announcement_bar.settings.link_label.label",
-      "default": "Learn more"
-    },
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Auto-play speed (seconds)",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 5,
+      "info": "Only applies when auto-play is enabled"
+    }
+  ],
+  "blocks": [
     {
-      "type": "url",
-      "id": "link_url",
-      "label": "t:sections.announcement_bar.settings.link_url.label"
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "t:sections.announcement_bar.settings.background_color.label",
-      "default": "#111827"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "t:sections.announcement_bar.settings.text_color.label",
-      "default": "#ffffff"
+      "type": "announcement",
+      "name": "Announcement",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Message",
+          "default": "Save upto 60% with code RICO26"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link (optional)"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "t:sections.announcement_bar.presets.default.name"
+      "name": "Announcement Bar",
+      "blocks": [{ "type": "announcement" }]
     }
   ]
 }
