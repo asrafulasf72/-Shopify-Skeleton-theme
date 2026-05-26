@@ -1,0 +1,39 @@
+
+{%- assign nav_links   = linklists[block.settings.menu].links -%}
+{%- assign nav_heading = block.settings.heading -%}
+{%- assign col_id      = 'footer-nav-' | append: block.id -%}
+
+<div
+  class="sop-footer-block sop-footer-block-nav"
+  {{ block.shopify_attributes }}
+>
+  {%- if nav_heading != blank -%}
+    <p
+      class="sop-footer-block-heading"
+      id="{{ col_id }}"
+    >{{ nav_heading }}</p>
+  {%- endif -%}
+
+  {%- if nav_links != blank and nav_links.size > 0 -%}
+    <ul
+      class="sop-footer-nav-list"
+      role="list"
+      {%- if nav_heading != blank -%}
+        aria-labelledby="{{ col_id }}"
+      {%- else -%}
+        aria-label="{{ 'general.navigation.footer_menu' | t | default: 'Footer navigation' }}"
+      {%- endif -%}
+    >
+      {%- for link in nav_links -%}
+        <li class="sop-footer-nav-item">
+          <a
+            href="{{ link.url }}"
+            class="sop-underline-hover sop-footer-nav-link{% if link.active %} sop-footer-nav-link-active{% endif %}"
+            {% if link.active %}aria-current="page"{% endif %}
+          >{{ link.title }}</a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+</div>
