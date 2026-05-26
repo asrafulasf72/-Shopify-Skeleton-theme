@@ -1,0 +1,287 @@
+<div
+  class="sop-footer-bottom"
+  role="contentinfo"
+  aria-label="{{ 'general.accessibility.footer_bottom' | t | default: 'Footer bottom' }}"
+>
+  <div class="">
+    <div class="sop-footer-bottom-row">
+      {%- comment -%} Country Selector {%- endcomment -%}
+      {%- if show_country -%}
+        <div class="sop-footer-localization">
+          {%- form 'localization', id: 'sop-localization-form', class: 'sop-localization-form' -%}
+            <input
+              type="hidden"
+              name="country_code"
+              value="{{ localization.country.iso_code }}"
+              id="sop-country-input"
+            >
+
+            <input
+              type="hidden"
+              name="locale_code"
+              value="{{ localization.language.iso_code }}"
+              id="sop-language-input"
+            >
+
+            <!-- MAIN TRIGGER -->
+            <button
+              type="button"
+              class="sop-localization-trigger"
+              aria-expanded="false"
+              aria-controls="sop-localization-panel"
+            >
+              <span>
+                {{ localization.country.name }}
+                ({{ localization.country.currency.iso_code }}
+                {{ localization.country.currency.symbol }})
+              </span>
+
+              <span class="sop-localization-trigger-icon">
+                <svg width="18" height="18" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+
+            <!-- MAIN PANEL -->
+            <div
+              class="sop-localization-panel"
+              id="sop-localization-panel"
+            >
+              <!-- LANGUAGE -->
+              <div class="sop-locale-group">
+                <button
+                  type="button"
+                  class="sop-locale-toggle"
+                  data-target="language"
+                >
+                  <span>Language</span>
+
+                  <span class="sop-locale-toggle-right">
+                    <span>
+                      {{ localization.language.endonym_name }}
+                    </span>
+
+                    <span class="sop-locale-toggle-icon">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M2 4L6 8L10 4"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                </button>
+                <div
+                  data-lenis-prevent
+                  class="sop-locale-content "
+                  data-content="language"
+                >
+                  {%- for language in localization.available_languages -%}
+                    <button
+                      type="button"
+                      class="sop-locale-option {% if language.iso_code == localization.language.iso_code %}is-active{% endif %}"
+                      data-language="{{ language.iso_code }}"
+                    >
+                      <span>
+                        {{ language.endonym_name }}
+                      </span>
+
+                      {% if language.iso_code == localization.language.iso_code %}
+                        <span>✓</span>
+                      {% endif %}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </div>
+
+              <!-- CURRENCY -->
+              <div class="sop-locale-group">
+                <button
+                  type="button"
+                  class="sop-locale-toggle"
+                  data-target="country"
+                >
+                  <span>Currency</span>
+
+                  <span class="sop-locale-toggle-right">
+                    <span>
+                      {{ localization.country.currency.iso_code }}
+                    </span>
+
+                    <span class="sop-locale-toggle-icon">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M2 4L6 8L10 4"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                </button>
+
+                <div
+                  data-lenis-prevent
+                  class="sop-locale-content"
+                  data-content="country"
+                >
+                  {%- for country in localization.available_countries -%}
+                    <button
+                      type="button"
+                      class="sop-locale-option {% if country.iso_code == localization.country.iso_code %}is-active{% endif %}"
+                      data-country="{{ country.iso_code }}"
+                    >
+                      <span>
+                        {{ country.name }}
+                        ({{ country.currency.iso_code }}
+                        {{ country.currency.symbol }})
+                      </span>
+
+                      {% if country.iso_code == localization.country.iso_code %}
+                        <span>✓</span>
+                      {% endif %}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </div>
+            </div>
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Left group {%- endcomment -%}
+      <div class="sop-footer-bottom-left">
+        <p class="sop-footer-copyright-text">
+          Copyright &copy; {{ 'now' | date: '%Y' }}
+          {{ shop.name }}.
+          {%- capture powered_link -%}
+            
+             <a href="https://www.shopify.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Shopify ({{ 'general.accessibility.new_window' | t | default: 'opens in new tab' }})"
+            >Shopify</a>
+          {%- endcapture -%}
+          {{ 'general.powered_by_shopify_html' | t: shopify: powered_link | default: 'Powered by Shopify' }}
+        </p>
+
+        {%- if show_payment -%}
+          <ul
+            class="sop-footer-payment-list"
+            role="list"
+            aria-label="Accepted payment methods"
+          >
+            {%- for type in shop.enabled_payment_types -%}
+              <li class="sop-footer-payment-item">
+                {{ type | payment_type_svg_tag: class: 'sop-payment-icon' }}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', () => {
+    const trigger = document.querySelector('.sop-localization-trigger');
+    const panel = document.querySelector('.sop-localization-panel');
+
+    if (!trigger || !panel) return;
+
+    /* MAIN PANEL TOGGLE */
+    trigger.addEventListener('click', () => {
+      const isOpen = panel.classList.contains('is-open');
+
+      if (isOpen) {
+        panel.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+      } else {
+        panel.classList.add('is-open');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    /* INNER ACCORDION */
+    const toggles = document.querySelectorAll('.sop-locale-toggle');
+
+    toggles.forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        const target = toggle.dataset.target;
+
+        const currentContent = document.querySelector(`[data-content="${target}"]`);
+
+        const isAlreadyOpen = currentContent.classList.contains('is-open');
+
+        /* CLOSE ALL */
+        document.querySelectorAll('.sop-locale-content').forEach((content) => {
+          content.classList.remove('is-open');
+        });
+
+        document.querySelectorAll('.sop-locale-toggle').forEach((item) => {
+          item.classList.remove('is-active');
+        });
+
+        /* OPEN CURRENT */
+        if (!isAlreadyOpen) {
+          currentContent.classList.add('is-open');
+          toggle.classList.add('is-active');
+        }
+      });
+    });
+
+    /* LANGUAGE */
+    const languageOptions = document.querySelectorAll('[data-language]');
+
+    languageOptions.forEach((option) => {
+      option.addEventListener('click', () => {
+        const input = document.getElementById('sop-language-input');
+
+        input.value = option.dataset.language;
+
+        document.getElementById('sop-localization-form').submit();
+      });
+    });
+
+    /* COUNTRY */
+    const countryOptions = document.querySelectorAll('[data-country]');
+
+    countryOptions.forEach((option) => {
+      option.addEventListener('click', () => {
+        const input = document.getElementById('sop-country-input');
+
+        input.value = option.dataset.country;
+
+        document.getElementById('sop-localization-form').submit();
+      });
+    });
+
+    /* OUTSIDE CLICK */
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.sop-footer-localization')) {
+        panel.classList.remove('is-open');
+
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+{% endjavascript %}
