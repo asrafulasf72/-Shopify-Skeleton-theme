@@ -1,0 +1,920 @@
+{% liquid
+  assign padding_top = section.settings.padding_top | default: 0
+  assign laptop_padding_top = padding_top | times: 80 | divided_by: 100
+  assign tab_padding_top = laptop_padding_top | times: 80 | divided_by: 100
+  assign mobile_padding_top = tab_padding_top | times: 50 | divided_by: 100
+
+  assign padding_bottom = section.settings.padding_bottom | default: 0
+  assign laptop_padding_bottom = padding_bottom | times: 80 | divided_by: 100
+  assign tab_padding_bottom = laptop_padding_bottom | times: 80 | divided_by: 100
+  assign mobile_padding_bottom = tab_padding_bottom | times: 50 | divided_by: 100
+
+  assign sop_cv = blank
+  if product
+    assign sop_cv = product.selected_or_first_available_variant | default: product.variants.first
+  endif
+
+  if settings.price
+    assign weekly_winner_money_format = shop.money_with_currency_format
+  else
+    assign weekly_winner_money_format = shop.money_format
+  endif
+
+  assign render_breadcrumb = false
+  if show_breadcrumb
+    assign render_breadcrumb = true
+  endif
+
+  assign render_empty_state = false
+  if show_empty_state
+    assign render_empty_state = true
+  endif
+
+  assign render_stacky_card = false
+  if show_stacky_card
+    assign render_stacky_card = true
+  endif
+
+  assign empty_state_message = empty_message | default: 'No product selected.'
+  assign product_text_color = '#1C1C1C'
+  assign product_secondary_text_color = '#1C1C1C9E'
+  assign product_variant_border_color = '#1c1c1c'
+
+  if use_color_scheme_text
+    assign product_text_color = 'var(--sop-text)'
+    assign product_secondary_text_color = 'var(--sop-secondary-text)'
+    assign product_variant_border_color = 'var(--sop-text)'
+  endif
+%}
+<div
+  class="shopify-section-{{ section.id }} color-{{ section.settings.color_schemes }}"
+  data-weekly-winner
+  data-section-id="{{ section.id }}"
+  data-discount-template="{{ 'products.badges.discount_percent' | t: percent: '__PERCENT__' | escape }}"
+  data-money-format="{{ weekly_winner_money_format | escape }}"
+>
+  {% if heading != blank %}
+    {% render 'heading', title: heading %}
+  {% endif %}
+
+  {% if product != blank %}
+    <script type="application/json" data-weekly-winner-product>
+      {
+        "id": {{ product.id | json }},
+        "title": {{ product.title | json }},
+        "url": {{ product.url | json }},
+        "selected_variant_id": {{ sop_cv.id | json }},
+        "options": [
+          {% for option in product.options_with_values %}
+            {
+              "name": {{ option.name | json }},
+              "position": {{ option.position | json }}
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ],
+        "images": [
+          {% for image in product.media %}
+            {
+              "id": {{ image.id | json }},
+              "media_type": {{ image.media_type | json }},
+              "src": {{ image | image_url: width: 2400 | json }},
+              "alt": {{ image.alt | default: product.title | json }}
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ],
+        "variants": [
+          {% for variant in product.variants %}
+            {%- assign variant_featured_image_id = blank -%}
+            {%- assign variant_featured_image_src = blank -%}
+            {%- if variant.image -%}
+              {%- assign variant_featured_image_id = variant.image.id -%}
+              {%- assign variant_featured_image_src = variant.image | image_url: width: 2400 -%}
+            {%- endif -%}
+            {
+              "id": {{ variant.id | json }},
+              "title": {{ variant.title | json }},
+              "available": {{ variant.available | json }},
+              "price": {{ variant.price | json }},
+              "compare_at_price": {{ variant.compare_at_price | default: 0 | json }},
+              "inventory_quantity": {{ variant.inventory_quantity | default: 0 | json }},
+              "inventory_management": {{ variant.inventory_management | json }},
+              "inventory_policy": {{ variant.inventory_policy | json }},
+              "featured_image_id": {{ variant_featured_image_id | json }},
+              "featured_image_src": {{ variant_featured_image_src | json }},
+              "option1": {{ variant.option1 | json }},
+              "option2": {{ variant.option2 | json }},
+              "option3": {{ variant.option3 | json }}
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      }
+    </script>
+    {% if render_breadcrumb %}
+      <div class="container">
+        {%- render 'breadcrumb' -%}
+      </div>
+    {% endif %}
+
+    <div class="container sop-product-page-container">
+      {% if product.images.size > 0 %}
+        {% render 'drag-zoom-wrapper', product: product, render_mode: 'gallery' %}
+      {% else %}
+        <div class="sop-gallery">
+          {% for i in (1..3) %}
+            <div class="sop-image-wrap drag-zoom-wrapper sop-image-wrap--placeholder">
+              {{ 'product-' | append: i | placeholder_svg_tag: 'sop-image-placeholder' }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="sop-sidebar">
+        <div class="sop-sidebar-inner">
+          {% for block in section.blocks %}
+            {% liquid
+              assign block_padding_top = block.settings.padding_top | default: 0
+              assign block_padding_bottom = block.settings.padding_bottom | default: 0
+              assign block_alignment = block.settings.alignment | default: 'left'
+              assign variant_gap = block.settings.variant_gap | default: '0'
+            %}
+
+            <div
+              class="sop-block sop-block--{{ block.type }}"
+              style="
+                --block-padding-top: {{ block_padding_top }}px;
+                --block-padding-bottom: {{ block_padding_bottom }}px;
+                --block-text-align: {{ block_alignment }};
+                --block-variant-gap: {{ variant_gap }}px;
+              "
+              {{ block.shopify_attributes }}
+            >
+              {% case block.type %}
+                {%- when '@app' -%}
+                  {% render block %}
+                {% when 'badge' %}
+                  {% if sop_cv %}
+                    <div class="sop-badge-wrap" style="justify-content: {{ block_alignment }};">
+                      {% render 'badge', product: product %}
+                    </div>
+                  {% endif %}
+
+                {% when 'title' %}
+                  {% if product.title %}
+                    <h2 class="sop-title">{{ product.title }}</h2>
+                  {% endif %}
+
+                {% when 'review' %}
+                  {% render 'weekly-winner-review',
+                    product: product,
+                    block: block,
+                    block_alignment: block_alignment,
+                    section_id: section.id
+                  %}
+
+                {% when 'price' %}
+                  {% if sop_cv %}
+                    <div class="sop-price-wrap" data-weekly-winner-price>
+                      <span class="sop-price-current" data-weekly-winner-price-current>
+                        {% render 'price', price: sop_cv.price %}
+                      </span>
+                      <del
+                        class="sop-price-compare"
+                        data-weekly-winner-price-compare
+                        {% unless sop_cv.compare_at_price > sop_cv.price %}
+                          hidden
+                        {% endunless %}
+                      >
+                        {% render 'price', price: sop_cv.compare_at_price %}
+                      </del>
+                    </div>
+                  {% endif %}
+
+                {% when 'variant' %}
+                  {% unless product.has_only_default_variant %}
+                    <div class="sop-variant-container">
+                      {%- for option in product.options_with_values -%}
+                        {%- assign option_name_downcased = option.name | downcase -%}
+                        {%- assign option_index = forloop.index0 -%}
+                        {%- assign is_visual_option = false -%}
+                        {%- assign is_size_option = false -%}
+                        {%- assign variant_group_title = option.name -%}
+                        {%- assign active_option_value = blank -%}
+
+                        {%- if option_name_downcased == 'color'
+                          or option_name_downcased == 'colour'
+                          or option_name_downcased == 'product siblings'
+                        -%}
+                          {%- assign is_visual_option = true -%}
+                          {%- assign variant_group_title = 'Product Siblings' -%}
+                        {%- elsif option_name_downcased == 'size' or option_name_downcased == 'product size' -%}
+                          {%- assign is_size_option = true -%}
+                          {%- assign variant_group_title = 'Product Size' -%}
+                        {%- endif -%}
+
+                        {%- case option.position -%}
+                          {%- when 1 -%}
+                            {%- assign active_option_value = sop_cv.option1 -%}
+                          {%- when 2 -%}
+                            {%- assign active_option_value = sop_cv.option2 -%}
+                          {%- when 3 -%}
+                            {%- assign active_option_value = sop_cv.option3 -%}
+                        {%- endcase -%}
+
+                        <div
+                          class="sop-variant-group{% if is_visual_option %} sop-variant-group--visual{% endif %}{% if is_size_option %} sop-variant-group--size{% endif %}"
+                          data-option-name="{{ option.name | escape }}"
+                          data-option-index="{{ option_index }}"
+                        >
+                          <div class="sop-variant-heading">
+                            <h3 class="sop-variant-title">{{ variant_group_title }}</h3>
+                            {% if is_size_option
+                              and section.settings.size_guide_label != blank
+                              and section.settings.size_guide_image != blank
+                            %}
+                              <button
+                                type="button"
+                                class="sop-size-guide"
+                                data-drawer-title="Select size"
+                                data-drawer-content="{{ section.settings.size_guide_content | escape }}"
+                                data-drawer-image="{{ section.settings.size_guide_image | image_url: width: 504 | escape }}"
+                              >
+                                {% render 'icons', icon: 'roler' %}
+                                <span>{{ section.settings.size_guide_label }}</span>
+                              </button>
+                            {% endif %}
+                          </div>
+                          {%- if is_visual_option -%}
+                            <div class="sop-product-siblings-container sop-product-siblings-container--visual">
+                              {%- for value in option.values -%}
+                                {%- assign sibling_variant = blank -%}
+                                {%- for variant in product.variants -%}
+                                  {%- assign variant_option_value = blank -%}
+
+                                  {%- case option.position -%}
+                                    {%- when 1 -%}
+                                      {%- assign variant_option_value = variant.option1 -%}
+                                    {%- when 2 -%}
+                                      {%- assign variant_option_value = variant.option2 -%}
+                                    {%- when 3 -%}
+                                      {%- assign variant_option_value = variant.option3 -%}
+                                  {%- endcase -%}
+
+                                  {%- if variant_option_value == value and sibling_variant == blank -%}
+                                    {%- assign sibling_variant = variant -%}
+                                  {%- endif -%}
+                                {%- endfor -%}
+
+                                <button
+                                  type="button"
+                                  class="sop-product-siblings-image{% if active_option_value == value %} active{% endif %}"
+                                  data-option-index="{{ option_index }}"
+                                  data-option-value="{{ value | escape }}"
+                                  aria-pressed="{% if active_option_value == value %}true{% else %}false{% endif %}"
+                                  aria-label="{{ option.name | escape }}: {{ value | escape }}"
+                                >
+                                  {%- if sibling_variant and sibling_variant.image -%}
+                                    {{-
+                                      sibling_variant.image
+                                      | image_url: width: 180
+                                      | image_tag: alt: value, loading: 'lazy'
+                                    -}}
+                                  {%- else -%}
+                                    <span>{{ value }}</span>
+                                  {%- endif -%}
+                                </button>
+                              {%- endfor -%}
+                            </div>
+
+                          {%- else -%}
+                            <ul
+                              class="sop-product-siblings-container sop-product-siblings-container--text"
+                              role="list"
+                            >
+                              {%- for value in option.values -%}
+                                <li role="listitem">
+                                  <button
+                                    type="button"
+                                    class="sop-product-siblings-item{% if active_option_value == value %} active{% endif %}"
+                                    data-option-index="{{ option_index }}"
+                                    data-option-value="{{ value | escape }}"
+                                    aria-pressed="{% if active_option_value == value %}true{% else %}false{% endif %}"
+                                    aria-label="{{ value | escape }}"
+                                  >
+                                    {{ value }}
+                                  </button>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          {%- endif -%}
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                  {% endunless %}
+
+                {% when 'countdown' %}
+                  {% render 'countdown', id: block.id, block: block, product: product %}
+
+                {% when 'btn' %}
+                  <div class="sop-btn-container">
+                    <div class="sop-quantity-container">
+                      <button
+                        type="button"
+                        class="sop-quantity-minus"
+                        aria-label="Decrease quantity"
+                      >
+                        {% render 'icons', icon: 'minus' %}
+                      </button>
+                      <div
+                        class="sop-quantity"
+                        data-weekly-winner-quantity
+                        aria-live="polite"
+                      >
+                        1
+                      </div>
+                      <button
+                        type="button"
+                        class="sop-quantity-plus"
+                        aria-label="Increase quantity"
+                      >
+                        {% render 'icons', icon: 'plus' %}
+                      </button>
+                    </div>
+
+                    {% render 'add-to-cart-button',
+                      product: product,
+                      current_variant: sop_cv,
+                      className: 'sop-btn-bg',
+                      text: settings.add_to_cart_button_label
+                    %}
+                  </div>
+                  <button
+                    type="button"
+                    class="sop-btn"
+                    data-weekly-winner-buy-now
+                  >
+                    Buy it now
+                  </button>
+
+                {% when 'stock_urgency' %}
+                  {% if sop_cv %}
+                    {% render 'stock-urgency', id: block.id, block: block, sop_cv: sop_cv, product: product %}
+                  {% endif %}
+
+                {% when 'store_location' %}
+                  {% render 'store-location', id: block.id, block: block, product: product %}
+
+                {% when 'collapsible_tab' %}
+                  {% comment %} {% render 'collapsible-tab', id: block.id, block: block, product: product %} {% endcomment %}
+                  <div class="sop-accordion sop-accordion" {{ block.shopify_attributes }}>
+                    <button
+                      type="button"
+                      class="sop-accordion-btn"
+                      data-drawer-title="{{ block.settings.title }}"
+                      data-drawer-content="{{ block.settings.content | escape }}"
+                      aria-expanded="false"
+                      aria-controls="{{ block.id }}"
+                    >
+                      <span class="sop-accord-text">{{ block.settings.title }}</span>
+                      <span class="sop-accord-arrow-icon">{% render 'icons', icon: 'plus' %}</span>
+                    </button>
+                  </div>
+                {% when 'ask_question' %}
+                  <div class="sop-accordion sop-accordion" {{ block.shopify_attributes }}>
+                    <button
+                      type="button"
+                      class="sop-ask-question-btn"
+                      data-drawer-title="{{ block.settings.title }}"
+                      data-drawer-content="{{ block.settings.content | escape }}"
+                      aria-expanded="false"
+                      aria-controls="{{ block.id }}"
+                    >
+                      <span class="sop-accord-text">{{ block.settings.title }}</span>
+                      <span class="sop-accord-arrow-icon">{% render 'icons', icon: 'arrow-right-outline' %}</span>
+                    </button>
+                  </div>
+                {% when 'divider' %}
+                  {% render 'divider', id: block.id, setting: block.settings %}
+                {% when 'product_details' %}
+                  <a href="{{ product.url }}" class="product-details">
+                    <span>{{ block.settings.heading }}</span>
+                    {% render 'icons', icon: 'arrow-right' %}
+                  </a>
+                {% when 'share' %}
+                  <div class="sop-share-block">
+                    <span class="sop-share-label">{{ block.settings.label | default: 'Share' }}</span>
+                    <div class="sop-share-links">
+                      {% if block.settings.show_facebook %}
+                        <a
+                          href="
+                            https://www.facebook.com/sharer/sharer.php?u={{ shop.url -}}
+                            {{- product.url | url_encode }}
+                          "
+                          class="sop-share-link"
+                          target="_blank"
+                          rel="
+                            noopener
+                            noreferrer
+                          "
+                        >
+                          Facebook
+                        </a>
+                      {% endif %}
+                      {% if block.settings.show_instagram %}
+                        <a
+                          href="https://www.instagram.com/"
+                          class="sop-share-link"
+                          target="_blank"
+                          rel="
+                            noopener
+                            noreferrer
+                          "
+                        >
+                          Instagram
+                        </a>
+                      {% endif %}
+                      {% if block.settings.show_twitter %}
+                        <a
+                          href="
+                            https://twitter.com/intent/tweet?url={{ shop.url -}}
+                            {{- product.url | url_encode }}&text={{ product.title | url_encode }}
+                          "
+                          class="sop-share-link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Twitter
+                        </a>
+                      {% endif %}
+                      {% if block.settings.show_pinterest %}
+                        <a
+                          href="
+                            https://pinterest.com/pin/create/button/?url={{ shop.url -}}
+                            {{- product.url | url_encode }}&description={{ product.title | url_encode }}
+                          "
+                          class="sop-share-link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Pinterest
+                        </a>
+                      {% endif %}
+                      {% if block.settings.show_tiktok %}
+                        <a
+                          href="https://www.tiktok.com/"
+                          class="sop-share-link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          TikTok
+                        </a>
+                      {% endif %}
+                      {% if block.settings.show_linkedin %}
+                        <a
+                          href="
+                            https://www.linkedin.com/sharing/share-offsite/?url={{ shop.url -}}
+                            {{- product.url | url_encode }}
+                          "
+                          class="sop-share-link"
+                          target="_blank"
+                          rel="
+                            noopener
+                            noreferrer
+                          "
+                        >
+                          LinkedIn
+                        </a>
+                      {% endif %}
+                      {% if block.settings.show_whatsapp %}
+                        <a
+                          href="
+                            https://wa.me/?text={{ product.title | url_encode }}%20{{ shop.url -}}
+                            {{- product.url | url_encode }}
+                          "
+                          class="sop-share-link"
+                          target="_blank"
+                          rel="
+                            noopener
+                            noreferrer
+                          "
+                        >
+                          WhatsApp
+                        </a>
+                      {% endif %}
+                      {% if block.settings.show_telegram %}
+                        <a
+                          href="
+                            https://t.me/share/url?url={{ shop.url -}}
+                            {{- product.url | url_encode }}&text={{ product.title | url_encode }}
+                          "
+                          class="sop-share-link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Telegram
+                        </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% when 'upsell' %}
+                  {% render 'upsell', id: block.id, setting: block.settings, product: product, sop_cv: sop_cv %}
+              {% endcase %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {% render 'drag-zoom-wrapper',
+      product: product,
+      render_mode: 'overlay',
+      cursor_text: section.settings.cursor_text
+    %}
+  {% elsif render_empty_state %}
+    <div class="container sop-product-page-container">
+      <div class="no-product">{{ empty_state_message }}</div>
+    </div>
+  {% endif %}
+</div>
+
+{% if render_stacky_card %}
+  {% render 'stacky-card', product: product, sop_cv: sop_cv %}
+{% endif %}
+{% render 'ask-question-drawer' %}
+{% render 'collapsible-drawer' %}
+
+{% style %}
+     .shopify-section-{{ section.id }} {
+      padding-top: {{ mobile_padding_top }}px;
+      padding-bottom: {{ mobile_padding_bottom }}px;
+    }
+
+     .shopify-section-{{ section.id }} .sop-product-page-container {
+       margin-top: 1.25rem;
+     }
+     .shopify-section-{{ section.id }} .no-product {
+       text-align: center;
+       margin-bottom: 1.25rem;
+     }
+
+     .shopify-section-{{ section.id }} .sop-sidebar{
+       overflow: hidden;
+     }
+
+     .shopify-section-{{ section.id }} .sop-badge-wrap{
+       width: 100%;
+       display: flex;
+     }
+
+     .shopify-section-{{ section.id }} .sop-title {
+       margin: 0;
+       font-size: 1.5rem;
+       line-height: 1.2;
+       font-weight: 400;
+     }
+
+     .shopify-section-{{ section.id }} .sop-price-wrap{
+       font-size: 1.25rem;
+       font-weight: 400;
+       color: {{ product_text_color }};
+       width: fit-content;
+       display: inline-flex;
+       gap: 0.75rem;
+       align-items: baseline;
+       flex-wrap: wrap;
+       {% if settings.price_reverse %}
+         flex-direction: row-reverse;
+       {% endif %}
+     }
+
+     .shopify-section-{{ section.id }} .sop-price-wrap del{
+       color: {{ product_secondary_text_color }};
+       font-size: 1rem;
+     }
+
+     .shopify-section-{{ section.id }} .sop-block > .sop-btn-container {
+       display: flex;
+       align-items: center;
+       gap: 1.5rem;
+       width: 100%;
+       padding-bottom: 1.25rem;
+     }
+
+     .shopify-section-{{ section.id }} .sop-block > .sop-btn-container .sop-quantity-container {
+      width: 40%;
+      background: #F2F2F2;
+    }
+    .shopify-section-{{ section.id }} .sop-block > .sop-btn-container > form {
+       width: 60%;
+     }
+
+     .shopify-section-{{ section.id }} .sop-block {
+       padding-top: calc(var(--block-padding-top) * 0.6);
+       padding-bottom: calc(var(--block-padding-bottom) * 0.6);
+       text-align: var(--block-text-align);
+     }
+
+     .sop-block .sop-variant-container{
+        display: flex;
+        flex-direction: column;
+     	  gap: calc(var(--block-variant-gap) * 0.8);
+     }
+     .sop-block .sop-variant-group{
+       display: flex;
+       flex-direction: column;
+       gap: 0.875rem;
+     }
+     .sop-block .sop-variant-heading{
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       gap: 0.75rem;
+     }
+     .sop-block .sop-variant-title{
+         font-weight: 400;
+         font-size: 1.125rem;
+         line-height: 1;
+         text-transform: capitalize;
+         color: {{ product_text_color }};
+         margin: 0;
+     }
+
+     .sop-block .sop-size-guide{
+       display: inline-flex;
+       align-items: center;
+       gap: 0.5rem;
+       color: {{ product_text_color }};
+       font-size: 1rem;
+       line-height: 1;
+       text-decoration: underline;
+       text-underline-offset: 0.12em;
+       white-space: nowrap;
+       cursor: pointer;
+     }
+
+     .sop-block .sop-product-siblings-container {
+     	display: flex;
+     	flex-wrap: wrap;
+     	align-content: center;
+     	gap: 0.75rem;
+     }
+
+     .sop-block .sop-product-siblings-container--text {
+       gap: 0.875rem 0.75rem;
+     }
+
+     .sop-block .sop-product-siblings-image {
+     	border-radius: 99px;
+       width: 6.5rem;
+       height: 6.5rem;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       cursor: pointer;
+       border: 1.5px solid transparent;
+       padding: 0.25rem;
+       background: #FFFFFF;
+       overflow: hidden;
+       transition: border-color 0.2s ease, transform 0.2s ease;
+     }
+
+     .sop-block .sop-product-siblings-image img {
+       width: 100%;
+       height: 100%;
+       object-fit: contain;
+     }
+
+     .sop-block .sop-product-siblings-image span {
+       font-size: 0.75rem;
+       line-height: 1;
+       padding: 0 0.25rem;
+       text-align: center;
+     }
+
+     .sop-block .sop-product-siblings-item {
+     	font-weight: 400;
+     	font-size: 0.875rem;
+     	line-height: 1;
+     	letter-spacing: 0%;
+     	text-transform: uppercase;
+     	border-radius: 99px;
+     	padding: 1rem 1.5rem;
+     	border: 1.5px solid transparent;
+       background: transparent;
+       color: {{ product_text_color }};
+       transition: border-color 0.2s ease, transform 0.2s ease;
+     }
+
+     .sop-block .sop-product-siblings-image.active,
+     .sop-block .sop-product-siblings-item.active {
+     	border-color: {{ product_variant_border_color }};
+     }
+
+     .sop-block .sop-product-siblings-image:hover,
+     .sop-block .sop-product-siblings-item:hover {
+     	border-color: {{ product_variant_border_color }};
+       transform: translateY(-1px);
+     }
+
+     .sop-block .product-details {
+       display: inline-flex;
+       align-items: center;
+       gap: 0.5rem;
+       transition: all 0.3s ease;
+       font-weight: 400;
+       font-size: 0.875rem;
+       line-height: 1;
+       letter-spacing: 0%;
+       text-decoration: underline;
+       text-decoration-style: solid;
+       text-decoration-thickness: 0%;
+       text-decoration-skip-ink: auto;
+     }
+
+     .sop-accordion-btn, .sop-ask-question-btn {
+       width: 100%;
+       border: 0;
+       background: transparent;
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       cursor: pointer;
+       padding: 1.25rem 0;
+       transition: all 0.3s ease;
+     }
+
+    .sop-accord-text {
+      font-size: 0.875rem;
+    }
+    .sop-accordion-body {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .35s ease;
+    }
+    .sop-accord-arrow-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      transition: transform .3s ease-in-out;
+      transform: rotate(0deg);
+      transition: all 0.3s ease;
+    }
+    /* .sop-accordion.open .sop-accord-arrow-icon {
+      transform: rotate(90deg);
+    } */
+
+    .sop-share-block {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .sop-share-label {
+    font-size: 1rem;
+    font-weight: 400;
+    color: currentColor;
+    white-space: nowrap;
+  }
+
+  .sop-share-links {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .sop-share-link {
+    font-size: 0.875rem;
+    color: currentColor;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+  }
+
+  .sop-share-link:hover {
+    transform: scale(1.1);
+  }
+
+     @media (min-width: 768px){
+       .shopify-section-{{ section.id }} {
+        padding-top: {{ tab_padding_top }}px;
+        padding-bottom: {{ tab_padding_bottom }}px;
+      }
+       .shopify-section-{{ section.id }} .sop-product-page-container {
+         margin-top: 2rem;
+         display: flex;
+       }
+       .shopify-section-{{ section.id }} .sop-gallery,
+       .shopify-section-{{ section.id }} .sop-gallery-2{
+        width: 50%;
+      }
+    
+       .shopify-section-{{ section.id }} .sop-sidebar{
+        width: 50%;
+        padding-left: 1.5rem;
+        position: sticky;
+        top: 6rem;
+        align-self: flex-start;
+       }
+
+       .shopify-section-{{ section.id }} .sop-block {
+         padding-top: calc(var(--block-padding-top) * 0.75);
+         padding-bottom: calc(var(--block-padding-bottom) * 0.75);
+       }
+       .sop-block .sop-product-siblings-image {
+         width: 5.75rem;
+         height: 5.75rem;
+       }
+       .sop-block .sop-product-siblings-item {
+         font-size: 1rem;
+       	padding: 1rem 1.25rem;
+       }
+      .shopify-section-{{ section.id }} .sop-block > .sop-btn-container .sop-quantity-container{
+        min-width: 40%;
+      }
+       .shopify-section-{{ section.id }} .sop-block > .sop-btn-container > form {
+         width: 60%;
+       }
+     }
+
+     @media (min-width: 992px){
+       .shopify-section-{{ section.id }} {
+         padding-top: {{ laptop_padding_top }}px;
+         padding-bottom: {{ laptop_padding_bottom }}px;
+       }
+       .shopify-section-{{ section.id }} .sop-gallery,
+       .shopify-section-{{ section.id }} .sop-gallery-2{
+        width: 55%;
+      }
+       .shopify-section-{{ section.id }} .sop-sidebar{
+        width: 45%;
+       }
+       .shopify-section-{{ section.id }} .sop-title{
+         font-size: 2.625rem;
+       }
+
+       .shopify-section-{{ section.id }} .sop-price-wrap {
+         font-size: 2rem;
+       }
+       .shopify-section-{{ section.id }} .sop-price-wrap del{
+         font-size: 1.5rem;
+       }
+
+       .shopify-section-{{ section.id }} .sop-block {
+         padding-top: calc(var(--block-padding-top) * 0.8);
+         padding-bottom: calc(var(--block-padding-bottom) * 0.8);
+       }
+
+       .sop-block .sop-variant-container{
+         display: flex;
+         flex-direction: column;
+       	gap: calc(var(--block-variant-gap) * 0.9);
+       }
+
+       .sop-block .sop-product-siblings-image {
+         width: 8.25rem;
+         height: 8.25rem;
+       }
+       .sop-share-link:hover {
+    transform: scale(1.1);
+  }
+  .sop-accordion-btn:hover .sop-accord-arrow-icon,
+  .sop-ask-question-btn:hover .sop-accord-arrow-icon{
+       transform: scale(1.4);
+     }
+  .sop-block .product-details:hover {
+       transform: scale(1.1);
+     }
+     }
+
+     @media (min-width: 1400px){
+       .shopify-section-{{ section.id }} {
+        padding-top: {{ padding_top }}px;
+        padding-bottom: {{ padding_bottom }}px;
+      }
+       .shopify-section-{{ section.id }} .sop-title{
+         font-size: 3.25rem;
+       }
+       .shopify-section-{{ section.id }} .sop-price-wrap{
+         font-size: 2.625rem;
+       }
+       .shopify-section-{{ section.id }} .sop-price-wrap del{
+         font-size: 2rem;
+       }
+       .shopify-section-{{ section.id }} .sop-block {
+         padding-top: var(--block-padding-top);
+         padding-bottom: var(--block-padding-bottom);
+       }
+       .sop-block .sop-variant-container{
+         display: flex;
+         flex-direction: column;
+       	gap: var(--block-variant-gap);
+       }
+       .sop-block .sop-product-siblings-item {
+         font-size: 1.125rem;
+       	padding: 0.75rem 1.25rem;
+       }
+     }
+{% endstyle %}
