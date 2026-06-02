@@ -1,0 +1,258 @@
+<div
+  class="sop-featured-collection-section shopify-section-{{ section.id }} color-{{ section.settings.color_schemes }}"
+  id="featured-collection-{{ section.id }}"
+>
+  <div class="sop-featured-collection-inner">
+    <div class="sop-container">
+      <div class="sop-featured-collection-wrapper">
+        <article
+          class="sop-featured-collection-card sop-featured-collection-card-one {% if section.settings.card_1_image == blank %}sop-featured-collection-card--placeholder{% endif %}"
+          aria-label="{{ section.settings.card_1_title | escape }}"
+        >
+          {%- if section.settings.card_1_image == blank -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'sop-featured-collection-placeholder-svg' }}
+          {%- endif -%}
+          <div class="sop-featured-collection-card__content">
+            {%- if section.settings.card_1_title != blank -%}
+              <h2
+                class="sop-featured-collection-card__title"
+                style="color: {{ section.settings.left_heading_color }}; max-width: {{ section.settings.card_1_title_width }}px;"
+              >
+                {{ section.settings.card_1_title }}
+              </h2>
+            {%- endif -%}
+            {%- if section.settings.card_1_link_label != blank -%}
+              
+              <a  href="{{ section.settings.card_1_link_url }}"
+                class="sop-featured-collection-card__link"
+                style="color: {{ section.settings.left_subtext_color }}"
+                aria-label="{{ section.settings.card_1_link_label | escape }} – {{ section.settings.card_1_title | escape }}"
+              >
+                {{- section.settings.card_1_link_label -}}
+              </a>
+            {%- endif -%}
+          </div>
+        </article>
+        <article
+          class="sop-featured-collection-card sop-featured-collection-card-two {% if section.settings.card_2_image == blank %}sop-featured-collection-card--placeholder{% endif %}"
+          aria-label="{{ section.settings.card_2_title | escape }}"
+        >
+          {%- if section.settings.card_2_image == blank -%}
+            {{ 'collection-2' | placeholder_svg_tag: 'sop-featured-collection-placeholder-svg' }}
+          {%- endif -%}
+          <div class="sop-featured-collection-card__content">
+            {%- if section.settings.card_2_title != blank -%}
+              <h2
+                class="sop-featured-collection-card__title"
+                style="color: {{ section.settings.right_heading_color }}; max-width: {{ section.settings.card_2_title_width }}px;"
+              >
+                {{ section.settings.card_2_title }}
+              </h2>
+            {%- endif -%}
+            {%- if section.settings.card_2_link_label != blank -%}
+              
+               <a href="{{ section.settings.card_2_link_url }}"
+                class="sop-featured-collection-card__link"
+                style="color: {{ section.settings.right_subtext_color }}"
+                aria-label="{{ section.settings.card_2_link_label | escape }} – {{ section.settings.card_2_title | escape }}"
+              >
+                {{- section.settings.card_2_link_label -}}
+              </a>
+            {%- endif -%}
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .sop-featured-collection-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .sop-featured-collection-card-one,
+  .sop-featured-collection-card-two {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 550px;
+  }
+  .sop-featured-collection-card-one {
+    background-image: url('{{ section.settings.card_1_image | image_url: width: 2000 }}');
+  }
+  .sop-featured-collection-card-two {
+    background-image: url('{{ section.settings.card_2_image | image_url: width: 2000 }}');
+  }
+  h2.sop-featured-collection-card__title {
+    font-size: clamp(2rem, 5vw, 2.625rem);
+    word-break: break-word;
+    overflow-wrap: break-word
+  }
+  .sop-featured-collection-card__content {
+    position: sticky;
+    top: 6.25rem;
+    margin: 2.625rem 0 0 2.125rem;
+    padding-bottom: 2.625rem;
+    color: var(--sop-text);
+  }
+  .sop-featured-collection-card__content a {
+    text-decoration: underline;
+  }
+  .sop-featured-collection-card--placeholder {
+    background-color: #f0f0f0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sop-featured-collection-placeholder-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @media (min-width: 768px) {
+    .sop-featured-collection-wrapper {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .sop-featured-collection-card {
+      height: 550px;
+    }
+  }
+  @media (min-width: 992px) {
+    .sop-featured-collection-card {
+      height: 750px;
+    }
+  }
+    @media (min-width: 1280px) {
+    .sop-featured-collection-card {
+      height: 850px;
+    }
+  }
+    @media (min-width: 1920px) {
+    .sop-featured-collection-card {
+      height: 1100px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Way You Move",
+  "tag": "section",
+  "class": "sop-featured-collection",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_schemes",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Card 1 - left"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_1_image",
+      "label": "Card One Background Image"
+    },
+    {
+      "type": "range",
+      "id": "card_1_title_width",
+      "label": "Left Title Max Width (px)",
+      "min": 20,
+      "max": 600,
+      "step": 20,
+      "default": 300,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "card_1_title",
+      "label": "Title",
+      "default": "Performance Moves"
+    },
+    {
+      "type": "color",
+      "id": "left_heading_color",
+      "label": "Left Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "card_1_link_label",
+      "label": "Link Label",
+      "default": "Discover Now"
+    },
+    {
+      "type": "color",
+      "id": "left_subtext_color",
+      "label": "Left Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "url",
+      "id": "card_1_link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Card 2 - Right"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_2_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "range",
+      "id": "card_2_title_width",
+      "label": "Right Title Max Width (px)",
+      "min": 20,
+      "max": 600,
+      "step": 20,
+      "default": 300,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "card_2_title",
+      "label": "Title",
+      "default": "Every Day Essentials"
+    },
+    {
+      "type": "color",
+      "id": "right_heading_color",
+      "label": "Right Title",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "card_2_link_label",
+      "label": "Right Link",
+      "default": "Discover Now"
+    },
+    {
+      "type": "color",
+      "id": "right_subtext_color",
+      "label": "Left Link color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "url",
+      "id": "card_2_link_url",
+      "label": "Link URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Way you Move"
+    }
+  ]
+}
+{% endschema %}
