@@ -4,6 +4,98 @@
     "not_found": "Page not found.",
     "back_to_shopping": "Back to shopping"
   },
+  "announcement_bar": {
+    "label": "Announcement Bar",
+    "announcements_label": "Announcements",
+    "previous_announcement": "Previous announcement",
+    "next_announcement": "Next announcement",
+    "slide_count": "Announcement {{ current }} of {{ total }}",
+    "country_currency_selector": "Country and currency",
+    "locale_panel_label": "Language and currency settings",
+    "language": "Language",
+    "currency": "Currency",
+    "select_language": "Select preferred language",
+    "select_currency": "Select preferred currency",
+    "currently_selected": "currently selected"
+  },
+  "header": {
+    "navigation": {
+      "main": "Main navigation",
+      "open_menu": "Open menu",
+      "close_menu": "Close menu"
+    },
+    "search": {
+      "label": "Search"
+    },
+    "account": {
+      "label": "Account",
+      "my_account": "My account"
+    },
+    "cart": {
+      "label": "Cart"
+    },
+    "locale": {
+      "settings_title": "Settings",
+      "close_settings": "Close settings",
+      "language": "Language",
+      "currency": "Currency",
+      "change_language": "Change language",
+      "change_currency": "Change currency",
+      "select_language": "Select language",
+      "select_currency": "Select currency",
+      "back_to_settings": "Back to settings"
+    },
+    "customer": {
+      "login": {
+        "sign_in": "Sign in"
+      }
+    }
+  },
+  "general": {
+    "newsletter": {
+      "label": "Newsletter",
+      "email_placeholder": "Enter your email",
+      "submit_button": "Subscribe",
+      "success_message": "Thanks for subscribing!",
+      "invalid_email": "Please enter a valid email."
+    },
+    "accessibility": {
+      "home": "Go to homepage",
+      "new_window": "opens in a new tab",
+      "footer_bottom": "Footer bottom",
+      "payment_methods": "Accepted payment methods",
+      "skip_to_content": "Skip to content",
+      "loading": "Loading...",
+      "breadcrumb": "Breadcrumb"
+    },
+    "social": {
+      "follow_on": "Follow us",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "youtube": "YouTube",
+      "tiktok": "TikTok",
+      "pinterest": "Pinterest"
+    },
+    "localization": {
+      "country_label": "Country/Region",
+      "language_label": "Language"
+    },
+    "navigation": {
+      "footer_menu": "Footer navigation"
+    },
+    "powered_by_shopify_html": "Powered by <a href=\"https://www.shopify.com\" target=\"_blank\" rel=\"noopener noreferrer\">Shopify</a>",
+    "breadcrumbs": {
+      "home": "Home",
+      "collections": "Collections",
+      "products": "Products",
+      "search": "Search",
+      "cart": "Cart",
+      "not_found": "Page not found",
+      "gift_card": "Gift card",
+      "breadcrumb": "Breadcrumb"
+    }
+  },
   "blog": {
     "article_comments": "Comments",
     "article_metadata_html": "{{ date }} by {{ author }}",
@@ -17,7 +109,46 @@
     "checkout": "Checkout",
     "title": "Cart",
     "update": "Update",
-    "remove": "Remove"
+    "remove": "Remove",
+    "subtitle": "With just a few clicks, you'll be one step closer to enjoying your new purchases.",
+    "continue_shopping": "Continue Shopping",
+    "empty_message": "Your cart is currently empty.",
+    "free_shipping_notice": "Your order qualifies for free shipping!",
+    "make_gift": "Make it a Gift? (+ {{ price }})",
+    "add_gift_wrap": "Add gift wrap",
+    "add_note": "Add a note",
+    "note_placeholder": "How can we help you?",
+    "save": "Save",
+    "discount_code": "Discount code",
+    "apply": "Apply",
+    "subtotal": "Subtotal",
+    "order_discount": "Order discount",
+    "total": "Total",
+    "taxes_shipping_at_checkout": "Taxes and shipping calculated at checkout",
+    "discounts": "Discounts",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "quantity": "Quantity",
+    "gift_added": "Gift Box Added ✓",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "error": "Error",
+    "applying": "Applying...",
+    "applied": "Applied",
+    "close_drawer": "Close cart drawer",
+    "view_cart": "View cart",
+    "items_count": "{{ count }} items",
+    "cart_updated": "Cart updated. {{ count }} items.",
+    "add_gift_for": "Add {{ title }} to your order for {{ price }}",
+    "quantity_selector_for": "Quantity selector for {{ title }}",
+    "decrease_quantity_for": "Decrease quantity for {{ title }}",
+    "increase_quantity_for": "Increase quantity for {{ title }}",
+    "current_quantity_for": "Current quantity for {{ title }}",
+    "remove_from_cart": "Remove {{ title }} from cart",
+    "remove_discount_code": "Remove discount {{ code }}",
+    "discount_applied": "Discount code applied.",
+    "discount_invalid": "Please enter a valid discount code.",
+    "discount_already_applied": "Discount code is already applied."
   },
   "customers": {
     "login": {
@@ -35,7 +166,13 @@
     "card": "Gift card",
     "expired": "This gift card has expired",
     "expires_on": "Expires on {{ expires_on }}",
-    "use_at_checkout": "Use this gift card at checkout"
+    "use_at_checkout": "Use this gift card at checkout",
+    "header_label": "Gift Card",
+    "copy_code": "Copy gift card code",
+    "copied": "Copied!",
+    "visit_store": "Visit online store",
+    "qr_code_alt": "Gift card QR Code",
+    "qr_code_scan_label": "QR Code to scan at checkout"
   },
   "password": {
     "title": "This shop is private",
@@ -47,65 +184,104 @@
     "placeholder": "Search articles, pages, or products",
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "results_for_html": "{{ count }} results found for {{ terms }}",
+    "close_search": "Close search",
+    "search_placeholder": "Search here...",
+    "clear_search": "Clear",
+    "recent_searches": "Recent searches",
+    "clear_all": "Clear all",
+    "suggested_searches": "Suggested searches",
+    "most_searches_products": "Most searched products",
+    "back_to_menu": "Back to menu"
   },
-  "sections": {
-    "announcement_bar": {
-      "aria_label": "Store announcement"
+  "product-card": {
+    "title": "{{ title }}",
+    "quick_view": "{{ quick_view }}",
+    "button_text": "{{ button_text }}"
+  },
+  "product": {
+    "media_zoom": {
+      "reset": "Reset"
     },
-    "header": {
-      "name":"Header",
-      "aria_label": "Main site header",
-      "main_navigation_aria_label": "Main navigation",
-      "search_aria_label": "Open search page",
-      "account_aria_label": "Open account page",
-      "cart_aria_label": "Open cart drawer",
-      "mobile_menu_toggle_aria_label": "Toggle mobile navigation",
-      "cart_drawer_aria_label": "Cart",
-      "cart_drawer_title": "Your cart",
-      "cart_drawer_close_aria_label": "Close cart",
-      "cart_drawer_quantity": "Quantity: {{ quantity }}",
-      "cart_drawer_empty": "Your cart is currently empty.",
-      "cart_drawer_subtotal": "Subtotal",
-      "cart_drawer_view_cart": "View cart",
-      "cart_drawer_checkout": "Checkout"
-    },
-     "learning_lab": {
-      "heading": "Accessibility learning lab",
-      "intro": "Use this section to experiment with skip links, landmarks, modals, and more while keeping everything accessible.",
-      "accessibility_panel_title": "Explore key accessibility patterns",
-      "accessibility_panel_body": "This panel highlights a few foundational accessibility concepts you can practice directly in this section.",
-      "details_summary": "Show a checklist of what this section demonstrates",
-      "list_skip_link": "A skip link that becomes visible on focus and jumps to the main content region.",
-      "list_landmarks": "Semantic landmarks like header, main, aside, and dialog.",
-      "list_headings": "Heading hierarchy with a configurable heading level snippet.",
-      "list_focus": "Keyboard focus management and focus-visible outlines.",
-      "dialog_panel_title": "Practice with a modal dialog",
-      "dialog_panel_body": "Open the dialog and try navigating it using only your keyboard. Then close it and confirm focus returns to the trigger.",
-      "open_dialog": "Open learning dialog",
-      "dialog_hint": "Tip: Press the Escape key or activate the close button to dismiss the dialog.",
-      "aside_label": "What this section is for",
-      "aside_body": "Use this area as a quick reference for what you are practicing: accessible structure, keyboard support, and smooth transitions.",
-      "dialog_title": "Accessible dialog example",
-      "dialog_description": "This dialog uses proper semantics, focus management, and the View Transitions API where supported to make opening and closing feel smooth and accessible.",
-      "close_dialog": "Close dialog",
-      "skip_to_content": "Skip to main content"
-    },
-    "text_banner":{
-      "default_heading": "Welcome to our store",
-    },
-    "image_with_text":{
-       "default_heading": "Tell your brand story",
-      "placeholder": "Add an image in the theme editor",
-      "placeholder_alt": "Placeholder area for an image",
-    },
-    "feature_list": {
-      "default_heading": "Why shop with us",
-      "empty_state": "Add feature blocks to highlight your benefits."
-    },
-    "faq":{
-      "default_heading": "Frequently asked questions",
-      "empty_state": "Add question blocks to answer common customer questions.",
+    "no_stores": "No store locations available."
+  },
+  "contact": {
+    "drawer": {
+      "title": "Ask a question",
+      "close": "Close",
+      "full_name_label": "Full name",
+      "full_name_placeholder": "Enter your full name",
+      "email_label": "Email address",
+      "email_placeholder": "you@mail.com",
+      "order_number_label": "Order number (optional)",
+      "order_number_placeholder": "Enter order number",
+      "message_label": "Your question",
+      "message_placeholder": "Write your message here",
+      "submit": "Send message","success_message": "Thanks for contacting us! We\u2019ll get back to you as soon as possible.",
+      "response_time": "Average response time: within 24 hours"
     }
+  },
+  "products": {
+    "marquee": {
+      "message": "{{ message }}"
+    },
+    "badges": {
+      "sold_out": "Sold out",
+      "discount_percent": "{{ percent }}% off",
+      "custom": "{{ custom }}",
+      "new": "New"
+    },
+    "facets": {
+      "filter": "Filter",
+      "filter_and_sort": "Filter and sort",
+      "close_filters": "Close filters",
+      "sort_by": "Sort by",
+      "sort": "Sort",
+      "to": "To",
+      "clear_all": "Clear all",
+      "apply": "Apply",
+      "empty": "No filters or sort options are available.",
+      "loading": "Loading..."
+    }
+  },
+  "collection": {
+    "empty_message_html": "No results for &ldquo;{{ terms }}&rdquo;",
+    "continue_shopping": "Continue shopping"
+  },
+  "bundle_builder": {
+    "title": "Your bundle",
+    "subtitle": "Add at least 2 styles to unlock your bundle discount.",
+    "subtitle_one_more": " Add 1 more style to unlock your bundle discount.",
+    "subtitle_unlocked": "You unlocked {{ percent }}% OFF. Add {{ count }} more to get {{ next_percent }}% OFF.",
+    "subtitle_unlocked_max": "You unlocked {{ percent }}% OFF.",
+    "subtitle_max_reached": "Max limit reached! You unlocked the maximum discount of {{ percent }}% OFF!",
+    "count_badge": "{{ current }}/{{ max }}",
+    "items_count": "{{ count }} items",
+    "item_singular": "{{ count }} item",
+    "discount_off": "{{ percent }}% OFF",
+    "no_discount": "0% OFF",
+    "add_to_bundle": "Add to Bundle",
+    "adding": "Adding...",
+    "added": "Added",
+    "bundle_full": "Bundle Full",
+    "limit_reached": "Limit reached",
+    "sold_out": "Sold out",
+    "add_styles": "Add {{ count }} Style",
+    "add_styles_plural": "Add {{ count }} Styles",
+    "add_to_cart": "Add to Cart",
+    "close_drawer": "Close bundle list",
+    "toggle_drawer": "Toggle bundle drawer",
+    "empty_state": "Browse products and add styles to build your bundle.",
+    "placeholder_text": "Add style {{ number }}",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "you_save": "You save",
+    "total": "Total",
+    "select_collection": "Please select a collection containing products in the section settings.",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "remove_item": "Remove {{ title }} from bundle",
+    "quick_view": "Quick view",
+    "cart_error": "Something went wrong while adding the bundle to cart. Please try again."
   }
 }
