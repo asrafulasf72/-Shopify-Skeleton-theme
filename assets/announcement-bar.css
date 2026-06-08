@@ -1,0 +1,283 @@
+.nv-announcement-bar {
+    width: 100%;
+    background-color: var(--nv-background);
+    color: var(--nv-text);
+    font-size: 0.875rem;
+    position: relative;
+}
+
+/* --- inner layout ---- */
+.nv-announcement-bar-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+}
+
+/* --- left / right columns --- */
+.nv-announcement-bar-left,
+.nv-announcement-bar-right {
+    display: none;
+    flex: 1;
+    white-space: nowrap;
+}
+
+.nv-announcement-bar-right {
+    justify-content: flex-end;
+    display: none;
+}
+
+/* --- Announcement Vertical Animation ---- */
+.nv-announcement-bar-slider {
+    position: relative;
+    height: 3rem;
+    overflow: hidden;
+    flex: 1;
+}
+
+.nv-announcement-bar-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(100%);
+    transition:
+        transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        visibility 0.6s;
+}
+
+.nv-announcement-bar-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    z-index: 2;
+}
+
+.nv-announcement-bar-slide.is-exit {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(100%);
+    z-index: 1;
+}
+
+.nv-announcement-bar-center {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.nv-announcement-bar-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 3rem;
+}
+
+.nv-announcement-bar-slide p {
+    margin: 0;
+}
+
+.nv-announcement-bar-arrow {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--nv-text) !important;
+    cursor: pointer;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+.nv-announcement-bar-arrow:hover {
+    opacity: 1;
+    transform: scale(1.2); 
+}
+
+.nv-announcement-bar-arrow[hidden] {
+    display: none !important;
+}
+
+/* --- locale selector --- */
+.nv-announcement-bar-locale {
+    position: relative;
+    display: flex;
+    cursor: pointer;
+    gap: 1rem;
+}
+
+.nv-announcement-bar-locale-btn {
+    background: none;
+    border: none;
+    color: var(--nv-text);
+    cursor: pointer;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0;
+}
+
+.nv-local-divider {
+    color: #FFFFFF60;
+}
+
+.nv-announcement-bar-locale[aria-expanded="true"] .nv-announcement-bar-chevron {
+    transform: rotate(180deg);
+}
+
+.nv-announcement-bar-chevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+/* --- Section wrapper --- */
+.nv-section-announcement-bar {
+    overflow: visible !important;
+    position: relative;
+    /* z-index: 100; */
+}
+
+/* --- Main locale panel --- */
+.nv-locale-panel {
+    position: absolute;
+    top: 100%;
+    right: 50px;
+    width: 330px;
+    background: var(--nv-background);
+    z-index: 200;
+}
+
+.nv-locale-panel-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.nv-locale-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #FFFFFF30;
+    color: var(--nv-text);
+    font-size: 0.875rem;
+    cursor: pointer;
+    text-align: left;
+}
+
+.nv-locale-row-value {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.8;
+}
+
+.nv-locale-row-empty {
+    height: 1rem;
+}
+
+/* --- Sub panels (language / currency) --- */
+.nv-sub-panel {
+    width: 100%;
+    background: var(--nv-background);
+}
+
+
+.nv-sub-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    padding: 24px 0;
+    border-bottom: 1px solid #FFFFFF30;
+}
+
+
+.nv-sub-panel-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 250px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.nv-sub-panel-list li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nv-sub-panel-list li:last-child {
+    border-bottom: none;
+}
+
+.nv-sub-panel-item {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 12px 20px 12px 60px;
+    background: none;
+    border-bottom: 1px solid #FFFFFF30;
+    color: var(--nv-text);
+    font-size: 0.875rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.nv-sub-panel-item--active svg {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-shrink: 0;
+}
+
+.nv-locale-row.is-active .nv-locale-row-value {
+    opacity: 1;
+}
+
+.nv-locale-row.is-active svg {
+    transform: rotate(90deg);
+}
+
+/* --- TABLET --- */
+@media screen and (min-width: 768px) {
+    .nv-announcement-bar-wrapper {
+        justify-content: space-between;
+    }
+}
+
+/* --- LAPTOP --- */
+@media screen and (min-width: 1280px) {
+    .nv-announcement-bar-wrapper {
+        justify-content: space-between;
+        padding: 0 50px;
+    }
+
+    .nv-announcement-bar-left {
+        display: flex;
+        align-items: center;
+    }
+
+    .nv-announcement-bar-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+}
+
+/* --- reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+    .nv-announcement-bar-slide {
+        animation: none;
+    }
+}
