@@ -63,4 +63,16 @@ document.addEventListener('DOMContentLoaded', function () {
   const langPanel = document.getElementById('nv-lang-panel');
   const currencyBtn = document.getElementById('nv-currency-btn');
   const currencyPanel = document.getElementById('nv-currency-panel');
+
+  function isSubPanelOpen() {
+    return !langPanel.hidden || !currencyPanel.hidden;
+  }
+
+  function showMain() {
+    localeMain.hidden = false;
+    langPanel.hidden = true;
+    currencyPanel.hidden = true;
+    if (langBtn) langBtn.classList.remove('is-active');
+    if (currencyBtn) currencyBtn.classList.remove('is-active');
+  }
 });
