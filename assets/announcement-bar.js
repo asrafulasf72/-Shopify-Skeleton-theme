@@ -75,4 +75,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (langBtn) langBtn.classList.remove('is-active');
     if (currencyBtn) currencyBtn.classList.remove('is-active');
   }
+
+  function closeAll() {
+    localePanel.hidden = true;
+    showMain();
+    if (localeBtn) localeBtn.setAttribute('aria-expanded', 'false');
+  }
 });
