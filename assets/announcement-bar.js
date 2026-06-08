@@ -81,4 +81,18 @@ document.addEventListener('DOMContentLoaded', function () {
     showMain();
     if (localeBtn) localeBtn.setAttribute('aria-expanded', 'false');
   }
+
+  if (localeBtn && localePanel) {
+    localeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const isOpen = localeBtn.getAttribute('aria-expanded') === 'true';
+      if (isOpen) {
+        closeAll();
+      } else {
+        localePanel.hidden = false;
+        showMain();
+        localeBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  }
 });
