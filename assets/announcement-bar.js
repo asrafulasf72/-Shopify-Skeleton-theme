@@ -54,4 +54,13 @@ document.addEventListener('DOMContentLoaded', function () {
       if (autoplayEnabled) startAutoplay();
     }
   }
+
+  /*  Locale panel  */
+  const localeBtn = document.querySelector('.nv-announcement-bar-locale');
+  const localePanel = document.getElementById('nv-locale-panel');
+  const localeMain = document.getElementById('nv-locale-main');
+  const langBtn = document.getElementById('nv-lang-btn');
+  const langPanel = document.getElementById('nv-lang-panel');
+  const currencyBtn = document.getElementById('nv-currency-btn');
+  const currencyPanel = document.getElementById('nv-currency-panel');
 });
