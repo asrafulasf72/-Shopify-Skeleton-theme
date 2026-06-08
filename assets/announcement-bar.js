@@ -111,4 +111,20 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  if (currencyBtn) {
+    currencyBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const isOpen = !currencyPanel.hidden;
+      if (isOpen) {
+        showMain();
+      } else {
+        localeMain.hidden = true;
+        currencyPanel.hidden = false;
+        langPanel.hidden = true;
+        currencyBtn.classList.add('is-active');
+        langBtn.classList.remove('is-active');
+      }
+    });
+  }
 });
