@@ -95,4 +95,20 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  if (langBtn) {
+    langBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const isOpen = !langPanel.hidden;
+      if (isOpen) {
+        showMain();
+      } else {
+        localeMain.hidden = true;
+        langPanel.hidden = false;
+        currencyPanel.hidden = true;
+        langBtn.classList.add('is-active');
+        currencyBtn.classList.remove('is-active');
+      }
+    });
+  }
 });
