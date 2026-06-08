@@ -127,4 +127,11 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  document.addEventListener('click', function (e) {
+    const bar = document.querySelector('.nv-announcement-bar');
+    if (bar && !bar.contains(e.target)) {
+      closeAll();
+    }
+  });
 });
