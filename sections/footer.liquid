@@ -8,27 +8,26 @@
   assign show_payment = section.settings.show_payment_icons
   assign show_country = section.settings.show_country_selector
 -%}
+<div class="color-{{ section.settings.color_scheme }}">
+  <div
+    class="nv-footer nv-container"
+    id="nv-footer"
+    role="contentinfo"
+    aria-label="{{ shop.name | escape }} footer"
+  >
+    {%- comment -%}  NEWSLETTER STRIP  {%- endcomment -%}
+    {%- if show_newsletter -%}
+      {%- render 'footer-newsletter', heading: newsletter_heading, subtext: newsletter_subtext -%}
+    {%- endif -%}
 
-<div
-  class="sop-footer sop-container color-{{ section.settings.color_scheme }}"
-  id="sop-footer"
-  role="contentinfo"
-  aria-label="{{ shop.name | escape }} footer"
->
-  {%- comment -%}  NEWSLETTER STRIP  {%- endcomment -%}
-  {%- if show_newsletter -%}
-    {%- render 'footer-newsletter', heading: newsletter_heading, subtext: newsletter_subtext -%}
-  {%- endif -%}
-
-  {%- comment -%}  MAIN BODY  {%- endcomment -%}
-  <div class="sop-footer-body">
-    <div class="">
-      <div class="sop-footer-body-row">
+    {%- comment -%}  MAIN BODY  {%- endcomment -%}
+    <div class="nv-footer-body">
+      <div class="nv-footer-body-row">
         {%- comment -%} Brand column — always first {%- endcomment -%}
-        <div class="sop-footer-brand">
+        <div class="nv-footer-brand">
           <a
             href="{{ routes.root_url }}"
-            class="sop-footer-logo"
+            class="nv-footer-logo"
             aria-label="{{ shop.name | escape }} – {{ 'general.accessibility.home' | t | default: 'Go to homepage' }}"
           >
             {%- if section.settings.footer_logo != blank -%}
@@ -38,21 +37,21 @@
                 | image_tag: loading: 'lazy', width: 120, alt: shop.name
               }}
             {%- else -%}
-              <span class="sop-footer-logo-text">{{ shop.name }}</span>
+              <span class="nv-footer-logo-text">{{ shop.name }}</span>
             {%- endif -%}
           </a>
 
           {%- if brand_tagline != blank -%}
-            <div class="sop-footer-tagline-wrapper">
+            <div class="nv-footer-tagline-wrapper">
               {%- comment -%}  vertical SVG {%- endcomment -%}
-              <span class="sop-footer-tagline-line sop-line-vertical" aria-hidden="true">
+              <span class="nv-footer-tagline-line nv-line-vertical" aria-hidden="true">
                 <svg width="6" height="45" viewBox="0 0 6 45" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2.38672 40L-3.26633e-05 45H5.77347L3.38672 40H2.38672ZM2.88672 0L2.38672 0V40.5H2.88672H3.38672V0L2.88672 0Z" fill="white"/>
                 </svg>
               </span>
 
               {%- comment -%}  horizontal SVG {%- endcomment -%}
-              <span class="sop-footer-tagline-line sop-line-horizontal" aria-hidden="true">
+              <span class="nv-footer-tagline-line nv-line-horizontal" aria-hidden="true">
                 <svg
                   width="100%"
                   height="6"
@@ -65,14 +64,14 @@
                 </svg>
               </span>
 
-              <p class="sop-footer-tagline">{{ brand_tagline }}</p>
+              <p class="nv-footer-tagline">{{ brand_tagline }}</p>
             </div>
           {%- endif -%}
         </div>
 
         {%- comment -%} Dynamic blocks column {%- endcomment -%}
-        <div class="sop-footer-blocks-col">
-          <div class="sop-footer-blocks-row">
+        <div class="nv-footer-blocks-col">
+          <div class="nv-footer-blocks-row">
             {%- for block in section.blocks -%}
               {%- case block.type -%}
                 {%- when 'menu' -%}
@@ -80,72 +79,129 @@
 
                 {%- when 'social' -%}
                   <div
-                    class="sop-footer-block sop-footer-block-social"
+                    class="nv-footer-block nv-footer-block-social"
                     {{ block.shopify_attributes }}
                   >
                     {%- if block.settings.heading != blank -%}
-                      <p
-                        class="sop-footer-block-heading"
-                        id="footer-social-{{ block.id }}"
-                      >
+                      <p class="nv-footer-block-heading" id="footer-social-{{ block.id }}">
                         {{ block.settings.heading }}
                       </p>
                     {%- endif -%}
 
                     <ul
-                      class="sop-footer-social-list"
+                      class="nv-footer-social-list"
                       role="list"
                       {%- if block.settings.heading != blank -%}
                         aria-labelledby="footer-social-{{ block.id }}"
                       {%- else -%}
-                        aria-label="{{ 'general.social.follow_on' | t | default: 'Follow us' }}"
+                        aria-label="Follow us"
                       {%- endif -%}
                     >
-                      {%- if block.settings.facebook_url != blank -%}
+                      {%- if settings.social_facebook_url != blank -%}
                         <li>
                           <a
-                            href="{{ block.settings.facebook_url }}"
-                            class="sop-footer-social-link sop-underline-hover"
+                            href="{{ settings.social_facebook_url }}"
+                            class="nv-footer-social-link nv-underline-hover"
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label="Facebook ({{ 'general.accessibility.new_window' | t | default: 'opens in new tab' }})"
+                            aria-label="Facebook"
                             >Facebook</a
                           >
                         </li>
                       {%- endif -%}
-                      {%- if block.settings.instagram_url != blank -%}
+                      {%- if settings.social_instagram_url != blank -%}
                         <li>
                           <a
-                            href="{{ block.settings.instagram_url }}"
-                            class="sop-footer-social-link sop-underline-hover"
+                            href="{{ settings.social_instagram_url }}"
+                            class="nv-footer-social-link nv-underline-hover"
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label="Instagram ({{ 'general.accessibility.new_window' | t | default: 'opens in new tab' }})"
+                            aria-label="Instagram"
                             >Instagram</a
                           >
                         </li>
                       {%- endif -%}
-                      {%- if block.settings.twitter_url != blank -%}
+                      {%- if settings.social_twitter_url != blank -%}
                         <li>
                           <a
-                            href="{{ block.settings.twitter_url }}"
-                            class="sop-footer-social-link sop-underline-hover"
+                            href="{{ settings.social_twitter_url }}"
+                            class="nv-footer-social-link nv-underline-hover"
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label="Twitter / X ({{ 'general.accessibility.new_window' | t | default: 'opens in new tab' }})"
+                            aria-label="Twitter / X"
                             >Twitter (X)</a
                           >
                         </li>
                       {%- endif -%}
-                      {%- if block.settings.youtube_url != blank -%}
+                      {%- if settings.social_youtube_url != blank -%}
                         <li>
                           <a
-                            href="{{ block.settings.youtube_url }}"
-                            class="sop-footer-social-link sop-underline-hover"
+                            href="{{ settings.social_youtube_url }}"
+                            class="nv-footer-social-link nv-underline-hover"
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label="YouTube ({{ 'general.accessibility.new_window' | t | default: 'opens in new tab' }})"
+                            aria-label="YouTube"
                             >Youtube</a
+                          >
+                        </li>
+                      {%- endif -%}
+                      {%- if settings.social_tiktok_url != blank -%}
+                        <li>
+                          <a
+                            href="{{ settings.social_tiktok_url }}"
+                            class="nv-footer-social-link nv-underline-hover"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="TikTok"
+                            >TikTok</a
+                          >
+                        </li>
+                      {%- endif -%}
+                      {%- if settings.social_linkedin_url != blank -%}
+                        <li>
+                          <a
+                            href="{{ settings.social_linkedin_url }}"
+                            class="nv-footer-social-link nv-underline-hover"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="LinkedIn"
+                            >LinkedIn</a
+                          >
+                        </li>
+                      {%- endif -%}
+                      {%- if settings.social_pinterest_url != blank -%}
+                        <li>
+                          <a
+                            href="{{ settings.social_pinterest_url }}"
+                            class="nv-footer-social-link nv-underline-hover"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Pinterest"
+                            >Pinterest</a
+                          >
+                        </li>
+                      {%- endif -%}
+                      {%- if settings.social_whatsapp_url != blank -%}
+                        <li>
+                          <a
+                            href="{{ settings.social_whatsapp_url }}"
+                            class="nv-footer-social-link nv-underline-hover"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="WhatsApp"
+                            >WhatsApp</a
+                          >
+                        </li>
+                      {%- endif -%}
+                      {%- if settings.social_telegram_url != blank -%}
+                        <li>
+                          <a
+                            href="{{ settings.social_telegram_url }}"
+                            class="nv-footer-social-link nv-underline-hover"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Telegram"
+                            >Telegram</a
                           >
                         </li>
                       {%- endif -%}
@@ -154,14 +210,14 @@
 
                 {%- when 'text' -%}
                   <div
-                    class="sop-col-12 sop-col-md-6 sop-col-lg sop-footer-block sop-footer-block-text"
+                    class="nv-col-12 nv-col-md-6 nv-col-lg nv-footer-block nv-footer-block-text"
                     {{ block.shopify_attributes }}
                   >
                     {%- if block.settings.heading != blank -%}
-                      <p class="sop-footer-block-heading">{{ block.settings.heading }}</p>
+                      <p class="nv-footer-block-heading">{{ block.settings.heading }}</p>
                     {%- endif -%}
                     {%- if block.settings.text != blank -%}
-                      <div class="sop-footer-block-text rte">{{ block.settings.text }}</div>
+                      <div class="nv-footer-block-text rte">{{ block.settings.text }}</div>
                     {%- endif -%}
                   </div>
               {%- endcase -%}
@@ -170,223 +226,174 @@
         </div>
       </div>
     </div>
-  </div>
 
-  {%- comment -%}  BOTTOM BAR {%- endcomment -%}
-  {%- render 'footer-bottom-bar', show_payment: show_payment, show_country: show_country -%}
+    {%- comment -%}  BOTTOM BAR {%- endcomment -%}
+    {%- render 'footer-bottom-bar', show_payment: show_payment, show_country: show_country, copyright_text: section.settings.copyright_text -%}
+  </div>
 </div>
- {% if section.settings.show_bottom_image %}
-  <div class="sop-footer-bottom-image-wrapper">
+
+{% if section.settings.show_bottom_image %}
+  <div class="nv-footer-bottom-image-wrapper">
     {% if section.settings.bottom_image != blank %}
       {{
         section.settings.bottom_image
         | image_url: width: 1920
-        | image_tag: loading: 'lazy', class: 'sop-footer-bottom-image'
+        | image_tag: loading: 'lazy', class: 'nv-footer-bottom-image'
       }}
     {% else %}
-      {{ 'image' | placeholder_svg_tag: 'sop-footer-bottom-image placeholder-svg' }}
+      {{ 'image' | placeholder_svg_tag: 'nv-footer-bottom-image placeholder-svg' }}
     {% endif %}
   </div>
 {% endif %}
+
 {% schema %}
 {
-  "name": "Footer",
+  "name": "t:sections.footer.name",
   "tag": "footer",
-  "class": "sop-footer-section",
+  "class": "nv-footer-section",
   "settings": [
     {
       "type": "header",
-      "content": "Brand"
+      "content": "t:sections.footer.settings.brand_header"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Brand",
+      "label": "t:sections.header.settings.color_scheme.label",
       "default": "scheme-2"
     },
     {
       "type": "image_picker",
       "id": "footer_logo",
-      "label": "Footer logo",
-      "info": "Leave blank to use shop name as text"
+      "label": "t:sections.footer.settings.footer_logo_label",
+      "info": "t:sections.footer.settings.footer_logo_info"
     },
     {
-     "type": "checkbox",
-     "id": "show_bottom_image",
-     "label": "Bottom sticky image",
-     "default": true
+      "type": "checkbox",
+      "id": "show_bottom_image",
+      "label": "t:sections.footer.settings.show_bottom_image",
+      "default": true
     },
     {
       "type": "image_picker",
       "id": "bottom_image",
-      "label": "Show Bottom Image"
+      "label": "t:sections.footer.settings.bottom_image_label"
     },
     {
       "type": "text",
       "id": "brand_tagline",
-      "label": "Brand tagline",
-      "default": "Awesome designs for brands that matter!"
+      "label": "t:sections.footer.settings.brand_tagline_label",
+      "default": "t:sections.footer.settings.brand_tagline_default"
     },
     {
       "type": "header",
-      "content": "Newsletter"
+      "content": "t:sections.footer.settings.newsletter_header"
     },
     {
       "type": "checkbox",
       "id": "show_newsletter",
-      "label": "Show newsletter section",
+      "label": "t:sections.footer.settings.show_newsletter_label",
       "default": true
     },
     {
       "type": "text",
       "id": "newsletter_heading",
-      "label": "Newsletter heading",
-      "default": "Unlock your full potential with 50% off!"
+      "label": "t:sections.footer.settings.newsletter_heading_label",
+      "default": "t:sections.footer.settings.newsletter_heading_default"
     },
     {
       "type": "text",
       "id": "newsletter_subtext",
-      "label": "Newsletter subtext",
-      "default": "Subscribe to get special offers, free giveaways, and updates."
+      "label": "t:sections.footer.settings.newsletter_subtext_label",
+      "default": "t:sections.footer.settings.newsletter_subtext_default"
     },
     {
       "type": "header",
-      "content": "Bottom Bar"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "Show Payment Icon",
-      "default": true
-    },
-    {
-      "type": "image_picker",
-      "id": "payment_icon_1",
-      "label": "Payment Icon 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "payment_icon_2",
-      "label": "Payment Icon 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "payment_icon_3",
-      "label": "Payment Icon 3"
-    },
-    {
-      "type": "image_picker",
-      "id": "payment_icon_4",
-      "label": "Payment Icon 4"
-    },
-    {
-      "type": "image_picker",
-      "id": "payment_icon_5",
-      "label": "Payment Icon 5"
-    },
-    {
-      "type": "image_picker",
-      "id": "payment_icon_6",
-      "label": "Payment Icon 6"
+      "content": "t:sections.footer.settings.bottom_bar_header"
     },
     {
       "type": "checkbox",
       "id": "show_country_selector",
-      "label": "Show Country Region Selector",
+      "label": "t:sections.footer.settings.show_country_selector_label",
       "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "info": "t:sections.footer.settings.copyright_text_info"
     }
   ],
   "blocks": [
     {
       "type": "menu",
-      "name": "Menu Column",
+      "name": "t:sections.footer.blocks.menu.name",
       "settings": [
         {
           "type": "text",
           "id": "heading",
-          "label": "Column heading",
-          "default": "Discover"
+          "label": "t:sections.footer.blocks.menu.settings.heading_label",
+          "default": "t:sections.footer.blocks.menu.settings.heading_default"
         },
         {
           "type": "link_list",
           "id": "menu",
-          "label": "Menu",
-          "default": "main-menu"
+          "label": "t:sections.footer.blocks.menu.settings.menu_label"
         }
       ]
     },
     {
       "type": "social",
-      "name": "Social Link",
+      "name": "t:sections.footer.blocks.social.name",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "heading",
-          "label": "heading",
-          "default": "Social"
-        },
-        {
-          "type": "url",
-          "id": "facebook_url",
-          "label": "Facebook URL"
-        },
-        {
-          "type": "url",
-          "id": "instagram_url",
-          "label": "Instagram URL"
-        },
-        {
-          "type": "url",
-          "id": "twitter_url",
-          "label": "Twitter URL"
-        },
-        {
-          "type": "url",
-          "id": "youtube_url",
-          "label": "you Tube URL"
+          "label": "t:sections.footer.blocks.social.settings.heading_label",
+          "default": "t:sections.footer.blocks.social.settings.heading_default"
         }
       ]
     },
     {
       "type": "text",
-      "name": "Text Block",
+      "name": "t:sections.footer.blocks.text.name",
       "settings": [
         {
           "type": "text",
           "id": "heading",
-          "label": "Heading"
+          "label": "t:sections.footer.blocks.text.settings.heading_label"
         },
         {
           "type": "richtext",
           "id": "text",
-          "label": "Text Content"
+          "label": "t:sections.footer.blocks.text.settings.text_label"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Footer",
+      "name": "t:sections.footer.presets.default.name",
       "blocks": [
         {
           "type": "menu",
           "settings": {
-            "heading": "Menu Discover Heading",
+            "heading": "t:sections.footer.presets.default.blocks.menu_discover_heading",
             "menu": "main-menu"
           }
         },
         {
           "type": "menu",
           "settings": {
-            "heading": "Menu Information Heading",
+            "heading": "t:sections.footer.presets.default.blocks.menu_information_heading",
             "menu": "footer"
           }
         },
         {
           "type": "social",
           "settings": {
-            "heading": "Social Heading"
+            "heading": "t:sections.footer.presets.default.blocks.social_heading"
           }
         }
       ]
