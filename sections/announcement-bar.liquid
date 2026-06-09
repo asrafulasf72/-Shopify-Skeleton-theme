@@ -8,8 +8,7 @@
   data-autoplay-speed="{{ section.settings.autoplay_speed }}"
 >
   <div class="nv-announcement-bar-wrapper">
-
-   {% comment %} LEFT  contact info  {% endcomment %}
+    {% comment %} LEFT  contact info  {% endcomment %}
     <div class="nv-announcement-bar-left">
       {%- if section.settings.contact_text != blank -%}
         <span class="nv-announcement-bar-contact">
@@ -18,7 +17,7 @@
       {%- endif -%}
     </div>
 
-     {% comment %} CENTER slider  {% endcomment %}
+    {% comment %} CENTER slider  {% endcomment %}
     <div
       class="nv-announcement-bar-center"
       role="group"
@@ -27,9 +26,19 @@
       <button
         class="nv-announcement-bar-arrow nv-announcement-bar-arrow--prev exit-left"
         aria-label="{{ 'announcement_bar.previous_announcement' | t }}"
-        {% if section.blocks.size <= 1 %}hidden{% endif %}
+        {% if section.blocks.size <= 1 %}
+          hidden
+        {% endif %}
       >
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
+        >
           <path d="M8.75 16.25L2.5 10L8.75 3.75M2.5 10H17.5" stroke="currentColor" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
@@ -41,7 +50,7 @@
       >
         {%- for block in section.blocks -%}
           <div
-            class="swiper-slide nv-announcement-bar-slide"
+            class="nv-announcement-bar-slide"
             role="group"
             aria-label="{{ 'announcement_bar.slide_count' | t: current: forloop.index, total: section.blocks.size }}"
             {{ block.shopify_attributes }}
@@ -62,17 +71,27 @@
       <button
         class="nv-announcement-bar-arrow nv-announcement-bar-arrow--next exit-right"
         aria-label="{{ 'announcement_bar.next_announcement' | t }}"
-        {% if section.blocks.size <= 1 %}hidden{% endif %}
+        {% if section.blocks.size <= 1 %}
+          hidden
+        {% endif %}
       >
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
+        >
           <path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="currentColor" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
     </div>
 
-     {% comment %} RIGHT  locale/currency selector  {% endcomment %}
+    {% comment %} RIGHT  locale/currency selector  {% endcomment %}
     <div class="nv-announcement-bar-right">
-      {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
+      {%- if section.settings.show_country_selector -%}
         <div class="nv-announcement-bar-locale">
           <button
             type="button"
@@ -83,22 +102,29 @@
           >
             <span class="nv-visually-hidden">{{ 'announcement_bar.country_currency_selector' | t }}: </span>
             {% comment %} {{ localization.country.name }} {% endcomment %}
-             {{ localization.language.endonym_name }}
+            {{ localization.language.endonym_name }}
             <span aria-hidden="true" class="nv-local-divider"> | </span>
             ({{ localization.country.currency.iso_code }}
             {{ localization.country.currency.symbol }})
           </button>
-           <span class="nv-announcement-bar-chevron" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                <path d="M19.5 8.25L12 15.75L4.5 8.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
+          <span class="nv-announcement-bar-chevron" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              focusable="false"
+            >
+              <path d="M19.5 8.25L12 15.75L4.5 8.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
         </div>
       {%- endif -%}
     </div>
   </div>
 
- {% comment %} Main locale panel  {% endcomment %}
+  {% comment %} Main locale panel  {% endcomment %}
   <div
     id="nv-locale-panel"
     class="nv-locale-panel"
@@ -112,17 +138,39 @@
         <span class="nv-locale-row-label">{{ 'announcement_bar.language' | t }}</span>
         <span class="nv-locale-row-value">
           {{ localization.language.endonym_name }}
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
             <path d="M8.25 4.5L15.75 12L8.25 19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </span>
       </button>
-      <button type="button" class="nv-locale-row" id="nv-currency-btn" aria-expanded="false" aria-controls="nv-currency-panel">
+      <button
+        type="button"
+        class="nv-locale-row"
+        id="nv-currency-btn"
+        aria-expanded="false"
+        aria-controls="nv-currency-panel"
+      >
         <span class="nv-locale-row-label">{{ 'announcement_bar.currency' | t }}</span>
         <span class="nv-locale-row-value">
           {{ localization.country.currency.iso_code }}
           ({{ localization.country.currency.symbol }})
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
             <path d="M8.25 4.5L15.75 12L8.25 19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </span>
@@ -131,12 +179,22 @@
     </div>
 
     {% comment %} Language sub-panel  {% endcomment %}
-    <div id="nv-lang-panel" class="nv-sub-panel" hidden data-lenis-prevent role="group" aria-label="{{ 'announcement_bar.select_language' | t }}">
+    <div
+      id="nv-lang-panel"
+      class="nv-sub-panel"
+      hidden
+      data-lenis-prevent
+      role="group"
+      aria-label="{{ 'announcement_bar.select_language' | t }}"
+    >
       <p class="nv-sub-panel-header" aria-hidden="true">{{ 'announcement_bar.select_language' | t }}</p>
       {%- form 'localization', id: 'nv-lang-form-sub' -%}
         <ul class="nv-sub-panel-list" role="listbox" aria-label="{{ 'announcement_bar.select_language' | t }}">
           {%- for language in localization.available_languages -%}
-            <li role="option" aria-selected="{% if language.iso_code == localization.language.iso_code %}true{% else %}false{% endif %}">
+            <li
+              role="option"
+              aria-selected="{% if language.iso_code == localization.language.iso_code %}true{% else %}false{% endif %}"
+            >
               <button
                 type="submit"
                 name="locale_code"
@@ -145,7 +203,15 @@
                 aria-label="{{ language.endonym_name }}{% if language.iso_code == localization.language.iso_code %} — {{ 'announcement_bar.currently_selected' | t }}{% endif %}"
               >
                 {%- if language.iso_code == localization.language.iso_code -%}
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
                     <path d="M4.5 12.75L10.5 18.75L19.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 {%- endif -%}
@@ -157,13 +223,23 @@
       {%- endform -%}
     </div>
 
-     {% comment %} Currency sub-panel {% endcomment %}
-    <div id="nv-currency-panel" class="nv-sub-panel" hidden data-lenis-prevent role="group" aria-label="{{ 'announcement_bar.select_currency' | t }}">
+    {% comment %} Currency sub-panel {% endcomment %}
+    <div
+      id="nv-currency-panel"
+      class="nv-sub-panel"
+      hidden
+      data-lenis-prevent
+      role="group"
+      aria-label="{{ 'announcement_bar.select_currency' | t }}"
+    >
       <p class="nv-sub-panel-header" aria-hidden="true">{{ 'announcement_bar.select_currency' | t }}</p>
       {%- form 'localization', id: 'nv-country-form-sub' -%}
         <ul class="nv-sub-panel-list" role="listbox" aria-label="{{ 'announcement_bar.select_currency' | t }}">
           {%- for country in localization.available_countries -%}
-            <li role="option" aria-selected="{% if country.iso_code == localization.country.iso_code %}true{% else %}false{% endif %}">
+            <li
+              role="option"
+              aria-selected="{% if country.iso_code == localization.country.iso_code %}true{% else %}false{% endif %}"
+            >
               <button
                 type="submit"
                 name="country_code"
@@ -172,7 +248,15 @@
                 aria-label="{{ country.name }} {{ country.currency.iso_code }} {{ country.currency.symbol }}{% if country.iso_code == localization.country.iso_code %} — {{ 'announcement_bar.currently_selected' | t }}{% endif %}"
               >
                 {%- if country.iso_code == localization.country.iso_code -%}
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
                     <path d="M4.5 12.75L10.5 18.75L19.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 {%- endif -%}
