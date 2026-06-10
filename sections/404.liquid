@@ -5,7 +5,212 @@
 {% endcomment %}
 
 {%- # Load Google Font 'Unbounded' cleanly -%}
+{% style %}
+     .nv-404-section {
+      width: 100%;
+      padding: 24px 20px 120px 20px;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+  }
+        /* Breadcrumb Navigation */
+        .nv-404-breadcrumb {
+          font-size: 18px;
+          line-height: 1.2;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: {{ section.settings.text_color }};
+        }
 
+        .nv-404-breadcrumb-link {
+          color: {{ section.settings.text_color }};
+          text-decoration: none;
+          transition: opacity 0.2s ease;
+        }
+
+        .nv-404-breadcrumb-link:hover {
+          opacity: 0.7;
+        }
+
+        .nv-404-breadcrumb-separator {
+          margin: 0 10px;
+          opacity: 0.6;
+        }
+
+        .nv-404-breadcrumb-current {
+          font-weight: 500;
+        }
+
+        /* Layout Grid - Mobile first stacked */
+        .nv-404-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 32px;
+        }
+
+        /* Left Column: Visual Asset */
+        .nv-404-visual-column {
+          width: 100%;
+          height: auto;
+          aspect-ratio: 4 / 3;
+          overflow: hidden;
+          background-color: #f7f7f7;
+          display: block;
+          position: relative;
+          box-sizing: border-box;
+        }
+
+        .nv-404-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.3s ease;
+        }
+
+        .nv-404-placeholder-svg {
+          width: 100%;
+          height: 100%;
+          background-color: #f7f7f7;
+          fill: #a3a3a3;
+          display: block;
+          opacity: 0.85;
+        }
+
+        /* Right Column: Content Canvas */
+        .nv-404-content-column {
+          background-color: {{ section.settings.bg_color }};
+          color: {{ section.settings.text_color }};
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 48px;
+          box-sizing: border-box;
+        }
+
+        /* Top Row Block */
+        .nv-404-top-row {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          align-items: flex-start;
+        }
+
+        .nv-404-announcement {
+          font-size: 20px;
+          line-height: 28px;
+          
+          color: {{ section.settings.announcement_color }};
+          margin: 0;
+          max-width: 100%;
+          letter-spacing: -0.01em;
+        }
+
+        /* CTA Button styles */
+        .nv-404-cta-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: {{ section.settings.btn_bg_color }};
+          color: {{ section.settings.btn_text_color }};
+          border: 1.5px solid {{ section.settings.btn_bg_color }};
+          padding: 16px 24px;
+          font-size: 14px;
+          line-height: 17px;
+          font-weight: 500;
+          text-decoration: none;
+          text-align: center;
+          cursor: pointer;
+          transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, opacity 0.2s ease;
+          box-sizing: border-box;
+        }
+
+        .nv-404-cta-button:hover {
+          opacity: 0.9;
+        }
+
+        .nv-404-cta-button:focus-visible {
+          outline: 2px solid {{ section.settings.text_color }};
+          outline-offset: 2px;
+        }
+
+        /* Bottom Row Block */
+        .nv-404-bottom-row {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          align-items: flex-start;
+        }
+
+        .nv-404-title {
+          font-size: clamp(38px, 7vw, 76px);
+          line-height: 1.0;
+          font-weight: 500;
+          text-transform: capitalize;
+          color: {{ section.settings.text_color }};
+          margin: 0;
+          letter-spacing: -0.02em;
+          word-break: break-word;
+          max-width: 480px;
+        }
+
+        .nv-404-status-code {
+          font-size: clamp(48px, 8vw, 76px);
+          line-height: 94px;
+          
+          color: {{ section.settings.text_color }};
+          letter-spacing: -0.01em;
+          margin: 0;
+        }
+
+        /* Desktop layout overrides (screens >= 990px) */
+        @media (min-width: 990px) {
+
+
+         .nv-404-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        margin-top: 70px;
+        align-items: stretch;
+        min-height: 44.375rem;
+    }
+          .nv-404-visual-column {
+            height: 100%;
+            aspect-ratio: auto;
+          }
+
+          .nv-404-content-column {
+            padding: 0;
+            gap: 0;
+          }
+
+          .nv-404-top-row {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 30px;
+          }
+
+          .nv-404-announcement {
+            font-size: 24px;
+            line-height: 30px;
+            max-width: 320px;
+          }
+
+          .nv-404-bottom-row {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 30px;
+          }
+
+          .nv-404-status-code {
+            line-height: 76px;
+          }
+        }
+{% endstyle %}
 
 <section class="nv-404-section" aria-label="Page not found route container">
   {%- # Breadcrumb nav element conforming perfectly to the design mockup -%}
