@@ -38,7 +38,7 @@
       data-empty="true"
     {% endunless %}
   >
-    {% comment %} {% render 'heading', title: section.settings.heading %} {% endcomment %}
+    {% render 'heading', title: section.settings.heading %}
 
     <div class="container">
       <div
@@ -71,6 +71,8 @@
     </div>
   </div>
 {%- endif -%}
+{% comment %} {% render 'quick-view', sectionId: section.id %} {% endcomment %}
+<script src="{{ 'product-recommendations.js' | asset_url }}" defer="defer"></script>
 {% style %}
   /* Mobile: base spacing */
   .shopify-section-{{ section.id }} {
