@@ -149,3 +149,16 @@ class CharAnimationManager {
     document.addEventListener('shopify:section:load', (e) => this.initBtnAnimations(e.target));
   }
 }
+class ThemeApp {
+  constructor() {
+    this.lenis      = new LenisManager();
+    this.announcement = new AnnouncementBarManager();
+    this.arrows     = new ArrowAnimationManager();
+    this.charAnimation = new CharAnimationManager();
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.themeApp = new ThemeApp();
+});
