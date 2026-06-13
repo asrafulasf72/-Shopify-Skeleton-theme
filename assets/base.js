@@ -82,3 +82,30 @@ class AnnouncementBarManager {
     }
   }
 }
+
+class ArrowAnimationManager {
+  constructor() {
+    this.selectors = ['.exit-left', '.exit-right', '.exit-up', '.exit-down'];
+    this.init();
+  }
+
+  bindArrow(el) {
+    if (el.dataset.arrowBound) return;
+    el.dataset.arrowBound = 'true';
+
+    let cooldown = false;
+    el.addEventListener('mouseenter', () => {
+      if (cooldown) return;
+      cooldown = true;
+      el.classList.add('animating');
+      el.addEventListener('animationend', () => {
+        el.classList.remove('animating');
+        setTimeout(() => (cooldown = false), 100);
+      }, { once: true });
+    });
+  }
+
+  init(root = document) {
+    root.querySelectorAll(this.selectors.join(',')).forEach((el) => this.bindArrow(el));
+  }
+}
