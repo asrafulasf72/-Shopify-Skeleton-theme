@@ -43,3 +43,42 @@ class LenisManager {
     }).observe(document.body, { childList: true, subtree: true });
   }
 }
+
+class AnnouncementBarManager {
+  constructor() {
+    this.selector = '.nv-marque';
+    this.init();
+  }
+
+  setHeight() {
+    const bar = document.querySelector(this.selector);
+    const height = bar && bar.offsetParent !== null ? bar.offsetHeight : 0;
+    document.documentElement.style.setProperty('--nv-announcement-height', height + 'px');
+  }
+
+  init() {
+    this.setHeight();
+    window.addEventListener('resize', () => this.setHeight(), { passive: true });
+
+    const bar = document.querySelector(this.selector);
+    if (bar) {
+      new MutationObserver(() => this.setHeight()).observe(bar, {
+        attributes: true,
+        attributeFilter: ['style', 'class'],
+        childList: true,
+        subtree: false,
+      });
+    }
+
+    new MutationObserver(() => this.setHeight()).observe(document.body, {
+      childList: true,
+      subtree: false,
+    });
+
+    if (window.Shopify?.designMode) {
+      ['shopify:section:load', 'shopify:section:unload', 'shopify:section:select',
+        'shopify:section:deselect', 'shopify:section:reorder',
+      ].forEach((evt) => document.addEventListener(evt, () => this.setHeight()));
+    }
+  }
+}
