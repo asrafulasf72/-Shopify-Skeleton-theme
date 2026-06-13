@@ -109,3 +109,43 @@ class ArrowAnimationManager {
     root.querySelectorAll(this.selectors.join(',')).forEach((el) => this.bindArrow(el));
   }
 }
+
+class CharAnimationManager {
+  constructor() {
+    this.init();
+  }
+
+  wrapChars(button) {
+    const text = button.textContent.trim();
+    if (!text || button.querySelector('.char')) return;
+    button.innerHTML = `<span class="char">${[...text]
+      .map((char, i) =>
+        char === ' '
+          ? `<span data-label=" " style="--i:${i + 1}">&nbsp;</span>`
+          : `<span data-label="${char}" style="--i:${i + 1}">${char}</span>`
+      )
+      .join('')}</span>`;
+  }
+
+  initBtnAnimations(root = document) {
+    root.querySelectorAll('.nv-btn-animation').forEach((btn) => this.wrapChars(btn));
+  }
+
+  observeDom() {
+    new MutationObserver((mutations) => {
+      mutations.forEach((m) =>
+        m.addedNodes.forEach((node) => {
+          if (node.nodeType !== 1) return;
+          if (node.classList?.contains('nv-btn-animation')) this.wrapChars(node);
+          node.querySelectorAll?.('.nv-btn-animation').forEach((btn) => this.wrapChars(btn));
+        })
+      );
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+
+  init() {
+    this.initBtnAnimations();
+    this.observeDom();
+    document.addEventListener('shopify:section:load', (e) => this.initBtnAnimations(e.target));
+  }
+}
