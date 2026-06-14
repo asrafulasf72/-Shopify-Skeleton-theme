@@ -1,0 +1,125 @@
+{% if settings.price %}
+  {%- assign qv_money_format = shop.money_with_currency_format -%}
+{% else %}
+  {%- assign qv_money_format = shop.money_format -%}
+{% endif %}
+
+<quick-view class="nv-qv-modal" data-lenis-prevent data-money-format="{{ qv_money_format | escape }}">
+  <div class="nv-modal-content">
+
+    {% comment %} Close button {% endcomment %}
+    <button class="nv-close-btn">
+      {% render 'icons', icon: 'close' %}
+    </button>
+
+    <div class="nv-modal-image">
+
+      {% comment %} Product main image {% endcomment %}
+      {% render 'product-image', product: product %}
+
+      {% comment %} Image slider controls (hidden by default) {% endcomment %}
+      <div class="product-slider-controls" hidden>
+        <button type="button" class="product-slider-arrow" data-slider-prev aria-label="Previous image">
+          {% render 'icons', icon: 'arrow-left' %}
+        </button>
+
+        <div class="product-slider-dots" aria-label="Product image navigation"></div>
+
+        <button type="button" class="product-slider-arrow" data-slider-next aria-label="Next image">
+          {% render 'icons', icon: 'arrow-right' %}
+        </button>
+      </div>
+    </div>
+
+    <div class="nv-modal-detail">
+
+      {% comment %} Product title {% endcomment %}
+      <h2 class="nv-qv-title">Classic Leather Low-Top Sneaker</h2>
+
+      {% comment %} Product price with compare price {% endcomment %}
+      <div class="nv-price">
+        {% if product.compare_at_price and product.compare_at_price > product.price %}
+          <del>{% render 'price', price: product.compare_at_price %}</del>
+        {% endif %}
+        {% render 'price', price: product.price %}
+      </div>
+
+      {% comment %} Product variants (color, size, others) {% endcomment %}
+      {%- for option in product.options_with_values -%}
+        {% assign variant_name = option.name | downcase %}
+
+        {% comment %} Color variants {% endcomment %}
+        {%- if variant_name == 'color' -%}
+          <div class="nv-qv-variant-container">
+            <h4 class="nv-qv-variant-title">{{ variant_name }}</h4>
+            <div class="nv-qv-product-siblings-image-container">
+              {%- for value in option.values -%}
+                <div class="nv-qv-product-siblings-size">{{ value }}</div>
+              {%- endfor -%}
+            </div>
+          </div>
+
+        {% comment %} Size variants {% endcomment %}
+        {%- elsif variant_name == 'size' -%}
+          <div class="nv-qv-variant-container">
+            <h4 class="nv-qv-variant-title">{{ variant_name }}</h4>
+            <div class="nv-qv-product-siblings-size-container">
+              {%- for value in option.values -%}
+                <div class="nv-qv-product-siblings-size">{{ value }}</div>
+              {%- endfor -%}
+            </div>
+          </div>
+
+        {% comment %} Other variants fallback {% endcomment %}
+        {% else %}
+          <div class="nv-qv-variant-container">
+            <h4 class="nv-qv-variant-title">Product Size</h4>
+            <div class="nv-qv-product-siblings-size-container">
+              {% for variant in product.variants %}
+                <div class="nv-qv-product-siblings-size">
+                  {{ variant.option2 | default: variant.title }}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      {% comment %} Quantity + Add to cart {% endcomment %}
+      <div class="nv-qv-btn-container">
+        <div class="nv-quantity-container">
+          <span class="nv-quantity-minus">
+            {% render 'icons', icon: 'minus' %}
+          </span>
+          <div class="nv-quantity">1</div>
+          <span class="nv-quantity-plus">
+            {% render 'icons', icon: 'plus' %}
+          </span>
+        </div>
+
+        {% render 'add-to-cart-button',
+          product: product,
+          className: 'nv-btn-bg'
+        %}
+      </div>
+
+      {% comment %} Buy now button {% endcomment %}
+      <button
+        type="button"
+        class="nv-btn-bg nv-btn-animation"
+        data-quick-view-buy-now
+        data-loading-text="{{ 'button.loading' | t }}">
+        {{ 'button.buy' | t }}
+      </button>
+
+      {% comment %} View full product page {% endcomment %}
+      <a href="#" class="view_full_details_btn">
+        {{ 'button.view_full_details' | t }}
+      </a>
+
+    </div>
+  </div>
+</quick-view>
+
+{% comment %} Load quick view styles {% endcomment %}
+{{ 'quick-view.css' | asset_url | stylesheet_tag: preload: true }}
