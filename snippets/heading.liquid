@@ -1,0 +1,64 @@
+<div class="heading-container">
+  <h5 class="heading">{{ title | escape }}</h5>
+
+  <div class="heading-design">
+    {% for i in (1..28) %}
+      <span class="shape"></span>
+    {% endfor %}
+  </div>
+</div>
+
+{% style %}
+  .heading-container {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    border-top: 1px solid var(--nv-section-heading-background);
+    border-bottom: 1px solid var(--nv-section-heading-background);
+    overflow: hidden;
+    position: relative;
+    z-index: 20;
+  }
+
+  .shopify-section-{{ section.id }} .heading-container .heading {
+    min-width: 16.25rem;
+    max-width: 90%;
+    width: max-content;
+    flex-shrink: 0;
+    padding: 0.75rem 1.25rem;
+    background: var(--nv-section-heading-background);
+    color: var(--nv-section-heading-text);
+  }
+
+  .heading-container .heading-design {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    margin-right: -0.25rem;
+  }
+
+  .heading-container .heading-design .shape {
+    height: 100%;
+    border-left: 1px solid var(--nv-section-heading-background);
+    transform: skewX(-18deg);
+  }
+
+  @media (min-width: 768px) {
+    .shopify-section-{{ section.id }} .heading-container .heading {
+      min-width: 22.5rem;
+      max-width: 85%;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .shopify-section-{{ section.id }} .heading-container .heading {
+      min-width: 27rem;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .heading-container .heading {
+      font-size: 1.5rem;
+    }
+  }
+{% endstyle %}
