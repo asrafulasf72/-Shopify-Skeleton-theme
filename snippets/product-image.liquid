@@ -1,0 +1,192 @@
+{% liquid
+  if product.media.size > 0
+    assign primary_image = blank
+    assign secondary_image = blank
+
+    for media in product.media
+      if media.media_type == 'image'
+        if primary_image == blank
+          assign primary_image = media
+        elsif secondary_image == blank
+          assign secondary_image = media
+        endif
+      endif
+    endfor
+  endif
+  if card_hover_animation == 'flip'
+    assign card_flip_effect = settings.card_flip_effect
+  endif
+%}
+
+{% if product.media.size > 0 %}
+  {% if card_hover_animation == 'flip' %}
+    <div
+      class="nv-product-image-flip-container nv-product-image-flip-container--{{ card_flip_effect }}"
+      aria-label="{{ product.title | escape }}"
+    >
+      {% if primary_image %}
+        <div class="nv-product-image-flip primary-image">
+          {{
+            primary_image
+            | image_url: width: 800
+            | image_tag: alt: primary_image.alt
+            | default: product.title, loading: 'lazy'
+          }}
+        </div>
+      {% endif %}
+
+      {% if secondary_image %}
+        <div class="nv-product-image-flip secondary-image">
+          {{
+            secondary_image
+            | image_url: width: 800
+            | image_tag: alt: secondary_image.alt
+            | default: product.title, loading: 'lazy'
+          }}
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="nv-product-image-container" aria-label="{{ product.title | escape }}">
+      {% for media1 in product.media %}
+        {% case media1.media_type %}
+          {% when 'image' %}
+            <div class="nv-product-image">
+              {{
+                media1
+                | image_url: width: 800
+                | image_tag: alt: media1.alt
+                | default: product.title, loading: 'lazy'
+              }}
+            </div>
+          {% when 'video' %}
+            <div class="nv-product-video">
+              {{ media1 | media_tag: image_size: '800x', autoplay: true, loop: true, controls: false, muted: false }}
+            </div>
+          {% when 'external_video' %}
+            <div class="nv-product-video">
+              {{ media1 | media_tag: autoplay: true, loop: true, controls: false, muted: false }}
+            </div>
+          {% else %}
+            <div class="nv-product-image">
+              {{ media1 | media_tag }}
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% else %}
+  <div class="nv-product-image">
+    {{ 'product-2' | placeholder_svg_tag }}
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .nv-product-image-flip-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    perspective: 1200px;
+  }
+
+  .nv-product-image-flip {
+    width: 100%;
+  }
+
+  .nv-product-image-flip img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+  }
+
+  /* Base states */
+  .nv-product-image-flip.primary-image {
+    position: relative;
+    z-index: 2;
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .nv-product-image-flip.secondary-image {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0;
+    transform: rotateY(-180deg) scale(1.04);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+
+  /* Flip hover behaviour */
+  .nv-product-image-flip-container--flip:hover .nv-product-image-flip.primary-image {
+    opacity: 0;
+    transform: rotateY(180deg) scale(0.96);
+  }
+
+  .nv-product-image-flip-container--flip:hover .nv-product-image-flip.secondary-image {
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
+  }
+
+  /* Fade hover behaviour */
+  .nv-product-image-flip-container--fade .nv-product-image-flip.primary-image {
+    position: relative;
+  }
+
+  .nv-product-image-flip-container--fade .nv-product-image-flip.secondary-image {
+    transform: none;
+  }
+
+  .nv-product-image-flip-container--fade:hover .nv-product-image-flip.primary-image {
+    opacity: 0;
+  }
+
+  .nv-product-image-flip-container--fade:hover .nv-product-image-flip.secondary-image {
+    opacity: 1;
+  }
+
+  /* --------- Default scrollable gallery styles --------- */
+  .nv-product-image-container {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .nv-product-image-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nv-product-image {
+    flex: 0 0 auto;
+    width: min(100%, 770px);
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    margin: auto;
+  }
+
+  .nv-product-video {
+    flex: 0 0 auto;
+    width: min(100%, 770px);
+    height: 100%;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  .nv-product-image img,
+  .nv-product-video video,
+  .nv-product-video iframe {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+{% endstylesheet %}
