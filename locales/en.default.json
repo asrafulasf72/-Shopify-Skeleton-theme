@@ -4,13 +4,26 @@
     "not_found": "Page not found.",
     "back_to_shopping": "Back to shopping"
   },
+  "button": {
+    "buy": "Buy it now",
+    "loading": "Loading...",
+    "add_to_cart": "Add to cart",
+    "Adding": "Adding...",
+    "Added": "Added",
+    "out_of_stock": "Out of stock",
+    "add_to_bundle": "Add to Bundle",
+    "quick_view": "Quick view",
+    "copy": "Copy",
+    "copied": "Copied",
+    "save": "Save",
+    "view_full_details": "View full details"
+  },
   "announcement_bar": {
-    "label": "Announcement Bar",
+    "label": "Announcement bar",
     "announcements_label": "Announcements",
     "previous_announcement": "Previous announcement",
     "next_announcement": "Next announcement",
     "slide_count": "Announcement {{ current }} of {{ total }}",
-    "country_currency_selector": "Country and currency",
     "locale_panel_label": "Language and currency settings",
     "language": "Language",
     "currency": "Currency",
@@ -66,7 +79,8 @@
       "payment_methods": "Accepted payment methods",
       "skip_to_content": "Skip to content",
       "loading": "Loading...",
-      "breadcrumb": "Breadcrumb"
+      "breadcrumb": "Breadcrumb",
+      "close": "Close"
     },
     "social": {
       "follow_on": "Follow us",
@@ -79,6 +93,7 @@
     },
     "localization": {
       "country_label": "Country/Region",
+      "currency_label": "Currency",
       "language_label": "Language"
     },
     "navigation": {
@@ -107,6 +122,7 @@
   },
   "cart": {
     "checkout": "Checkout",
+    "express_checkout_separator": "Or",
     "title": "Cart",
     "update": "Update",
     "remove": "Remove",
@@ -126,6 +142,7 @@
     "total": "Total",
     "taxes_shipping_at_checkout": "Taxes and shipping calculated at checkout",
     "discounts": "Discounts",
+    "selling_plan": "Selling plan",
     "decrease_quantity": "Decrease quantity",
     "increase_quantity": "Increase quantity",
     "quantity": "Quantity",
@@ -172,12 +189,18 @@
     "copied": "Copied!",
     "visit_store": "Visit online store",
     "qr_code_alt": "Gift card QR Code",
-    "qr_code_scan_label": "QR Code to scan at checkout"
-  },
-  "password": {
-    "title": "This shop is private",
-    "password": "Password",
-    "enter": "Enter"
+    "qr_code_scan_label": "QR Code to scan at checkout",
+    "recipient": {
+      "checkbox": "I want to send this as a gift",
+      "email_label": "Recipient email *",
+      "email_placeholder": "Enter email address",
+      "name_label": "Recipient name",
+      "name_placeholder": "Enter name",
+      "message_label": "Message",
+      "message_placeholder": "Write your message here",
+      "send_on_label": "Send on",
+      "email_required_error": "Please enter a valid recipient email address."
+    }
   },
   "search": {
     "title": "Search",
@@ -217,7 +240,8 @@
       "order_number_placeholder": "Enter order number",
       "message_label": "Your question",
       "message_placeholder": "Write your message here",
-      "submit": "Send message","success_message": "Thanks for contacting us! We\u2019ll get back to you as soon as possible.",
+      "submit": "Send message",
+      "success_message": "Thanks for contacting us. We'll get back to you as soon as possible.",
       "response_time": "Average response time: within 24 hours"
     }
   },
@@ -234,6 +258,7 @@
     "facets": {
       "filter": "Filter",
       "filter_and_sort": "Filter and sort",
+      "color": "Color",
       "close_filters": "Close filters",
       "sort_by": "Sort by",
       "sort": "Sort",
@@ -242,6 +267,10 @@
       "apply": "Apply",
       "empty": "No filters or sort options are available.",
       "loading": "Loading..."
+    },
+    "selling_plans": {
+      "purchase_options": "Purchase options",
+      "one_time_purchase": "One-time purchase"
     }
   },
   "collection": {
@@ -250,8 +279,8 @@
   },
   "bundle_builder": {
     "title": "Your bundle",
-    "subtitle": "Add at least 2 styles to unlock your bundle discount.",
-    "subtitle_one_more": " Add 1 more style to unlock your bundle discount.",
+    "subtitle": "Add at least 2 items to unlock your bundle discount.",
+    "subtitle_one_more": " Add 1 more item to unlock your bundle discount.",
     "subtitle_unlocked": "You unlocked {{ percent }}% OFF. Add {{ count }} more to get {{ next_percent }}% OFF.",
     "subtitle_unlocked_max": "You unlocked {{ percent }}% OFF.",
     "subtitle_max_reached": "Max limit reached! You unlocked the maximum discount of {{ percent }}% OFF!",
@@ -266,13 +295,13 @@
     "bundle_full": "Bundle Full",
     "limit_reached": "Limit reached",
     "sold_out": "Sold out",
-    "add_styles": "Add {{ count }} Style",
-    "add_styles_plural": "Add {{ count }} Styles",
+    "add_items": "Add {{ count }} item",
+    "add_items_plural": "Add {{ count }} items",
     "add_to_cart": "Add to Cart",
     "close_drawer": "Close bundle list",
     "toggle_drawer": "Toggle bundle drawer",
-    "empty_state": "Browse products and add styles to build your bundle.",
-    "placeholder_text": "Add style {{ number }}",
+    "empty_state": "Browse products and add items to build your bundle.",
+    "placeholder_text": "Add item {{ number }}",
     "subtotal": "Subtotal",
     "discount": "Discount",
     "you_save": "You save",
@@ -283,5 +312,22 @@
     "remove_item": "Remove {{ title }} from bundle",
     "quick_view": "Quick view",
     "cart_error": "Something went wrong while adding the bundle to cart. Please try again."
+  },
+  "password": {
+    "title": "Opening soon!!!",
+    "subtext": "Be the first one to know when we open!",
+    "subscribe_email_placeholder": "Email address...",
+    "subscribe": "Subscribe",
+    "subscribe_success": "You're subscribed! We'll let you know when we open.",
+    "login_form": {
+      "title": "Enter storefront password",
+      "password_placeholder": "Your password",
+      "submit": "Enter",
+      "error": "Incorrect password. Please try again.",
+      "shopify_link_html": "Are you the store owner? <a href='{{ url }}'>Log in here</a>"
+    }
+  },
+  "faq": {
+    "label": "Frequently asked questions"
   }
 }
