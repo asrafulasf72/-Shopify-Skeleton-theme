@@ -46,9 +46,12 @@ document.addEventListener('DOMContentLoaded', function () {
       function startAutoplay() {
         autoplay = setInterval(nextSlide, autoplaySpeed);
       }
+
       function restartAutoplay() {
         clearInterval(autoplay);
-        startAutoplay();
+        if (autoplayEnabled) {
+          startAutoplay();
+        }
       }
 
       if (autoplayEnabled) startAutoplay();
