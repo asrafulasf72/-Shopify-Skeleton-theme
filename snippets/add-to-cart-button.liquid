@@ -16,3 +16,59 @@
     assign button_text = 'button.out_of_stock' | t
   endif
 %}
+
+<!-- Add to Cart Form -->
+<form
+  method="post"
+  action="{{ routes.cart_add_url }}"
+  data-fly-to-cart-form
+  data-fly-to-cart-image="{{ cart_btn_image | image_url: width: 120 }}"
+  data-base-available="{{ is_available }}"
+  data-variant-id="{{ button_variant.id }}"
+  data-inventory-management="{{ button_variant.inventory_management }}"
+  data-inventory-policy="{{ button_variant.inventory_policy }}"
+  data-inventory-quantity="{{ button_variant.inventory_quantity }}"
+>
+  <!-- Hidden input: Variant ID -->
+  <input type="hidden" name="id" value="{{ button_variant.id }}">
+
+  <!-- Hidden input: Default quantity = 1 -->
+  <input type="hidden" name="quantity" value="1">
+
+  {% case className %}
+    {% when 'nv-btn' %}
+      <!-- Primary Button Style -->
+      <button
+        type="submit"
+        class="{{ className }} nv-cart-fn nv-btn-animation"
+        data-default-text="{{ button_text }}"
+        data-loading-text="{{ 'button.Adding' | t }}"
+        data-added-text="{{ 'button.Added' | t }}"
+        data-sold-out-text="{{ 'button.out_of_stock' | t }}"
+
+        {% unless is_available %}
+          disabled aria-disabled="true"
+        {% endunless %}
+      >
+        {{ button_text }}
+      </button>
+
+    {% when 'nv-btn-bg' %}
+      <!-- Background Style Button -->
+      <button
+        type="submit"
+        class="{{ className }} nv-cart-fn nv-btn-animation"
+
+        data-default-text="{{ button_text }}"
+        data-loading-text="{{ 'button.Adding' | t }}"
+        data-added-text="{{ 'button.Added' | t }}"
+        data-sold-out-text="{{ 'button.out_of_stock' | t }}"
+
+        {% unless is_available %}
+          disabled aria-disabled="true"
+        {% endunless %}
+      >
+        {{ button_text }}
+      </button>
+  {% endcase %}
+</form>
