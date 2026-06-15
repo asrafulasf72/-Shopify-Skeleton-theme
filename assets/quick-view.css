@@ -89,3 +89,134 @@
 		transform: scale(1.3);
 	}
 }
+
+.nv-modal-detail {
+	padding: 1.5rem 1rem;
+}
+
+.nv-qv-title {
+
+	font-size: 1.25rem;
+	line-height: 1;
+	color: #1c1c1c;
+	text-align: start;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.nv-modal-detail .nv-price {
+
+	padding-top: 1rem;
+	color: #1c1c1c;
+	padding-bottom: 2rem;
+}
+
+.nv-qv-variant-title {
+
+	font-size: 1.125rem;
+	line-height: 1;
+	padding-bottom: 1.25rem;
+	text-align: start;
+}
+
+.nv-qv-product-siblings-image-container {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	gap: 1.5rem;
+	padding-bottom: 2.5rem;
+}
+
+.nv-qv-product-siblings-image {
+	border: 1.5px solid transparent;
+	border-radius: 99px;
+	width: 5.625rem;
+	height: 5.625rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	background: #fff;
+	overflow: hidden;
+	padding: 0.25rem;
+	transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.nv-qv-product-siblings-image.active {
+	border-color: #1c1c1c;
+}
+
+.nv-qv-product-siblings-image:hover {
+	border-color: #1c1c1c;
+}
+
+.nv-qv-product-siblings-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.nv-qv-product-siblings-image span {
+	font-size: 0.75rem;
+	line-height: 1;
+	padding: 0 0.25rem;
+	text-align: center;
+}
+
+.nv-qv-product-siblings-size-container {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	gap: 1.25rem;
+	padding-bottom: 1.875rem;
+}
+
+.nv-qv-product-siblings-size {
+
+	font-size: 1rem;
+	line-height: 1;
+	letter-spacing: 0%;
+	text-transform: uppercase;
+	border-radius: 99px;
+	padding: 1rem 1.25rem;
+	border: 1.5px solid transparent;
+}
+
+.nv-qv-product-siblings-size.active {
+	border-color: #1c1c1c;
+}
+
+.nv-qv-product-siblings-size:hover {
+	border-color: #1c1c1c;
+}
+
+.nv-qv-btn-container {
+	display: flex;
+	align-items: center;
+	gap: 1.25rem;
+	width: 100%;
+	padding-bottom: 1.25rem;
+}
+
+.nv-qv-btn-container>form {
+	width: 100%;
+}
+
+.nv-modal-detail>.nv-btn-bg {
+	margin-bottom: 2rem;
+}
+
+.view_full_details_btn {
+
+	font-size: 1.125rem;
+	line-height: 1;
+	letter-spacing: 0%;
+	text-align: center;
+	text-decoration: underline;
+	text-decoration-style: solid;
+	text-decoration-thickness: 0%;
+	text-decoration-skip-ink: auto;
+	color: #1c1c1c;
+}
