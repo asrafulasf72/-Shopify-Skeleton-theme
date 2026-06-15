@@ -1,0 +1,91 @@
+.nv-qv-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999;
+	width: 100%;
+	height: 100%;
+	background: var(--nv-modal-overlay-color);
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.nv-qv-modal.active {
+	display: flex;
+}
+
+.nv-modal-content {
+	background: #fff;
+	width: min(100%, 45.625rem);
+	text-align: center;
+	position: relative;
+	min-height: 37.5rem;
+	max-height: 95vh;
+	height: auto;
+	overflow-y: auto;
+	/* scrollbar-width: none; */
+}
+
+.nv-close-btn {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	cursor: pointer;
+	border: none;
+	background: none;
+	padding: 0;
+	width: 1.5rem;
+	height: 1.5rem;
+	z-index: 999;
+}
+
+.nv-modal-image {
+	min-height: 21.875rem;
+	max-height: 100%;
+	background: #f2f2f2;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.nv-modal-image .product-slider-controls {
+	bottom: 2rem;
+	z-index: 4;
+}
+
+.nv-qv-modal .nv-modal-image .nv-product-image-container {
+	width: 100%;
+	height: 100%;
+	min-height: inherit;
+}
+
+.nv-qv-modal .nv-modal-image .nv-product-image {
+	flex: 0 0 100%;
+	width: 100%;
+	height: 100%;
+	min-height: inherit;
+	margin: 0;
+	display: flex;
+	align-items: stretch;
+	overflow: hidden;
+	cursor: zoom-in;
+}
+
+.nv-qv-modal .nv-modal-image .nv-product-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	object-position: center;
+	transform-origin: var(--qv-zoom-x, 50%) var(--qv-zoom-y, 50%);
+	transition: transform 0.22s ease, object-fit 0.22s ease;
+	will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.nv-qv-modal .nv-modal-image .nv-product-image.is-magnifying img {
+		object-fit: cover;
+		transform: scale(1.3);
+	}
+}
