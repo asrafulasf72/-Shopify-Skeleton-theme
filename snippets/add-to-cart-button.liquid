@@ -1,0 +1,18 @@
+{% liquid
+  # Get current variant (fallback to first available variant)
+  assign button_variant = current_variant | default: product.selected_or_first_available_variant
+
+  # Get image for fly-to-cart animation (priority: variant → featured → first image)
+  assign cart_btn_image = button_variant.image | default: product.featured_image | default: product.images.first
+
+  # Check if product/variant is available
+  assign is_available = button_variant.available | default: product.available
+
+  # Default button text (translated)
+  assign button_text = 'button.add_to_cart' | t
+
+  # If not available, change button text to "Out of stock"
+  if is_available == false
+    assign button_text = 'button.out_of_stock' | t
+  endif
+%}
