@@ -220,3 +220,57 @@
 	text-decoration-skip-ink: auto;
 	color: #1c1c1c;
 }
+
+@media (min-width: 768px) {
+	.nv-modal-content {
+		width: min(100%, 34.75rem);
+	}
+
+	.nv-modal-image {
+		width: 100%;
+		min-height: 25rem;
+		max-height: 100%;
+	}
+
+	.nv-qv-title {
+		font-size: 1.5rem;
+	}
+
+	.nv-modal-detail .nv-price {
+		padding-bottom: 2.5rem;
+	}
+
+}
+
+@media (min-width: 992px) {
+	.nv-modal-content {
+		display: flex;
+		width: min(100%, 61.25rem);
+	}
+
+	.nv-modal-image {
+		width: 50%;
+	}
+
+	.nv-modal-image .product-slider-controls {
+		bottom: 6rem;
+	}
+
+	.nv-modal-image:hover .product-slider-arrow[data-slider-prev] {
+		transform: translate(0, 50%);
+	}
+
+	.nv-modal-image:hover .product-slider-arrow[data-slider-next] {
+		transform: translate(0, 50%);
+	}
+
+	.nv-modal-detail {
+		padding: 3rem 1.5rem 1.5rem;
+		width: 50%;
+		height: auto;
+	}
+
+	.nv-modal-detail .nv-price {
+		padding-bottom: 3.125rem;
+	}
+}
