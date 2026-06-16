@@ -317,6 +317,18 @@
         "color_scheme": {
           "label": "Color scheme"
         },
+        "layout_header": {
+          "content": "Section padding"
+        },
+        "padding_top": {
+          "label": "Padding top"
+        },
+        "padding_bottom": {
+          "label": "Padding bottom"
+        },
+        "bar_content_heading": {
+          "content": "Bar content"
+        },
         "contact_text": {
           "label": "Contact info",
           "default": "Contact us: hello@demo.com"
@@ -422,12 +434,12 @@
         "show_cart": {
           "label": "Show cart icon"
         },
-        "enable_cart_drawer_gift_box":{
-          "label":"Enable cart drawer gift box"
+        "enable_cart_drawer_gift_box": {
+          "label": "Enable cart drawer gift box"
         },
-        "cart_drawer_gift_product":{
-          "label":"Cart drawer gift product",
-          "info":"Shown in the cart drawer as the optional gift upsell."
+        "cart_drawer_gift_product": {
+          "label": "Cart drawer gift product",
+          "info": "Shown in the cart drawer as the optional gift upsell."
         },
         "behaviour_header": {
           "content": "Behaviour"
@@ -715,9 +727,9 @@
           "label": "Mobile video",
           "info": "Portrait MP4 · autoplay, loop, muted"
         },
-              "show_marquee": {
-        "label": "Show marquee"
-      },
+        "show_marquee": {
+          "label": "Show marquee"
+        },
         "marquee_header": {
           "content": "Marquee"
         },
@@ -1623,6 +1635,12 @@
           "label": "Subtitle",
           "default": "Have a question? Contact us, and we'll get back to you within one business day."
         },
+        "show_phone": {
+          "label": "Show phone number field"
+        },
+        "show_order": {
+          "label": "Show order number field"
+        },
         "order_label": {
           "label": "Order Number Field Label",
           "default": "ORDER NUMBER (OPTIONAL)"
@@ -1656,6 +1674,9 @@
         },
         "brand_header": {
           "content": "Brand"
+        },
+        "layout_header": {
+          "content": "Layout"
         },
         "margin_top": {
           "label": "Margin top"
@@ -2116,20 +2137,20 @@
           }
         },
         "popup_frequency": {
-					"label": "popup_frequency",
-					"option-1": {
-						"label": "Once per session"
-					},
-					"option-2": {
-						"label": "Once per day"
-					},
-					"option-3": {
-						"label": "Once per week"
-					},
-					"option-4": {
-						"label": "Once per month"
-					}
-				},
+          "label": "Popup frequency",
+          "option-1": {
+            "label": "Once per session"
+          },
+          "option-2": {
+            "label": "Once per day"
+          },
+          "option-3": {
+            "label": "Once per week"
+          },
+          "option-4": {
+            "label": "Once per month"
+          }
+        },
         "image_header": {
           "content": "Image"
         },
@@ -2181,8 +2202,8 @@
           "content": "Success view"
         },
         "success_discount": {
-					"label": "Show discount"
-				},
+          "label": "Show discount"
+        },
         "success_heading": {
           "label": "Success heading",
           "default": "HERE'S 10% OFF"
@@ -2250,6 +2271,9 @@
       "settings": {
         "products_per_page": {
           "label": "Products per page"
+        },
+        "show_layout_switcher": {
+          "label": "Show layout switcher"
         }
       },
       "blocks": {
@@ -2295,6 +2319,9 @@
         },
         "subtitle": {
           "label": "Page subtitle"
+        },
+        "show_product_image_fallback": {
+          "label": "Show first available product's image as collection image, if collection doesn't have a dedicated image"
         }
       },
       "blocks": {
@@ -2318,6 +2345,9 @@
       "settings": {
         "products_per_page": {
           "label": "Products per page"
+        },
+        "show_layout_switcher": {
+          "label": "Show layout switcher"
         }
       },
       "blocks": {
@@ -2537,18 +2567,20 @@
         "right_column_image": "Right column image",
         "section_image_label": "Section image",
         "section_image_info": "Displayed on tablet and desktop only. Falls back to a placeholder if left empty.",
-        "bottom_feature_strip": "Bottom feature strip",
-        "feature_1_title_label": "Feature 1 — title",
+        "bottom_feature_strip_1": "Bottom feature strip 1",
+        "feature_1_title_label": "Feature 1 title",
         "feature_1_title_default": "Secure payment",
-        "feature_1_desc_label": "Feature 1 — description",
+        "feature_1_desc_label": "Feature 1 description",
         "feature_1_desc_default": "Shop with confidence with secure checkout.",
-        "feature_2_title_label": "Feature 2 — title",
+        "bottom_feature_strip_2": "Bottom feature strip 2",
+        "feature_2_title_label": "Feature 2 title",
         "feature_2_title_default": "Modern design",
-        "feature_2_desc_label": "Feature 2 — description",
+        "feature_2_desc_label": "Feature 2 description",
         "feature_2_desc_default": "Thoughtfully designed products for everyday living.",
-        "feature_3_title_label": "Feature 3 — title",
+        "bottom_feature_strip_3": "Bottom feature strip 3",
+        "feature_3_title_label": "Feature 3 title",
         "feature_3_title_default": "Free shipping",
-        "feature_3_desc_label": "Feature 3 — description",
+        "feature_3_desc_label": "Feature 3 description",
         "feature_3_desc_default": "Free shipping on qualifying orders.",
         "padding_top": {
           "label": "Padding top"
@@ -2624,7 +2656,7 @@
     "product-recommendation": {
       "name": "Product recommendation",
       "settings": {
-        "paragraph":{
+        "paragraph": {
           "content": "This section only works on product pages. It will not display on the home page or other pages."
         },
         "color_schemes": {
@@ -2632,7 +2664,7 @@
         },
         "heading": {
           "label": "Heading",
-          "default":"You may also like"
+          "default": "You may also like"
         },
         "product_limit": {
           "label": "Number of products"
@@ -2684,6 +2716,12 @@
         "color_schemes": {
           "label": "Color scheme"
         },
+        "bundle_header": {
+          "content": "Bundle title"
+        },
+        "add_bundle_title": {
+          "label": "Add your bundle title"
+        },
         "heading": {
           "label": "Add section heading"
         },
@@ -2729,6 +2767,9 @@
         },
         "layout_header": {
           "content": "Padding and margin settings"
+        },
+        "collection_header": {
+          "content": "Bundleable collection"
         },
         "padding_top": {
           "label": "Padding top"
