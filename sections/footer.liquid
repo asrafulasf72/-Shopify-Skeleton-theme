@@ -7,7 +7,6 @@
   assign show_payment = section.settings.show_payment_icons
   assign show_country = section.settings.show_country_selector
 
-
   # margin: use one desktop value and scale it for laptop, tablet, and mobile
   assign margin_top = section.settings.margin_top | default: 0
   assign laptop_margin_top = margin_top | times: 80 | divided_by: 100
@@ -308,9 +307,13 @@
       "default": "scheme-2"
     },
     {
+      "type": "header",
+      "content": "t:sections.footer.settings.layout_header.content"
+    },
+    {
       "type": "range",
       "id": "margin_top",
-      "label":"t:sections.footer.settings.margin_top.label",
+      "label": "t:sections.footer.settings.margin_top.label",
       "min": 0,
       "max": 120,
       "step": 4,
@@ -326,6 +329,23 @@
       "step": 4,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.newsletter_header.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "t:sections.footer.settings.show_newsletter_label.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "t:sections.footer.settings.newsletter_heading.label",
+      "default": "t:sections.footer.settings.newsletter_heading.default",
+      "visible_if": "{{ section.settings.show_newsletter == true }}"
     },
     {
       "type": "image_picker",
@@ -352,23 +372,6 @@
     },
     {
       "type": "header",
-      "content": "t:sections.footer.settings.newsletter_header.content"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_newsletter",
-      "label": "t:sections.footer.settings.show_newsletter_label.label",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "newsletter_heading",
-      "label": "t:sections.footer.settings.newsletter_heading.label",
-      "default": "t:sections.footer.settings.newsletter_heading.default",
-      "visible_if": "{{ section.settings.show_newsletter == true }}"
-    },
-    {
-      "type": "header",
       "content": "t:sections.footer.settings.bottom_bar_header.content"
     },
     {
@@ -385,6 +388,7 @@
     }
   ],
   "blocks": [
+    
     {
       "type": "menu",
       "name": "t:sections.footer.blocks.menu.name",
@@ -405,7 +409,6 @@
     {
       "type": "social",
       "name": "t:sections.footer.blocks.social.name",
-      "limit": 1,
       "settings": [
         {
           "type": "text",
@@ -432,6 +435,7 @@
       ]
     }
   ],
+  "max_blocks": 4,
   "presets": [
     {
       "name": "t:sections.footer.presets.default.name",
