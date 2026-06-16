@@ -1,0 +1,127 @@
+<div class="shopify-section-{{ section.id }} color-{{ section.settings.color_schemes }}">
+  {% render 'heading', title: section.settings.heading %}
+  <section class="nv-404-collections-section" aria-label="Store collection quick links">
+    <div class="nv-404-collections-grid">
+      {%- liquid
+        assign has_custom_blocks = false
+        if section.blocks.size > 0
+          assign has_custom_blocks = true
+        endif
+      -%}
+
+      {%- if has_custom_blocks -%}
+        {%- for block in section.blocks -%}
+          {%- assign collection = block.settings.collection -%}
+          {%- if collection != blank -%}
+            {%- liquid
+              assign count = collection.all_products_count
+              if count < 10
+                assign count_string = '0' | append: count
+              else
+                assign count_string = count
+              endif
+            -%}
+            <a class="nv-404-collection-card" href="{{ collection.url }}" {{ block.shopify_attributes }}>
+              <div class="nv-404-collection-image-wrapper">
+                {%- if collection.featured_image != blank -%}
+                  {{
+                    collection.featured_image
+                    | image_url: width: 800
+                    | image_tag: class: 'nv-404-collection-img', loading: 'lazy', alt: collection.featured_image.alt
+                    | default: collection.title
+                  }}
+                {%- else -%}
+                  {{ 'collection-1' | placeholder_svg_tag: 'nv-404-collection-placeholder-svg' }}
+                {%- endif -%}
+              </div>
+              <h2 class="nv-404-collection-title-wrapper">
+                <span class="nv-404-collection-title nv-underline-hover">{{ collection.title }}</span>
+                <span class="nv-404-collection-count">({{ count_string }})</span>
+              </h2>
+            </a>
+          {%- else -%}
+            {%- # Fallback mock preview block when placeholder is unconfigured in editor -%}
+            <div class="nv-404-collection-card" {{ block.shopify_attributes }}>
+              <div class="nv-404-collection-image-wrapper">
+                {{ 'collection-2' | placeholder_svg_tag: 'nv-404-collection-placeholder-svg' }}
+              </div>
+              <h2 class="nv-404-collection-title-wrapper">
+                <span class="nv-404-collection-title nv-underline-hover">{{ 'collections.title' | t }}</span>
+                <span class="nv-404-collection-count">(00)</span>
+              </h2>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- # Gold-Standard Out-of-the-Box Fallback rendering identical to Figma Mockup -%}
+        {%- liquid
+          assign mock_titles = 'Vans,Jordan,Nike air,Converse' | split: ','
+          assign mock_counts = '07,23,28,17' | split: ','
+        -%}
+        {%- for i in (0..3) -%}
+          {%- assign fallback_index = i | plus: 1 -%}
+          {%- assign collection_handle = mock_titles[i] | handleize -%}
+          {%- assign store_collection = collections[collection_handle] -%}
+
+          {%- if store_collection != blank -%}
+            {%- liquid
+              assign count = store_collection.all_products_count
+              if count < 10
+                assign count_string = '0' | append: count
+              else
+                assign count_string = count
+              endif
+            -%}
+            <a class="nv-404-collection-card" href="{{ store_collection.url }}">
+              <div class="nv-404-collection-image-wrapper">
+                {%- if store_collection.featured_image != blank -%}
+                  {{
+                    store_collection.featured_image
+                    | image_url: width: 800
+                    | image_tag:
+                      class: 'nv-404-collection-img',
+                      loading: 'lazy',
+                      alt: store_collection.featured_image.alt
+                    | default: store_collection.title
+                  }}
+                {%- else -%}
+                  {{
+                    'collection-'
+                    | append: fallback_index
+                    | placeholder_svg_tag: 'nv-404-collection-placeholder-svg'
+                  }}
+                {%- endif -%}
+              </div>
+              <h2 class="nv-404-collection-title-wrapper">
+                <span class="nv-404-collection-title nv-underline-hover">{{ store_collection.title }}</span>
+                <span class="nv-404-collection-count">({{ count_string }})</span>
+              </h2>
+            </a>
+          {%- else -%}
+            {%- # Symmetrical visual mock preview cards matching the sneaker image layout perfectly -%}
+            <div class="nv-404-collection-card">
+              <div class="nv-404-collection-image-wrapper">
+                {{ 'product-' | append: fallback_index | placeholder_svg_tag: 'nv-404-collection-placeholder-svg' }}
+              </div>
+              <h2 class="nv-404-collection-title-wrapper">
+                <span class="nv-404-collection-title nv-underline-hover">{{ mock_titles[i] }}</span>
+                <span class="nv-404-collection-count">({{ mock_counts[i] }})</span>
+              </h2>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- # Symmetrical button directing to /collections/all as explicitly requested -%}
+    <div class="nv-404-collections-btn-wrapper">
+      <a
+        href="{{ routes.all_products_collection_url }}"
+        class="nv-404-collections-btn"
+        aria-label="View all store collections and categories"
+      >
+        {{ section.settings.btn_label | default: 'View collections' }}
+      </a>
+    </div>
+  </section>
+</div>
