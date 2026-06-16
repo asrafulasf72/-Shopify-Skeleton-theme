@@ -76,4 +76,10 @@
       }
     }
   },
+
+  "order": [
+    "contact",
+    "store_location",
+    "socials_connect"
+  ]
 }
