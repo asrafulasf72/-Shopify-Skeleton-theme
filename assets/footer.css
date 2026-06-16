@@ -284,6 +284,7 @@
   font-size: 14px;
   color: var(--footer-muted, #888);
   line-height: 1.65;
+  word-break: break-word;
 }
 
 .nv-footer-block-text a {
