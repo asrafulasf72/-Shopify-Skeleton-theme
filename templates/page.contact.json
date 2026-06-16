@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "contact": {
+      "type": "contact",
+      "settings": {
+        "color_schemes": "scheme-1",
+        "title": "Contact",
+        "subtitle": "Have a question? Contact us, and we'll get back to you within one business day.",
+        "order_label": "ORDER NUMBER (OPTIONAL)",
+        "order_placeholder": "Enter product number",
+        "phone_placeholder": "Enter phone number",
+        "submit_label": "Send Message",
+        "response_time_text": "Average response time: within 24hours",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    }
+}
