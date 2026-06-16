@@ -7,14 +7,19 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "main": {
       "type": "404",
       "settings": {}
+    },
+    "collections": {
+      "type": "404-collections",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "collections"
   ]
 }
