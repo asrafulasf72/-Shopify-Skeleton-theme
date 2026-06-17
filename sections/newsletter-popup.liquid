@@ -1,3 +1,106 @@
 {% comment %} Convert delay setting from seconds to milliseconds {% endcomment %}
 {% assign delay = section.settings.popup_delay | times: 1000 %}
 {% assign layout = section.settings.popup_layout %}
+
+<div id="nv-popup-overlay">
+  <div class="popup-container popup-layout-{{ layout }}" data-lenis-prevent>
+    <button class="popup-close" id="nv-popup-close" type="button">{% render 'icons', icon: 'close' %}</button>
+
+    {% if layout == '1' %}
+      <div class="popup-right">
+        {% if section.settings.popup_image != blank %}
+          {{ section.settings.popup_image | image_url: width: 560 | image_tag: loading: 'lazy' }}
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag }}
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="popup-left">
+      <form id="nv-newsletter-form" class="popup-form" novalidate action="/contact" method="post">
+        <input type="hidden" name="form_type" value="customer">
+        <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="contact[tags]" value="newsletter">
+
+        {% comment %} Subscribe view {% endcomment %}
+        <div id="nv-subscribe-view">
+          {% if layout == '1' %}
+            {% if settings.default_logo != blank %}
+              {{ settings.default_logo | image_url: width: 200 | image_tag: loading: 'lazy', class: 'popup-logo' }}
+            {% else %}
+              {% assign global_name = settings.logo_text | default: shop.name %}
+              <div class="popup-brand">{{ global_name }}</div>
+            {% endif %}
+          {% endif %}
+
+          <h2 class="popup-heading" style="{% if layout == '1' %}width: {{ section.settings.heading_width }}px;{% endif %}">
+            {{ section.settings.heading }}
+          </h2>
+          <p class="popup-sub">{{ section.settings.subtext }}</p>
+
+          <div id="nv-form-error" class="popup-error" role="alert" aria-live="assertive" style="display:none"></div>
+
+          <label class="popup-label" for="nv-email-input">{{ section.settings.input_placeholder }}</label>
+          <input
+            id="nv-email-input"
+            class="popup-input"
+            type="email"
+            name="contact[email]"
+            autocomplete="email"
+            placeholder="{{ section.settings.input_placeholder }}"
+            required
+          >
+
+          <button class="popup-btn nv-btn-bg nv-btn-animation" id="nv-submit-btn" type="submit" name="commit">
+            {{ section.settings.button_text }}
+          </button>
+
+          {% if layout == '1' %}
+            <div class="popup-nospam">
+              {% render 'icons', icon: 'check' %}
+              {{ section.settings.nospam_text }}
+            </div>
+          {% endif %}
+        </div>
+
+        {% comment %} Success view {% endcomment %}
+        <div id="nv-success-view" style="display:none">
+          {% if layout == '1' %}
+            {% if settings.default_logo != blank %}
+              {{ settings.default_logo | image_url: width: 200 | image_tag: loading: 'lazy', class: 'popup-logo' }}
+            {% else %}
+              {% assign global_name = settings.logo_text | default: shop.name %}
+              <div class="popup-brand" style="margin-bottom: 2rem;">{{ global_name }}</div>
+            {% endif %}
+          {% endif %}
+
+          {% if section.settings.success_discount %}
+            <h2 class="popup-heading">{{ section.settings.success_heading }}</h2>
+            <p class="popup-sub" style="margin-bottom: 2.5rem;">{{ section.settings.success_subtext }}</p>
+
+            {% if section.settings.discount_code != blank %}
+              <div class="popup-coupon-box">
+                <span class="popup-coupon-code" id="nv-coupon-code">{{ section.settings.discount_code }}</span>
+                <button class="popup-coupon-copy nv-btn-bg" id="nv-copy-btn" type="button">
+                  {% render 'icons', icon: 'copy' %}
+                  <span id="nv-copy-label">{{ 'button.copy' | t }}</span>
+                </button>
+              </div>
+            {% endif %}
+
+            {% if section.settings.success_button_text != blank %}
+              <a href="{{ section.settings.success_button_link }}" class="popup-btn nv-btn-bg nv-btn-animation" style="display:block;text-align:center;text-decoration:none">
+                {{ section.settings.success_button_text }}
+              </a>
+            {% endif %}
+
+          {% else %}
+            <h2 class="popup-heading">{{ section.settings.heading }}</h2>
+            <p class="popup-sub">{{ section.settings.subtext }}</p>
+            <p class="popup-sub">{{ 'general.newsletter.success_message' | t }}</p>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
