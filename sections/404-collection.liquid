@@ -125,3 +125,150 @@
     </div>
   </section>
 </div>
+{% style %}
+  .nv-404-collections-section {
+    width: 100%;
+    padding: 0 20px 80px 20px;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Grid Layout - Mobile stacks, desktop 4 columns */
+  .nv-404-collections-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 30px;
+  }
+
+  @media (min-width: 576px) {
+    .nv-404-collections-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 990px) {
+    .nv-404-collections-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+  }
+
+  /* Collection Card container */
+  .nv-404-collection-card {
+    background-color: #f2f2f2;
+    padding: 12px 8px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    text-decoration: none;
+    transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 376px;
+    box-sizing: border-box;
+  }
+
+  /* Image Container & Shadow styling from Figma */
+  .nv-404-collection-image-wrapper {
+    /* width: 431px; */
+    width: 100%;
+    max-width: 100%;
+    height: 268px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: visible;
+  }
+
+  .nv-404-collection-img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    z-index: 2;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .nv-404-collection-card:hover .nv-404-collection-img {
+    transform: scale(1.06) translateY(-8px) rotate(5deg);
+  }
+
+  .nv-404-collection-placeholder-svg {
+    width: 80%;
+    height: 80%;
+    fill: #a3a3a3;
+    opacity: 0.8;
+    z-index: 2;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .nv-404-collection-card:hover .nv-404-collection-placeholder-svg {
+    transform: scale(1.06) translateY(-8px) rotate(5deg);
+  }
+
+  /* Collection Typography from Figma Frame 434 */
+  .nv-404-collection-title-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .nv-404-collection-title {
+    font-style: normal;
+    
+    font-size: clamp(20px, 2.5vw, 32px);
+    line-height: clamp(26px, 3.2vw, 40px);
+    color: #1c1c1c;
+    margin: 0;
+  }
+
+  .nv-404-collection-count {
+    font-style: normal;
+    font-size: clamp(10px, 1.2vw, 16px);
+    line-height: clamp(12px, 1.6vw, 20px);
+    color: #1c1c1c;
+    margin: 0;
+  }
+
+  /* Centered CTA Button */
+  .nv-404-collections-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+  }
+
+  .nv-404-collections-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1c1c1c;
+    color: #ffffff;
+    border: 1.5px solid #1c1c1c;
+    /* padding: 16px 24px; */
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, opacity 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .nv-404-collections-btn:hover {
+    opacity: 0.9;
+  }
+
+  .nv-404-collections-btn:focus-visible {
+    outline: 2px solid #1c1c1c;
+    outline-offset: 2px;
+  }
+  .nv-404-collection-card:hover .nv-underline-hover::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+{% endstyle %}
