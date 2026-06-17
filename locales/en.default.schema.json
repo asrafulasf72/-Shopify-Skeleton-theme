@@ -314,11 +314,11 @@
     "announcement_bar": {
       "name": "Announcement bar",
       "settings": {
+        "general_header": {
+          "content": "General"
+        },
         "color_scheme": {
           "label": "Color scheme"
-        },
-        "layout_header": {
-          "content": "Section padding"
         },
         "padding_top": {
           "label": "Padding top"
@@ -350,7 +350,8 @@
           "settings": {
             "text": {
               "label": "Message",
-              "default": "Save Upto 60% For Your First Order"
+              "default": "Save Upto 60% For Your First Order",
+              "info":"Best results with 40 - 60 characters"
             },
             "url": {
               "label": "Link (optional)"
@@ -601,9 +602,13 @@
     },
     "latest_insights": {
       "name": "Latest insights",
+      "headers": {
+        "general": "General",
+        "contents": "Contents",
+      },
       "settings": {
         "heading": {
-          "label": "Heading",
+          "label": "Section heading",
           "default": "Latest insights"
         },
         "padding_top": {
@@ -652,10 +657,10 @@
           "label": "Gradient opacity - middle (fade)"
         },
         "blog": {
-          "label": "Blog"
+          "label": "Button link"
         },
         "button_text": {
-          "label": "Button text",
+          "label": "Button label",
           "default": "Explore more insights"
         }
       },
@@ -886,6 +891,9 @@
     },
     "rich_text": {
       "name": "Rich Text",
+      "headers": {
+        "general": "General",
+      },
       "settings": {
         "color_schemes": {
           "label": "Color scheme"
@@ -903,7 +911,7 @@
           "label": "Margin bottom"
         },
         "content_alignment": {
-          "label": "Text Alignment",
+          "label": "Text alignment",
           "options": {
             "left": "Left",
             "center": "Center",
@@ -929,7 +937,7 @@
               "default": "Talk about your brand"
             },
             "heading_size": {
-              "label": "Heading Size",
+              "label": "Heading size",
               "options": {
                 "h1": "Large",
                 "h2": "Medium",
@@ -951,11 +959,11 @@
           "name": "Button",
           "settings": {
             "button_label": {
-              "label": "Button Label",
+              "label": "Button label",
               "default": "Shop Now"
             },
             "button_link": {
-              "label": "Button Link"
+              "label": "Button link"
             }
           }
         }
@@ -1560,15 +1568,16 @@
     "testimonials": {
       "name": "Testimonials",
       "headers": {
-        "slider": "Slider"
+        "slider": "Slider settings",
+        "general": "General"
       },
       "settings": {
         "color_schemes": {
           "label": "Color scheme"
         },
         "heading": {
-          "label": "Heading",
-          "default": "Featured collection"
+          "label": "Section heading",
+          "default": "Testimonials"
         },
         "padding_top": {
           "label": "Padding top"
@@ -1617,6 +1626,10 @@
     },
     "contact_form": {
       "name": "Contact Form",
+      "headers": {
+        "general": "General",
+        "form_fields": "Form fields",
+      },
       "settings": {
         "color_schemes": {
           "label": "Color scheme"
@@ -1627,12 +1640,12 @@
         "section_padding_bottom": {
           "label": "Padding bottom"
         },
-        "title": {
-          "label": "Title",
+        "heading": {
+          "label": "Heading",
           "default": "Contact"
         },
-        "subtitle": {
-          "label": "Subtitle",
+        "short_desc": {
+          "label": "Short description",
           "default": "Have a question? Contact us, and we'll get back to you within one business day."
         },
         "show_phone": {
@@ -1642,26 +1655,26 @@
           "label": "Show order number field"
         },
         "order_label": {
-          "label": "Order Number Field Label",
+          "label": "Order number field label",
           "default": "ORDER NUMBER (OPTIONAL)"
         },
         "order_placeholder": {
-          "label": "Order Number Placeholder",
+          "label": "Order number placeholder",
           "default": "Enter product number"
         },
         "phone_placeholder": {
-          "label": "Phone Number Placeholder",
+          "label": "Phone number placeholder",
           "default": "Enter phone number"
         },
         "submit_label": {
-          "label": "Submit Button Label",
+          "label": "Button label",
           "default": "Send Message"
         },
         "show_response_time": {
-          "label": "Show Response Time Note"
+          "label": "Show response time note"
         },
         "response_time_text": {
-          "label": "Response Time Text",
+          "label": "Response time text",
           "default": "Average response time: within 24hours"
         }
       }
@@ -1672,11 +1685,8 @@
         "color_scheme": {
           "label": "Color scheme"
         },
-        "brand_header": {
-          "content": "Brand"
-        },
-        "layout_header": {
-          "content": "Layout"
+        "general_header": {
+          "content": "General"
         },
         "margin_top": {
           "label": "Margin top"
@@ -1687,12 +1697,6 @@
         "footer_logo": {
           "label": "Footer logo",
           "info": "Leave blank to use shop name as text"
-        },
-        "bottom_image_label": {
-          "label": "Bottom sticky image"
-        },
-        "show_bottom_image": {
-          "label": "Show bottom image"
         },
         "brand_tagline": {
           "label": "Brand tagline",
@@ -1712,18 +1716,22 @@
           "default": "Unlock your full potential with 50% off!"
         },
         "bottom_bar_header": {
-          "content": "Bottom bar"
+          "content": "Footer bottom"
         },
         "show_country_selector_label": {
           "label": "Show country/region selector"
         },
-        "show_payment_icons": {
-          "label": "Show payment icons"
-        },
         "copyright_text": {
           "label": "Copyright text",
-          "info": "Leave blank to use the default: Copyright © [year] [shop name]"
-        }
+          "default": "<p>Copyright © 2026 Rico.Powered by Shopify</p>",
+        },
+        "show_bottom_image": {
+          "label": "Show bottom image"
+        },
+        "bottom_image_label": {
+          "label": "Bottom sticky image",
+          "info": "Footer bottom use a 1920×400px wide image with centered subject and dark/muted background for best results."
+        },
       },
       "blocks": {
         "menu": {
@@ -2658,6 +2666,9 @@
       "settings": {
         "paragraph": {
           "content": "This section only works on product pages. It will not display on the home page or other pages."
+        },
+        "general_header":{
+          "content": "General"
         },
         "color_schemes": {
           "label": "Color scheme"
