@@ -272,3 +272,53 @@
     transform-origin: left center;
   }
 {% endstyle %}
+{% schema %}
+{
+  "name": "t:sections.404-collections.name",
+  "tag": "section",
+  "class": "section-404-collections-wrapper",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_schemes",
+      "label": "t:sections.404-collections.settings.color_schemes.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "t:sections.404-collections.settings.btn_label.label",
+      "default": "View collections"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.404-collections.settings.heading.label",
+      "default": "Some of our collection"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "t:sections.404-collections.blocks.collection.name",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.404-collections.blocks.collection.settings.collection.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.404-collections.presets.default.name",
+      "blocks": []
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}
