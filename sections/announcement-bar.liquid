@@ -1,275 +1,324 @@
 {{ 'announcement-bar.css' | asset_url | stylesheet_tag: preload: true }}
 
+{% liquid
+  # Padding: use one desktop value and scale it for laptop, tablet, and mobile
+  assign padding_top = section.settings.padding_top | default: 0
+  assign laptop_padding_top = padding_top | times: 80 | divided_by: 100
+  assign tab_padding_top = laptop_padding_top | times: 80 | divided_by: 100
+  assign mobile_padding_top = tab_padding_top | times: 50 | divided_by: 100
+
+  assign padding_bottom = section.settings.padding_bottom | default: 0
+  assign laptop_padding_bottom = padding_bottom | times: 80 | divided_by: 100
+  assign tab_padding_bottom = laptop_padding_bottom | times: 80 | divided_by: 100
+  assign mobile_padding_bottom = tab_padding_bottom | times: 50 | divided_by: 100
+%}
+
 <div
-  class="nv-announcement-bar nv-container color-{{ section.settings.color_scheme }}"
+  class="nv-announcement-bar  color-{{ section.settings.color_scheme }} shopify-section-{{ section.id }}"
   role="region"
   aria-label="{{ 'announcement_bar.label' | t }}"
   data-autoplay="{{ section.settings.autoplay }}"
   data-autoplay-speed="{{ section.settings.autoplay_speed }}"
 >
-  <div class="nv-announcement-bar-wrapper">
-    {% comment %} LEFT  contact info  {% endcomment %}
-    <div class="nv-announcement-bar-left">
-      {%- if section.settings.contact_text != blank -%}
-        <span class="nv-announcement-bar-contact">
-          {{ section.settings.contact_text }}
-        </span>
-      {%- endif -%}
-    </div>
-
-    {% comment %} CENTER slider  {% endcomment %}
-    <div
-      class="nv-announcement-bar-center"
-      role="group"
-      aria-label="{{ 'announcement_bar.announcements_label' | t }}"
-    >
-      <button
-        class="nv-announcement-bar-arrow nv-announcement-bar-arrow--prev exit-left"
-        aria-label="{{ 'announcement_bar.previous_announcement' | t }}"
-        {% if section.blocks.size <= 1 %}
-          hidden
-        {% endif %}
-      >
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M8.75 16.25L2.5 10L8.75 3.75M2.5 10H17.5" stroke="currentColor" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-
-      <div
-        class="nv-announcement-bar-slider"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        {%- for block in section.blocks -%}
-          <div
-            class="nv-announcement-bar-slide"
-            role="group"
-            aria-label="{{ 'announcement_bar.slide_count' | t: current: forloop.index, total: section.blocks.size }}"
-            {{ block.shopify_attributes }}
-          >
-            <p>
-              {%- if block.settings.url != blank -%}
-                <a href="{{ block.settings.url }}" class="nv-announcement-bar-link">
-                  {{ block.settings.text | escape }}
-                </a>
-              {%- else -%}
-                {{ block.settings.text | escape }}
-              {%- endif -%}
-            </p>
-          </div>
-        {%- endfor -%}
+  <div class="nv-container">
+    <div class="nv-announcement-bar-wrapper">
+      {% comment %} LEFT  contact info  {% endcomment %}
+      <div class="nv-announcement-bar-left">
+        {%- if section.settings.contact_text != blank -%}
+          <span class="nv-announcement-bar-contact">
+            {{ section.settings.contact_text }}
+          </span>
+        {%- endif -%}
       </div>
 
-      <button
-        class="nv-announcement-bar-arrow nv-announcement-bar-arrow--next exit-right"
-        aria-label="{{ 'announcement_bar.next_announcement' | t }}"
-        {% if section.blocks.size <= 1 %}
-          hidden
-        {% endif %}
+      {% comment %} CENTER slider  {% endcomment %}
+      <div
+        class="nv-announcement-bar-center"
+        role="group"
+        aria-label="{{ 'announcement_bar.announcements_label' | t }}"
       >
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          focusable="false"
+        <button
+          class="nv-announcement-bar-arrow nv-announcement-bar-arrow--prev exit-left"
+          aria-label="{{ 'announcement_bar.previous_announcement' | t }}"
+          {% if section.blocks.size <= 1 %}
+            hidden
+          {% endif %}
         >
-          <path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="currentColor" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M8.75 16.25L2.5 10L8.75 3.75M2.5 10H17.5" stroke="currentColor" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <div
+          class="nv-announcement-bar-slider"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {%- for block in section.blocks -%}
+            <div
+              class="nv-announcement-bar-slide"
+              role="group"
+              aria-label="{{ 'announcement_bar.slide_count' | t: current: forloop.index, total: section.blocks.size }}"
+              {{ block.shopify_attributes }}
+            >
+              <p>
+                {%- if block.settings.url != blank -%}
+                  <a href="{{ block.settings.url }}" class="nv-announcement-bar-link">
+                    {{ block.settings.text | escape }}
+                  </a>
+                {%- else -%}
+                  {{ block.settings.text | escape }}
+                {%- endif -%}
+              </p>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <button
+          class="nv-announcement-bar-arrow nv-announcement-bar-arrow--next exit-right"
+          aria-label="{{ 'announcement_bar.next_announcement' | t }}"
+          {% if section.blocks.size <= 1 %}
+            hidden
+          {% endif %}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="currentColor" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      {% comment %} RIGHT  locale/currency selector  {% endcomment %}
+      <div class="nv-announcement-bar-right">
+        {%- if section.settings.show_country_selector -%}
+          <div class="nv-announcement-bar-locale">
+            <button
+              type="button"
+              class="nv-announcement-bar-locale-btn"
+              aria-expanded="false"
+              aria-controls="nv-locale-panel"
+              aria-haspopup="dialog"
+            >
+              {% comment %} {{ localization.country.name }} {% endcomment %}
+              {{ localization.language.endonym_name }}
+              <span aria-hidden="true" class="nv-local-divider"> | </span>
+              ({{ localization.country.currency.iso_code }}
+              {{ localization.country.currency.symbol }})
+
+              <span class="nv-announcement-bar-chevron" aria-hidden="true">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  focusable="false"
+                >
+                  <path d="M19.5 8.25L12 15.75L4.5 8.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
     </div>
 
-    {% comment %} RIGHT  locale/currency selector  {% endcomment %}
-    <div class="nv-announcement-bar-right">
-      {%- if section.settings.show_country_selector -%}
-        <div class="nv-announcement-bar-locale">
-          <button
-            type="button"
-            class="nv-announcement-bar-locale-btn"
-            aria-expanded="false"
-            aria-controls="nv-locale-panel"
-            aria-haspopup="dialog"
-          >
-            <span class="nv-visually-hidden">{{ 'announcement_bar.country_currency_selector' | t }}: </span>
-            {% comment %} {{ localization.country.name }} {% endcomment %}
+    {% comment %} Main locale panel  {% endcomment %}
+    <div
+      id="nv-locale-panel"
+      class="nv-locale-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ 'announcement_bar.locale_panel_label' | t }}"
+      hidden
+    >
+      <div id="nv-locale-main" class="nv-locale-panel-inner">
+        <button
+          type="button"
+          class="nv-locale-row"
+          id="nv-lang-btn"
+          aria-expanded="false"
+          aria-controls="nv-lang-panel"
+        >
+          <span class="nv-locale-row-label">{{ 'announcement_bar.language' | t }}</span>
+          <span class="nv-locale-row-value">
             {{ localization.language.endonym_name }}
-            <span aria-hidden="true" class="nv-local-divider"> | </span>
-            ({{ localization.country.currency.iso_code }}
-            {{ localization.country.currency.symbol }})
-          </button>
-          <span class="nv-announcement-bar-chevron" aria-hidden="true">
             <svg
-              width="20"
-              height="20"
+              width="24"
+              height="24"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
               focusable="false"
             >
-              <path d="M19.5 8.25L12 15.75L4.5 8.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8.25 4.5L15.75 12L8.25 19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </span>
-        </div>
-      {%- endif -%}
-    </div>
-  </div>
+        </button>
+        <button
+          type="button"
+          class="nv-locale-row"
+          id="nv-currency-btn"
+          aria-expanded="false"
+          aria-controls="nv-currency-panel"
+        >
+          <span class="nv-locale-row-label">{{ 'announcement_bar.currency' | t }}</span>
+          <span class="nv-locale-row-value">
+            {{ localization.country.currency.iso_code }}
+            ({{ localization.country.currency.symbol }})
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M8.25 4.5L15.75 12L8.25 19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </button>
+        <div class="nv-locale-row-empty" aria-hidden="true"></div>
+      </div>
 
-  {% comment %} Main locale panel  {% endcomment %}
-  <div
-    id="nv-locale-panel"
-    class="nv-locale-panel"
-    role="dialog"
-    aria-modal="true"
-    aria-label="{{ 'announcement_bar.locale_panel_label' | t }}"
-    hidden
-  >
-    <div id="nv-locale-main" class="nv-locale-panel-inner">
-      <button type="button" class="nv-locale-row" id="nv-lang-btn" aria-expanded="false" aria-controls="nv-lang-panel">
-        <span class="nv-locale-row-label">{{ 'announcement_bar.language' | t }}</span>
-        <span class="nv-locale-row-value">
-          {{ localization.language.endonym_name }}
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path d="M8.25 4.5L15.75 12L8.25 19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-      </button>
-      <button
-        type="button"
-        class="nv-locale-row"
-        id="nv-currency-btn"
-        aria-expanded="false"
-        aria-controls="nv-currency-panel"
+      {% comment %} Language sub-panel  {% endcomment %}
+      <div
+        id="nv-lang-panel"
+        class="nv-sub-panel"
+        hidden
+        data-lenis-prevent
+        role="group"
+        aria-label="{{ 'announcement_bar.select_language' | t }}"
       >
-        <span class="nv-locale-row-label">{{ 'announcement_bar.currency' | t }}</span>
-        <span class="nv-locale-row-value">
-          {{ localization.country.currency.iso_code }}
-          ({{ localization.country.currency.symbol }})
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path d="M8.25 4.5L15.75 12L8.25 19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-      </button>
-      <div class="nv-locale-row-empty" aria-hidden="true"></div>
-    </div>
-
-    {% comment %} Language sub-panel  {% endcomment %}
-    <div
-      id="nv-lang-panel"
-      class="nv-sub-panel"
-      hidden
-      data-lenis-prevent
-      role="group"
-      aria-label="{{ 'announcement_bar.select_language' | t }}"
-    >
-      <p class="nv-sub-panel-header" aria-hidden="true">{{ 'announcement_bar.select_language' | t }}</p>
-      {%- form 'localization', id: 'nv-lang-form-sub' -%}
-        <ul class="nv-sub-panel-list" role="listbox" aria-label="{{ 'announcement_bar.select_language' | t }}">
-          {%- for language in localization.available_languages -%}
-            <li
-              role="option"
-              aria-selected="{% if language.iso_code == localization.language.iso_code %}true{% else %}false{% endif %}"
-            >
-              <button
-                type="submit"
-                name="locale_code"
-                value="{{ language.iso_code }}"
-                class="nv-sub-panel-item{% if language.iso_code == localization.language.iso_code %} nv-sub-panel-item--active{% endif %}"
-                aria-label="{{ language.endonym_name }}{% if language.iso_code == localization.language.iso_code %} — {{ 'announcement_bar.currently_selected' | t }}{% endif %}"
+        <p class="nv-sub-panel-header" aria-hidden="true">{{ 'announcement_bar.select_language' | t }}</p>
+        {%- form 'localization', id: 'nv-lang-form-sub' -%}
+          <ul class="nv-sub-panel-list" role="listbox" aria-label="{{ 'announcement_bar.select_language' | t }}">
+            {%- for language in localization.available_languages -%}
+              <li
+                role="option"
+                aria-selected="{% if language.iso_code == localization.language.iso_code %}true{% else %}false{% endif %}"
               >
-                {%- if language.iso_code == localization.language.iso_code -%}
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path d="M4.5 12.75L10.5 18.75L19.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                {%- endif -%}
-                {{ language.endonym_name }}
-              </button>
-            </li>
-          {%- endfor -%}
-        </ul>
-      {%- endform -%}
-    </div>
+                <button
+                  type="submit"
+                  name="locale_code"
+                  value="{{ language.iso_code }}"
+                  class="nv-sub-panel-item{% if language.iso_code == localization.language.iso_code %} nv-sub-panel-item--active{% endif %}"
+                  aria-label="{{ language.endonym_name }}{% if language.iso_code == localization.language.iso_code %} — {{ 'announcement_bar.currently_selected' | t }}{% endif %}"
+                >
+                  {%- if language.iso_code == localization.language.iso_code -%}
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M4.5 12.75L10.5 18.75L19.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  {%- endif -%}
+                  {{ language.endonym_name }}
+                </button>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endform -%}
+      </div>
 
-    {% comment %} Currency sub-panel {% endcomment %}
-    <div
-      id="nv-currency-panel"
-      class="nv-sub-panel"
-      hidden
-      data-lenis-prevent
-      role="group"
-      aria-label="{{ 'announcement_bar.select_currency' | t }}"
-    >
-      <p class="nv-sub-panel-header" aria-hidden="true">{{ 'announcement_bar.select_currency' | t }}</p>
-      {%- form 'localization', id: 'nv-country-form-sub' -%}
-        <ul class="nv-sub-panel-list" role="listbox" aria-label="{{ 'announcement_bar.select_currency' | t }}">
-          {%- for country in localization.available_countries -%}
-            <li
-              role="option"
-              aria-selected="{% if country.iso_code == localization.country.iso_code %}true{% else %}false{% endif %}"
-            >
-              <button
-                type="submit"
-                name="country_code"
-                value="{{ country.iso_code }}"
-                class="nv-sub-panel-item{% if country.iso_code == localization.country.iso_code %} nv-sub-panel-item--active{% endif %}"
-                aria-label="{{ country.name }} {{ country.currency.iso_code }} {{ country.currency.symbol }}{% if country.iso_code == localization.country.iso_code %} — {{ 'announcement_bar.currently_selected' | t }}{% endif %}"
+      {% comment %} Currency sub-panel {% endcomment %}
+      <div
+        id="nv-currency-panel"
+        class="nv-sub-panel"
+        hidden
+        data-lenis-prevent
+        role="group"
+        aria-label="{{ 'announcement_bar.select_currency' | t }}"
+      >
+        <p class="nv-sub-panel-header" aria-hidden="true">{{ 'announcement_bar.select_currency' | t }}</p>
+        {%- form 'localization', id: 'nv-country-form-sub' -%}
+          <ul class="nv-sub-panel-list" role="listbox" aria-label="{{ 'announcement_bar.select_currency' | t }}">
+            {%- for country in localization.available_countries -%}
+              <li
+                role="option"
+                aria-selected="{% if country.iso_code == localization.country.iso_code %}true{% else %}false{% endif %}"
               >
-                {%- if country.iso_code == localization.country.iso_code -%}
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path d="M4.5 12.75L10.5 18.75L19.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                {%- endif -%}
-                {{ country.name }} ({{ country.currency.iso_code }}
-                {{ country.currency.symbol }})
-              </button>
-            </li>
-          {%- endfor -%}
-        </ul>
-      {%- endform -%}
+                <button
+                  type="submit"
+                  name="country_code"
+                  value="{{ country.iso_code }}"
+                  class="nv-sub-panel-item{% if country.iso_code == localization.country.iso_code %} nv-sub-panel-item--active{% endif %}"
+                  aria-label="{{ country.name }} {{ country.currency.iso_code }} {{ country.currency.symbol }}{% if country.iso_code == localization.country.iso_code %} — {{ 'announcement_bar.currently_selected' | t }}{% endif %}"
+                >
+                  {%- if country.iso_code == localization.country.iso_code -%}
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M4.5 12.75L10.5 18.75L19.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  {%- endif -%}
+                  {{ country.name }} ({{ country.currency.iso_code }}
+                  {{ country.currency.symbol }})
+                </button>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endform -%}
+      </div>
     </div>
   </div>
 </div>
+
+{% style %}
+  .shopify-section-{{ section.id }} {
+    padding-top: {{ mobile_padding_top }}px;
+    padding-bottom: {{ mobile_padding_bottom }}px;
+  }
+
+    @media (min-width: 768px) {
+    .shopify-section-{{ section.id }} {
+      padding-top: {{ tab_padding_top }}px;
+      padding-bottom: {{ tab_padding_bottom }}px;
+    }
+  }
+
+    @media (min-width: 992px) {
+    .shopify-section-{{ section.id }} {
+      padding-top: {{ laptop_padding_top }}px;
+      padding-bottom: {{ laptop_padding_bottom }}px;
+    }
+  }
+
+    @media (min-width: 1400px) {
+    .shopify-section-{{ section.id }} {
+      padding-top: {{ padding_top }}px;
+      padding-bottom: {{ padding_bottom }}px;
+    }
+  }
+{% endstyle %}
 
 <script src="{{ 'announcement-bar.js' | asset_url }}" defer></script>
 
@@ -281,22 +330,34 @@
   "limit": 1,
   "settings": [
     {
+      "type": "header",
+      "content": "t:sections.announcement_bar.settings.general_header.content"
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:sections.announcement_bar.settings.color_scheme.label",
       "default": "scheme-2"
     },
     {
-      "type": "text",
-      "id": "contact_text",
-      "label": "t:sections.announcement_bar.settings.contact_text.label",
-      "default": "Contact us: hello@demo.com"
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.announcement_bar.settings.padding_top.label",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
     },
     {
-      "type": "checkbox",
-      "id": "show_country_selector",
-      "label": "t:sections.announcement_bar.settings.show_country_selector.label",
-      "default": true
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.announcement_bar.settings.padding_bottom.label",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
     },
     {
       "type": "checkbox",
@@ -312,7 +373,24 @@
       "max": 10,
       "step": 1,
       "default": 5,
-      "info": "t:sections.announcement_bar.settings.autoplay_speed.info"
+      "info": "t:sections.announcement_bar.settings.autoplay_speed.info",
+      "visible_if": "{{ section.settings.autoplay == true }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.announcement_bar.settings.bar_content_heading.content"
+    },
+    {
+      "type": "text",
+      "id": "contact_text",
+      "label": "t:sections.announcement_bar.settings.contact_text.label",
+      "default": "t:sections.announcement_bar.settings.contact_text.default"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "label": "t:sections.announcement_bar.settings.show_country_selector.label",
+      "default": true
     }
   ],
   "blocks": [
@@ -325,7 +403,8 @@
           "type": "text",
           "id": "text",
           "label": "t:sections.announcement_bar.blocks.announcement.settings.text.label",
-          "default": "Save upto 60% with code RICO26"
+          "default": "t:sections.announcement_bar.blocks.announcement.settings.text.default",
+          "info":"t:sections.announcement_bar.blocks.announcement.settings.text.info"
         },
         {
           "type": "url",
