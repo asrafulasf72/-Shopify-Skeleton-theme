@@ -56,7 +56,7 @@
               {%- comment -%}  vertical SVG {%- endcomment -%}
               <span class="nv-footer-tagline-line nv-line-vertical" aria-hidden="true">
                 <svg width="6" height="45" viewBox="0 0 6 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2.38672 40L-3.26633e-05 45H5.77347L3.38672 40H2.38672ZM2.88672 0L2.38672 0V40.5H2.88672H3.38672V0L2.88672 0Z" fill="white"/>
+                  <path d="M2.38672 40L-3.26633e-05 45H5.77347L3.38672 40H2.38672ZM2.88672 0L2.38672 0V40.5H2.88672H3.38672V0L2.88672 0Z" fill="currentColor"/>
                 </svg>
               </span>
 
@@ -70,7 +70,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                   preserveAspectRatio="none"
                 >
-                  <path d="M290 3.38672L295 5.77347V-3.26633e-05L290 2.38672V3.38672ZM0 2.88672L0 3.38672L290.5 3.38672V2.88672V2.38672L0 2.38672L0 2.88672Z" fill="white"/>
+                  <path d="M290 3.38672L295 5.77347V-3.26633e-05L290 2.38672V3.38672ZM0 2.88672L0 3.38672L290.5 3.38672V2.88672V2.38672L0 2.38672L0 2.88672Z" fill="currentColor"/>
                 </svg>
               </span>
 
@@ -298,17 +298,13 @@
   "settings": [
     {
       "type": "header",
-      "content": "t:sections.footer.settings.brand_header.content"
+      "content": "t:sections.footer.settings.general_header.content",
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:sections.footer.settings.color_scheme.label",
       "default": "scheme-2"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.footer.settings.layout_header.content"
     },
     {
       "type": "range",
@@ -354,17 +350,6 @@
       "info": "t:sections.footer.settings.footer_logo.info"
     },
     {
-      "type": "checkbox",
-      "id": "show_bottom_image",
-      "label": "t:sections.footer.settings.show_bottom_image.label",
-      "default": true
-    },
-    {
-      "type": "image_picker",
-      "id": "bottom_image",
-      "label": "t:sections.footer.settings.bottom_image_label.label"
-    },
-    {
       "type": "text",
       "id": "brand_tagline",
       "label": "t:sections.footer.settings.brand_tagline.label",
@@ -381,10 +366,23 @@
       "default": true
     },
     {
-      "type": "inline_richtext",
+      "type": "richtext",
       "id": "copyright_text",
       "label": "t:sections.footer.settings.copyright_text.label",
-      "info": "t:sections.footer.settings.copyright_text.info"
+      "default": "t:sections.footer.settings.copyright_text.default",
+    },
+        {
+      "type": "checkbox",
+      "id": "show_bottom_image",
+      "label": "t:sections.footer.settings.show_bottom_image.label",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_image",
+      "label": "t:sections.footer.settings.bottom_image_label.label",
+      "visible_if": "{{ section.settings.show_bottom_image == true }}",
+      "info":"t:sections.footer.settings.bottom_image_label.info"
     }
   ],
   "blocks": [
@@ -462,6 +460,9 @@
         }
       ]
     }
-  ]
+  ],
+  "enabled_on": {
+    "groups": ["header", "footer"]
+  }
 }
 {% endschema %}
