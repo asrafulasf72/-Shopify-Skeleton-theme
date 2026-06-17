@@ -1,0 +1,3 @@
+{% comment %} Convert delay setting from seconds to milliseconds {% endcomment %}
+{% assign delay = section.settings.popup_delay | times: 1000 %}
+{% assign layout = section.settings.popup_layout %}
