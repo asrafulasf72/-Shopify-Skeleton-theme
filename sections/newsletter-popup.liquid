@@ -104,3 +104,20 @@
     </div>
   </div>
 </div>
+{% style %}
+  #nv-popup-overlay {
+    display: none;
+    position: fixed;
+    {% if layout == '1' %}
+      inset: 0;
+      background: var(--nv-modal-overlay-color);
+    {% elsif layout == '2' %}
+      bottom: 1rem;
+      right: 1rem;
+    {% endif %}
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+{% endstyle %}
