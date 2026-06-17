@@ -104,6 +104,8 @@
     </div>
   </div>
 </div>
+
+
 {% style %}
   #nv-popup-overlay {
     display: none;
@@ -120,4 +122,16 @@
     justify-content: center;
     padding: 1rem;
   }
+
+  .popup-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    overflow-y: auto;
+    border-radius: 4px;
+    background: {{ section.settings.popup_bg_color }};
+  }
+
+  .popup-layout-1 { max-width: 390px; max-height: 95vh; }
 {% endstyle %}
