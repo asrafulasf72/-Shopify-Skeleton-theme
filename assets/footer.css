@@ -295,7 +295,7 @@
 
 /*  BOTTOM BAR */
 .nv-footer-bottom {
-  border-top: 1px solid var(--footer-text, #fff);
+  border-top: 1px solid var(--nv-text);
   padding-block: 1.25rem;
 }
 
