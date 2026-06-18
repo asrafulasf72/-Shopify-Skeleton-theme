@@ -459,5 +459,20 @@
       });
     }
 
+    // ── Editor preview ──────────────────────────────────────────────────────────
+    // Always show immediately. After submission: show success view for 10s,
+    // then reset form. sessionStorage flag prevents success view on reload.
+    if (isEditorPreview) {
+
+      // Already reset before → force subscribe view on reload
+      if (wasSubmitted && sessionStorage.getItem(EDITOR_RESET_KEY) === '1') {
+        var subscribeView = document.getElementById('nv-subscribe-view');
+        var successView   = document.getElementById('nv-success-view');
+        if (successView)   successView.style.display   = 'none';
+        if (subscribeView) subscribeView.style.display = 'flex';
+        sessionStorage.removeItem(EDITOR_RESET_KEY);
+      }
+
+      showOverlay();
   })();
 </script>
