@@ -310,3 +310,26 @@
     .popup-layout-1 .popup-right { width: 521px; }
   }
 {% endstyle %}
+
+<script>
+  (function () {
+
+    // Keys
+    let COOKIE_KEY       = 'sop_popup_submitted';
+    let SEEN_KEY         = 'sop_popup_seen';
+    let EDITOR_RESET_KEY = 'sop_editor_reset';
+
+    // Settings
+    let frequency        = {{ section.settings.popup_frequency | json }};
+    let success_discount = {{ section.settings.success_discount | json }};
+
+    // DOM
+    let overlay  = document.getElementById('nv-popup-overlay');
+    let state    = document.getElementById('nv-newsletter-state');
+
+    // Liquid-rendered flags
+    let wasSubmitted    = state && state.getAttribute('data-success')    === 'true';
+    let hasErrors       = state && state.getAttribute('data-has-errors') === 'true';
+    let isEditorPreview = overlay.parentElement.hasAttribute('data-shopify-editor-section');
+
+</script>
