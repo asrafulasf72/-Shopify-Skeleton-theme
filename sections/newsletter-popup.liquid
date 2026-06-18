@@ -344,4 +344,26 @@
         return c.trim().startsWith(name + '=');
       });
     }
+
+    // ── Frequency: 1=session, 2=1day, 3=7days, 4=30days ───────────────────────
+    function hasSeenPopup() {
+      switch (frequency) {
+        case '1': return sessionStorage.getItem(SEEN_KEY) === '1';
+        case '2':
+        case '3':
+        case '4': return getCookie(SEEN_KEY);
+        default:  return false;
+      }
+    }
+
+    function markPopupSeen() {
+      switch (frequency) {
+        case '1': sessionStorage.setItem(SEEN_KEY, '1'); break;
+        case '2': setCookie(SEEN_KEY, 1);                break;
+        case '3': setCookie(SEEN_KEY, 7);                break;
+        case '4': setCookie(SEEN_KEY, 30);               break;
+      }
+    }
+
+  })();
 </script>
