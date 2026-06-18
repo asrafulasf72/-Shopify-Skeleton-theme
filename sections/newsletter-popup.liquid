@@ -525,5 +525,17 @@
       return;
     }
 
+    // ── Show on errors ──────────────────────────────────────────────────────────
+    if (hasErrors) { overlay.style.display = 'flex'; return; }
+
+    // ── Suppress if already subscribed ─────────────────────────────────────────
+    if (getCookie(COOKIE_KEY)) return;
+
+    // ── Suppress based on frequency ─────────────────────────────────────────────
+    if (hasSeenPopup()) return;
+
+    // ── Show after delay ────────────────────────────────────────────────────────
+    setTimeout(showOverlay, {{ delay }});
+
   })();
 </script>
