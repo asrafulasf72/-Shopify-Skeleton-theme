@@ -504,5 +504,26 @@
       return;
     }
 
+    // ── After successful submission (live store) ────────────────────────────────
+    if (wasSubmitted) {
+      if (!getCookie(COOKIE_KEY)) {
+        setCookie(COOKIE_KEY, 30);
+        if (!success_discount) {
+          // No discount: close popup, show toast
+          overlay.style.display = 'none';
+          var successMsg = document.querySelector('.form-ask__success');
+          if (successMsg) showToast(successMsg.dataset.message);
+          setTimeout(function () {
+            var url = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, url);
+          }, 2500);
+        } else {
+          // With discount: keep popup open showing success view
+          overlay.style.display = 'flex';
+        }
+      }
+      return;
+    }
+
   })();
 </script>
