@@ -419,5 +419,25 @@
       overlay.style.display = 'none';
     });
 
+    // ── Copy coupon code ────────────────────────────────────────────────────────
+    var copyBtn = document.getElementById('nv-copy-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        var code   = document.getElementById('nv-coupon-code').textContent.trim();
+        var label  = document.getElementById('nv-copy-label');
+        var COPIED = {{ 'button.copied' | t | json }};
+        var COPY   = {{ 'button.copy'   | t | json }};
+        navigator.clipboard.writeText(code).then(function () {
+          label.textContent = COPIED;
+          setTimeout(function () { label.textContent = COPY; }, 2000);
+        });
+      });
+    }
+
+
+
+
+ 
+
   })();
 </script>
