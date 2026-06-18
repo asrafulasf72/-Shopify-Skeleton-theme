@@ -133,5 +133,41 @@
     background: {{ section.settings.popup_bg_color }};
   }
 
-  .popup-layout-1 { max-width: 390px; max-height: 95vh; }
+  /* Layout 1 */
+  .popup-layout-1 {
+    max-width: 390px;
+    max-height: 95vh;
+  }
+
+  /* Layout 2 */
+  .popup-layout-2 {
+    max-width: 420px;
+    max-height: 95vh;
+    padding: 2.5rem 2rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .popup-layout-2 .popup-left    { width: 100%; padding: 0; background: transparent; }
+  .popup-layout-2 .popup-heading { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.75rem; }
+  .popup-layout-2 .popup-sub     { font-size: 0.875rem; color: #555; margin-bottom: 1.5rem; }
+  .popup-layout-2 .popup-input   { text-align: left; margin-bottom: 0.75rem; }
+  .popup-layout-2 .popup-btn     { width: 100%; }
+
+  /* Close button */
+  .popup-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: {{ section.settings.close_btn_color }};
+    z-index: 10;
+    padding: 0;
+    line-height: 1;
+  }
+
+
 {% endstyle %}
