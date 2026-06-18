@@ -434,10 +434,30 @@
       });
     }
 
+    // ── Email validation ────────────────────────────────────────────────────────
+    var submitBtn           = document.getElementById('nv-submit-btn');
+    var emailInput          = document.getElementById('nv-email-input');
+    var errorBox            = document.getElementById('nv-form-error');
+    var shopifyForm         = document.getElementById('nv-newsletter-form');
+    var invalidEmailMessage = {{ 'general.newsletter.invalid_email' | t | json }};
 
-
-
- 
+    if (shopifyForm && submitBtn && emailInput && errorBox) {
+      shopifyForm.addEventListener('submit', function (event) {
+        var email = emailInput.value.trim();
+        if (!email || !emailInput.checkValidity()) {
+          event.preventDefault();
+          errorBox.textContent = invalidEmailMessage;
+          errorBox.style.display = 'block';
+          emailInput.setAttribute('aria-invalid', 'true');
+          emailInput.focus();
+          return;
+        }
+        submitBtn.disabled  = true;
+        submitBtn.innerHTML = '<span class="loading"></span>';
+        errorBox.style.display = 'none';
+        emailInput.removeAttribute('aria-invalid');
+      });
+    }
 
   })();
 </script>
