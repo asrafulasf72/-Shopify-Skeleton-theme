@@ -474,5 +474,35 @@
       }
 
       showOverlay();
+
+      // First time after submission → reset after 10s
+      if (wasSubmitted && sessionStorage.getItem(EDITOR_RESET_KEY) !== '1') {
+        setTimeout(function () {
+          var subscribeView = document.getElementById('nv-subscribe-view');
+          var successView   = document.getElementById('nv-success-view');
+          var emailInput    = document.getElementById('nv-email-input');
+          var errorBox      = document.getElementById('nv-form-error');
+          var submitBtn     = document.getElementById('nv-submit-btn');
+
+          if (successView)   successView.style.display   = 'none';
+          if (subscribeView) subscribeView.style.display = 'flex';
+          if (emailInput)    emailInput.value = '';
+          if (errorBox)      errorBox.style.display = 'none';
+          if (submitBtn) {
+            submitBtn.disabled  = false;
+            submitBtn.innerHTML = {{ section.settings.button_text | json }};
+          }
+
+          sessionStorage.setItem(EDITOR_RESET_KEY, '1');
+
+          var url = window.location.origin + window.location.pathname;
+          window.history.replaceState({}, document.title, url);
+
+        }, 10000);
+      }
+
+      return;
+    }
+
   })();
 </script>
