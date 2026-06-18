@@ -396,5 +396,28 @@
       }, 3000);
     }
 
+    // ── Close button ────────────────────────────────────────────────────────────
+    // Editor: reset to subscribe view, keep overlay open
+    // Live:   set cookie if submitted, close overlay
+    document.getElementById('nv-popup-close').addEventListener('click', function () {
+      if (isEditorPreview) {
+        var subscribeView = document.getElementById('nv-subscribe-view');
+        var successView   = document.getElementById('nv-success-view');
+        if (subscribeView) subscribeView.style.display = 'flex';
+        if (successView)   successView.style.display   = 'none';
+        overlay.style.display = 'none';
+        return;
+      }
+      if (wasSubmitted) setCookie(COOKIE_KEY, 30);
+      overlay.style.display = 'none';
+    });
+
+    // ── Click outside to close ──────────────────────────────────────────────────
+    overlay.addEventListener('click', function (e) {
+      if (e.target !== overlay) return;
+      if (wasSubmitted) setCookie(COOKIE_KEY, 30);
+      overlay.style.display = 'none';
+    });
+
   })();
 </script>
