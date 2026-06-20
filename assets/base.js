@@ -44,6 +44,7 @@ class LenisManager {
   }
 }
 
+
 class AnnouncementBarManager {
   constructor() {
     this.selector = '.nv-marque';
@@ -83,6 +84,7 @@ class AnnouncementBarManager {
   }
 }
 
+
 class ArrowAnimationManager {
   constructor() {
     this.selectors = ['.exit-left', '.exit-right', '.exit-up', '.exit-down'];
@@ -109,6 +111,7 @@ class ArrowAnimationManager {
     root.querySelectorAll(this.selectors.join(',')).forEach((el) => this.bindArrow(el));
   }
 }
+
 
 class CharAnimationManager {
   constructor() {
@@ -149,6 +152,8 @@ class CharAnimationManager {
     document.addEventListener('shopify:section:load', (e) => this.initBtnAnimations(e.target));
   }
 }
+
+
 class ThemeApp {
   constructor() {
     this.lenis      = new LenisManager();
