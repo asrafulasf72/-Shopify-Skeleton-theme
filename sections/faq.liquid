@@ -381,6 +381,28 @@
           openRow.classList.remove('is-open');
           openRow.querySelector('.nv-faq-trigger')?.setAttribute('aria-expanded', 'false');
         });
+
+        if (isOpen) {
+          row.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+        } else {
+          row.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    };
+
+    const initAll = () => {
+      document.querySelectorAll('[data-nv-faq]').forEach(initFaq);
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+      initAll();
+    }
+
+  
   })();
 {% endjavascript %}
 
