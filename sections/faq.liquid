@@ -402,7 +402,14 @@
       initAll();
     }
 
-  
+    // Shopify theme-editor support
+    document.addEventListener('shopify:section:load', initAll);
+    document.addEventListener('shopify:block:select', (e) => {
+      const row = e.target?.querySelector('[data-nv-faq-item]');
+      if (!row) return;
+      const trigger = row.querySelector('.nv-faq-trigger');
+      if (trigger?.getAttribute('aria-expanded') !== 'true') trigger?.click();
+    });
   })();
 {% endjavascript %}
 
