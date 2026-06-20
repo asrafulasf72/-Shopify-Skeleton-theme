@@ -73,3 +73,291 @@
   </div>
 </div>
 
+{% style %}
+  /* ─────────────────────────────────────────
+     Base / Mobile-first
+  ───────────────────────────────────────── */
+  .shopify-section-{{ section.id }}.nv-faq-section {
+    --nv-faq-border:   rgba(28, 28, 28, 0.15);
+    --nv-faq-row-gap:  0px;
+    --nv-faq-col-gap:  16px;
+    --nv-faq-index-w:  40px;
+    --nv-faq-icon-w:   20px;
+
+    width: 100%;
+    color: var(--nv-text);
+    margin-top:    {{ mobile_margin_top }}px;
+    margin-bottom: {{ mobile_margin_bottom }}px;
+  }
+
+  .shopify-section-{{ section.id }}.nv-faq-section *,
+  .shopify-section-{{ section.id }}.nv-faq-section *::before,
+  .shopify-section-{{ section.id }}.nv-faq-section *::after {
+    box-sizing: border-box;
+  }
+
+  /* ── Inner wrapper ── */
+  .shopify-section-{{ section.id }} .nv-faq-inner {
+    width: 100%;
+    margin: 0 auto;
+    padding-top:    {{ mobile_padding_top }}px;
+    padding-bottom: {{ mobile_padding_bottom }}px;
+  }
+
+  .shopify-section-{{ section.id }} .nv-faq-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--nv-faq-border);
+  }
+
+  .shopify-section-{{ section.id }} .nv-faq-row {
+    border-bottom: 1px solid var(--nv-faq-border);
+    padding: 18px 0;
+  }
+
+  /* ─────────────────────────────────────────
+     Trigger — 3-column grid: index | question | icon
+     Mobile base: narrower gaps, smaller sizes
+  ───────────────────────────────────────── */
+  .shopify-section-{{ section.id }} .nv-faq-trigger {
+    all: unset;
+    display: grid;
+    grid-template-columns: var(--nv-faq-index-w) minmax(0, 1fr) var(--nv-faq-icon-w);
+    align-items: center;
+    column-gap: var(--nv-faq-col-gap);
+    width: 100%;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+    text-align: left;
+  }
+
+  .shopify-section-{{ section.id }} .nv-faq-trigger:focus-visible {
+    outline: 2px solid var(--nv-text);
+    outline-offset: 4px;
+  }
+
+  /* ── Index ── */
+  .shopify-section-{{ section.id }} .nv-faq-index {
+    grid-column: 1;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--nv-text);
+    white-space: nowrap;
+  }
+
+  /* ── Question ── */
+  .shopify-section-{{ section.id }} .nv-faq-q {
+    grid-column: 2;
+    font-size: 15px;
+    line-height: 1.3;
+    color: var(--nv-text);
+    margin: 0;
+  }
+
+  /* ── Plus / X icon ── */
+  .shopify-section-{{ section.id }} .nv-faq-icon {
+    grid-column: 3;
+    position: relative;
+    width: var(--nv-faq-icon-w);
+    height: var(--nv-faq-icon-w);
+    display: inline-block;
+    justify-self: end;
+    flex-shrink: 0;
+  }
+
+  .shopify-section-{{ section.id }} .nv-faq-icon-bar {
+    position: absolute;
+    background: var(--nv-text);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity  300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .shopify-section-{{ section.id }} .nv-faq-icon-bar--h {
+    left: 12.5%; right: 12.5%;
+    top: 50%;
+    height: 1.5px;
+    transform: translateY(-50%);
+  }
+
+  .shopify-section-{{ section.id }} .nv-faq-icon-bar--v {
+    top: 12.5%; bottom: 12.5%;
+    left: 50%;
+    width: 1.5px;
+    transform: translateX(-50%);
+  }
+
+  /* Open state: + → × */
+  .shopify-section-{{ section.id }} .nv-faq-row.is-open .nv-faq-icon-bar--h {
+    transform: translateY(-50%) rotate(45deg);
+    left: 18.75%; right: 18.75%;
+  }
+
+  .shopify-section-{{ section.id }} .nv-faq-row.is-open .nv-faq-icon-bar--v {
+    transform: translateX(-50%) rotate(45deg);
+    top: 18.75%; bottom: 18.75%;
+  }
+
+  /* ─────────────────────────────────────────
+     Answer panel — smooth accordion
+  ───────────────────────────────────────── */
+  .shopify-section-{{ section.id }} .nv-faq-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 380ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity            380ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    will-change: grid-template-rows, opacity;
+  }
+
+  .shopify-section-{{ section.id }} .nv-faq-row.is-open .nv-faq-answer {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  /* Answer inner — same 3-col grid, answer offset to column 2 */
+  .shopify-section-{{ section.id }} .nv-faq-answer-inner {
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: var(--nv-faq-index-w) minmax(0, 1fr) var(--nv-faq-icon-w);
+    column-gap: var(--nv-faq-col-gap);
+    padding-top: 0;
+    transition: padding-top 380ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .shopify-section-{{ section.id }} .nv-faq-row.is-open .nv-faq-answer-inner {
+    padding-top: 16px;
+  }
+
+  /* Answer text sits in the same centre column as the question */
+  .shopify-section-{{ section.id }} .nv-faq-answer-content {
+    grid-column: 2 / 3;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--nv-text);
+  }
+
+  .shopify-section-{{ section.id }} .nv-faq-answer-content :where(p, ul, ol) {
+    margin: 0 0 12px;
+  }
+
+  .shopify-section-{{ section.id }} .nv-faq-answer-content :where(p, ul, ol):last-child {
+    margin-bottom: 0;
+  }
+
+  /* ─────────────────────────────────────────
+     Tablet (≥ 640px)
+  ───────────────────────────────────────── */
+  @media (min-width: 640px) {
+    .shopify-section-{{ section.id }}.nv-faq-section {
+      --nv-faq-col-gap:  clamp(16px, 3vw, 48px);
+      --nv-faq-index-w:  52px;
+      --nv-faq-icon-w:   22px;
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-row {
+      padding: 22px 0;
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-index {
+      font-size: 15px;
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-q {
+      font-size: clamp(16px, 1.4vw, 20px);
+      line-height: 1.3;
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-answer-content {
+      font-size: clamp(14px, 1.1vw, 16px);
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-row.is-open .nv-faq-answer-inner {
+      padding-top: 20px;
+    }
+  }
+
+  /* ─────────────────────────────────────────
+     Tablet (≥ 768px) — spacing scale
+  ───────────────────────────────────────── */
+  @media (min-width: 768px) {
+    .shopify-section-{{ section.id }}.nv-faq-section {
+      margin-top:    {{ tab_margin_top }}px;
+      margin-bottom: {{ tab_margin_bottom }}px;
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-inner {
+      padding-top:    {{ tab_padding_top }}px;
+      padding-bottom: {{ tab_padding_bottom }}px;
+    }
+  }
+
+  /* ─────────────────────────────────────────
+     Laptop (≥ 992px)
+  ───────────────────────────────────────── */
+  @media (min-width: 992px) {
+    .shopify-section-{{ section.id }}.nv-faq-section {
+      --nv-faq-col-gap:  clamp(24px, 4vw, 80px);
+      --nv-faq-index-w:  60px;
+      --nv-faq-icon-w:   24px;
+
+      margin-top:    {{ laptop_margin_top }}px;
+      margin-bottom: {{ laptop_margin_bottom }}px;
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-inner {
+      padding-top:    {{ laptop_padding_top }}px;
+      padding-bottom: {{ laptop_padding_bottom }}px;
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-row {
+      padding: 24px 0;
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-index {
+      font-size: 18px;
+      line-height: 30px;
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-q {
+      font-size: clamp(18px, 1.6vw, 24px);
+      line-height: 1.25;
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-answer-content {
+      font-size: clamp(15px, 1.2vw, 18px);
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-row.is-open .nv-faq-answer-inner {
+      padding-top: 24px;
+    }
+  }
+
+  /* ─────────────────────────────────────────
+     Desktop (≥ 1400px)
+  ───────────────────────────────────────── */
+  @media (min-width: 1400px) {
+    .shopify-section-{{ section.id }}.nv-faq-section {
+      margin-top:    {{ margin_top }}px;
+      margin-bottom: {{ margin_bottom }}px;
+    }
+
+    .shopify-section-{{ section.id }} .nv-faq-inner {
+      padding-top:    {{ padding_top }}px;
+      padding-bottom: {{ padding_bottom }}px;
+    }
+  }
+
+  /* ─────────────────────────────────────────
+     Reduced motion
+  ───────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .shopify-section-{{ section.id }} .nv-faq-answer,
+    .shopify-section-{{ section.id }} .nv-faq-answer-inner,
+    .shopify-section-{{ section.id }} .nv-faq-icon-bar {
+      transition: none;
+    }
+  }
+{% endstyle %}
+
+
