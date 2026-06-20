@@ -19,4 +19,57 @@
   assign tab_margin_bottom = laptop_margin_bottom | times: 80 | divided_by: 100
   assign mobile_margin_bottom = tab_margin_bottom | times: 50 | divided_by: 100
 %}
+<div
+  class="shopify-section-{{ section.id }} color-{{ section.settings.color_scheme }} nv-faq-section"
+  data-nv-faq
+  aria-label="{{ 'faq.label' | t }}"
+>
+  {% render 'heading', title: section.settings.heading %}
+
+  <div class="nv-faq-inner container mx-auto">
+    {%- if section.blocks.size > 0 -%}
+      <div class="nv-faq-list" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign idx = forloop.index -%}
+          {%- assign idx_padded = idx | prepend: '00' | slice: -2, 2 -%}
+          {%- assign is_first = false -%}
+          {%- if forloop.first -%}{%- assign is_first = true -%}{%- endif -%}
+          <div
+            class="nv-faq-row{% if is_first %} is-open{% endif %}"
+            data-nv-faq-item
+            role="listitem"
+            {{ block.shopify_attributes }}
+          >
+            <button
+              class="nv-faq-trigger"
+              type="button"
+              aria-expanded="{% if is_first %}true{% else %}false{% endif %}"
+              aria-controls="nv-faq-panel-{{ section.id }}-{{ block.id }}"
+              id="nv-faq-trigger-{{ section.id }}-{{ block.id }}"
+            >
+              <span class="nv-faq-index" aria-hidden="true">({{ idx_padded }})</span>
+              <span class="nv-faq-q">{{ block.settings.question | escape }}</span>
+              <span class="nv-faq-icon" aria-hidden="true">
+                <span class="nv-faq-icon-bar nv-faq-icon-bar--h"></span>
+                <span class="nv-faq-icon-bar nv-faq-icon-bar--v"></span>
+              </span>
+            </button>
+            <div
+              class="nv-faq-answer"
+              id="nv-faq-panel-{{ section.id }}-{{ block.id }}"
+              role="region"
+              aria-labelledby="nv-faq-trigger-{{ section.id }}-{{ block.id }}"
+            >
+              <div class="nv-faq-answer-inner">
+                <div class="nv-faq-answer-content rte">
+                  {{ block.settings.answer }}
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
 
