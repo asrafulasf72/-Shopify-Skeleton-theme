@@ -1,71 +1,62 @@
-
 <div
-  class="sop-footer-newsletter"
+  class="nv-footer-newsletter"
   aria-label="{{ 'general.newsletter.label' | t | default: 'Newsletter' }}"
 >
-  <div class=" sop-newsletter-top-con">
-
+  <div class=" nv-newsletter-top-con">
     {%- comment -%} ROW 1  {%- endcomment -%}
-    <div class="sop-footer-newsletter-top">
-      <div class="sop-footer-newsletter-copy">
+    <div class="nv-footer-newsletter-top">
+      <div class="nv-footer-newsletter-copy">
         {%- if heading != blank -%}
-          <p class="sop-footer-newsletter-heading">{{ heading }}</p>
-        {%- endif -%}
-        {%- if subtext != blank -%}
-          <p class="sop-footer-newsletter-subtext">{{ subtext }}</p>
+          <p class="nv-footer-newsletter-heading">{{ heading }}</p>
         {%- endif -%}
       </div>
 
-      <span class="sop-footer-newsletter-icon" aria-hidden="true" focusable="false">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-          <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
-          <line x1="10" y1="5" x2="10" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="5" y1="10" x2="15" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
+      <span class="nv-footer-newsletter-icon" aria-hidden="true" focusable="false">
+        {% render 'icons', icon: "footer-svg" %}
       </span>
     </div>
 
     {%- comment -%} ROW 2  {%- endcomment -%}
-    <div class="sop-footer-newsletter-form-wrapper">
+    <div class="nv-footer-newsletter-form-wrapper">
       {%- form 'customer',
-        id: 'sop-footer-newsletter-form',
-        class: 'sop-footer-newsletter-form',
+        id: 'nv-footer-newsletter-form',
+        class: 'nv-footer-newsletter-form',
         novalidate: 'novalidate'
       -%}
         <input type="hidden" name="contact[tags]" value="newsletter">
 
         {%- if form.errors -%}
           <p
-            class="sop-footer-newsletter-msg sop-footer-newsletter-msg-error"
+            class="nv-footer-newsletter-msg nv-footer-newsletter-msg-error"
             role="alert"
             aria-live="assertive"
-            id="sop-newsletter-error"
+            id="nv-newsletter-error"
           >
-            {{- form.errors.translated_fields['email'] | capitalize }}
-            {{- form.errors.messages['email'] -}}
+            {{- form.errors.translated_fields.email | capitalize }}
+            {{- form.errors.messages.email -}}
           </p>
         {%- endif -%}
 
         {%- if form.posted_successfully? -%}
           <p
-            class="sop-footer-newsletter-msg sop-footer-newsletter-msg-success"
+            class="nv-footer-newsletter-msg nv-footer-newsletter-msg-success"
             role="status"
             aria-live="polite"
           >
             {{ 'general.newsletter.success_message' | t | default: 'Thanks for subscribing!' }}
           </p>
         {%- else -%}
-          <div class="sop-footer-newsletter-field-wrapper">
+          <div class="nv-footer-newsletter-field-wrapper">
             <label
-              for="sop-footer-newsletter-email"
-              class="sop-visually-hidden"
+              for="nv-footer-newsletter-email"
+              class="nv-visually-hidden"
             >
               {{ 'general.newsletter.email_placeholder' | t | default: 'Enter your email' }}
             </label>
 
             <input
-              id="sop-footer-newsletter-email"
-              class="sop-footer-newsletter-input"
+              id="nv-footer-newsletter-email"
+              class="nv-footer-newsletter-input"
               type="email"
               name="contact[email]"
               value="{{ form.email }}"
@@ -75,7 +66,7 @@
               spellcheck="false"
               placeholder="{{ 'general.newsletter.email_placeholder' | t | default: 'Enter your email' }}"
               {%- if form.errors -%}
-                aria-describedby="sop-newsletter-error"
+                aria-describedby="nv-newsletter-error"
                 aria-invalid="true"
               {%- endif -%}
               required
@@ -83,16 +74,14 @@
 
             <button
               type="submit"
-              class="sop-footer-newsletter-btn"
+              class="nv-footer-newsletter-btn"
               name="commit"
             >
               <span>{{ 'general.newsletter.submit_button' | t | default: 'Subscribe' }}</span>
             </button>
           </div>
         {%- endif -%}
-
       {%- endform -%}
     </div>
-
   </div>
 </div>
