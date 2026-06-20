@@ -360,4 +360,27 @@
   }
 {% endstyle %}
 
+{% javascript %}
+  (() => {
+    const initFaq = (root) => {
+      if (!root || root.dataset.nvFaqBound === '1') return;
+      root.dataset.nvFaqBound = '1';
+
+      root.addEventListener('click', (e) => {
+        const trigger = e.target.closest('.nv-faq-trigger');
+        if (!trigger || !root.contains(trigger)) return;
+
+        const row = trigger.closest('[data-nv-faq-item]');
+        if (!row) return;
+
+        const isOpen = row.classList.contains('is-open');
+
+        // Close all siblings (single-open accordion)
+        root.querySelectorAll('[data-nv-faq-item].is-open').forEach((openRow) => {
+          if (openRow === row) return;
+          openRow.classList.remove('is-open');
+          openRow.querySelector('.nv-faq-trigger')?.setAttribute('aria-expanded', 'false');
+        });
+  })();
+{% endjavascript %}
 
