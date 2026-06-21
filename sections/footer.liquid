@@ -55,12 +55,12 @@
             <div class="nv-footer-tagline-wrapper">
               {%- comment -%}  vertical SVG {%- endcomment -%}
               <span class="nv-footer-tagline-line nv-line-vertical" aria-hidden="true">
-                {% render 'icons', icon: "vertical-svg" %}
+                {% render 'icons', icon: 'vertical-svg' %}
               </span>
 
               {%- comment -%}  horizontal SVG {%- endcomment -%}
               <span class="nv-footer-tagline-line nv-line-horizontal" aria-hidden="true">
-               {% render 'icons', icon: "horizontal-svg" %}
+                {% render 'icons', icon: 'horizontal-svg' %}
               </span>
 
               <p class="nv-footer-tagline">{{ brand_tagline }}</p>
@@ -287,7 +287,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "t:sections.footer.settings.general_header.content",
+      "content": "t:sections.footer.settings.general_header.content"
     },
     {
       "type": "color_scheme",
@@ -350,6 +350,12 @@
     },
     {
       "type": "checkbox",
+      "id": "show_payment_icons",
+      "label":"t:sections.footer.settings.show_payment_icons_label.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
       "id": "show_country_selector",
       "label": "t:sections.footer.settings.show_country_selector_label.label",
       "default": true
@@ -358,9 +364,9 @@
       "type": "richtext",
       "id": "copyright_text",
       "label": "t:sections.footer.settings.copyright_text.label",
-      "default": "t:sections.footer.settings.copyright_text.default",
+      "default": "t:sections.footer.settings.copyright_text.default"
     },
-        {
+    {
       "type": "checkbox",
       "id": "show_bottom_image",
       "label": "t:sections.footer.settings.show_bottom_image.label",
@@ -371,11 +377,10 @@
       "id": "bottom_image",
       "label": "t:sections.footer.settings.bottom_image_label.label",
       "visible_if": "{{ section.settings.show_bottom_image == true }}",
-      "info":"t:sections.footer.settings.bottom_image_label.info"
+      "info": "t:sections.footer.settings.bottom_image_label.info"
     }
   ],
   "blocks": [
-    
     {
       "type": "menu",
       "name": "t:sections.footer.blocks.menu.name",
