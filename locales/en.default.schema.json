@@ -40,6 +40,7 @@
     "stock": "Stock",
     "notification": "Notification",
     "body": "Body",
+    "border":"Border",
     "typography": "Typography",
     "fonts": "Fonts",
     "heading_fonts": "Heading Font",
@@ -114,6 +115,9 @@
     "notification_warning": "Warning",
     "notification_error": "Error",
     "body_background": "Background",
+    "primary_border":"Primary",
+    "secondary_border":"Secondary",
+    "cursor_text_color":"Cursor text color",
     "weight": "Weight",
     "default_logo": "Default logo",
     "favicon": "Favicon",
@@ -342,12 +346,6 @@
         "color_scheme": {
           "label": "Color scheme"
         },
-        "border_primary_label": {
-          "label": "Border primary"
-        },
-        "border_secondary_label": {
-          "label": "Border secondary"
-        },
         "padding_top": {
           "label": "Padding top"
         },
@@ -450,12 +448,6 @@
         },
         "color_scheme": {
           "label": "Color scheme"
-        },
-        "border_primary_label": {
-          "label": "Border primary"
-        },
-        "border_secondary_label": {
-          "label": "Border secondary"
         },
         "logo_text": {
           "label": "Custom logo text",
