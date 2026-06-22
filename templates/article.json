@@ -7,14 +7,36 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
+
 {
   "sections": {
     "main": {
       "type": "article",
       "settings": {}
+    },
+    "suggested_insights": {
+      "type": "suggested-insights"
+    },
+    "socials_connect": {
+      "type": "socials-connect",
+      "blocks": {
+        "socials-connect-item-1": { "type": "media_item", "settings": { "label": "@rico.snickers" } },
+        "socials-connect-item-2": { "type": "media_item", "settings": { "label": "@rico.snickers" } },
+        "socials-connect-item-3": { "type": "media_item", "settings": { "label": "@rico.snickers" } },
+        "socials-connect-item-4": { "type": "media_item", "settings": { "label": "@rico.snickers" } }
+      },
+      "block_order": [
+        "socials-connect-item-1",
+        "socials-connect-item-2",
+        "socials-connect-item-3",
+        "socials-connect-item-4"
+      ],
+      "settings": {}  
     }
   },
   "order": [
-    "main"
+    "main",
+    "suggested_insights",
+    "socials_connect"
   ]
 }
