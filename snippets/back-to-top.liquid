@@ -24,3 +24,28 @@
     opacity: 1;
   }
 {% endstyle %}
+
+{% javascript %}
+    const backToTop = document.querySelector('back-to-top');
+    const svg = backToTop.querySelector('svg');
+    backToTop.addEventListener('mouseenter', () => {
+    svg.classList.add("exit-up", "animating");
+    setTimeout(() => {
+        svg.classList.remove("exit-up", "animating");
+        svg.classList.add("animationend");
+    }, 1300);
+    });
+    backToTop.addEventListener('mouseleave', () => {
+    svg.classList.remove("exit-up");
+    });
+    window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+        backToTop.classList.add('show');
+    } else {
+        backToTop.classList.remove('show');
+    }
+    });
+    backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+{% endjavascript %}
