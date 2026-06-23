@@ -1,282 +1,613 @@
-<header
-  class="site-header"
-  data-sticky="{{ section.settings.enable_sticky }}"
-  aria-label="{{ 'sections.header.aria_label' | t }}"
+{{ 'header.css' | asset_url | stylesheet_tag: preload: true }}
+
+{%- liquid
+  assign default_logo = settings.default_logo
+  assign logo_width = settings.logo_max_width | default: 72
+  assign logo_text_custom = section.settings.logo_text_custom
+  assign global_name = logo_text_custom | default: settings.logo_text | default: shop.name
+  assign enable_sticky = section.settings.enable_sticky
+  assign show_search = section.settings.show_search
+  assign show_cart = section.settings.show_cart
+  assign show_account = section.settings.show_account
+  assign menu = section.settings.menu
+  assign cart_drawer_gift_product = blank
+  if section.settings.enable_cart_drawer_gift_box
+    assign cart_drawer_gift_product = section.settings.cart_drawer_gift_product
+  endif
+-%}
+
+<nav
+  class="nv-header color-{{ section.settings.color_scheme }}"
+  id="nv-header"
+  data-sticky="{{ enable_sticky }}"
+  aria-label="{{ 'header.navigation.main' | t }}"
+  style="overflow: visible;"
 >
-  <div class="site-header__inner">
-    <div class="site-header__left">
-      {% render 'header-logo', image: section.settings.logo_image, label: section.settings.logo_text | default: shop.name %}
-    </div>
-
-    <div class="site-header__center">
-      {% if section.settings.menu != blank %}
-        {% render 'header-nav', menu: section.settings.menu, section: section %}
-        {% render 'mega-menu', blocks: section.blocks %}
-      {% endif %}
-    </div>
-    <div class="site-header__right">
-      {% if section.settings.show_search %}
-        <a
-          href="{{ routes.search_url }}"
-          class="site-header__icon-link"
-          aria-label="{{ 'sections.header.search_aria_label' | t }}"
-        >
-          <img src="{{ "search.svg" | asset_url }}" alt="search" height="32" width="32">
-        </a>
-      {% endif %}
-
-      {% if section.settings.show_account and shop.customer_accounts_enabled %}
-        <a
-          href="{{ routes.account_url }}"
-          class="site-header__icon-link"
-          aria-label="{{ 'sections.header.account_aria_label' | t }}"
-        >
-          <img src="{{ "icon-account.svg" | asset_url }}" alt="account" height="32" width="32">
-        </a>
-      {% endif %}
-
-      {% if section.settings.show_cart %}
+  <div class="nv-header-wrapper nv-container">
+    {% comment %}  --- LEFT SLOT --- {% endcomment %}
+    <div class="nv-header-slot nv-header-slot-left">
+      {%- if menu != blank -%}
         <button
           type="button"
-          class="site-header__icon-link site-header__cart-toggle"
-          aria-label="{{ 'sections.header.cart_aria_label' | t }}"
+          class="nv-icon-btn nv-hamburger-btn"
+          aria-label="{{ 'header.navigation.open_menu' | t }}"
           aria-expanded="false"
-          aria-controls="cart-drawer"
+          aria-controls="nv-mobile-menu"
+          data-mobile-toggle
         >
-          <img src="{{ "cart.svg" | asset_url }}" alt="cart" height="32" width="32">
-          <span
-            class="site-header__cart-count"
-            style="display: {% if cart.item_count > 0 %}inline-flex{% else %}none{% endif %};"
-          >
-            {{ cart.item_count }}
+          <span class="nv-hbg-icon" aria-hidden="true">
+            <span class="nv-hbg-line nv-hbg-line-1"></span>
+            <span class="nv-hbg-line nv-hbg-line-2"></span>
+            <span class="nv-hbg-line nv-hbg-line-3"></span>
           </span>
         </button>
-      {% endif %}
+      {%- endif -%}
 
-      {% if section.settings.menu != blank %}
-        <button
-          class="site-header__mobile-toggle"
-          aria-label="{{ 'sections.header.mobile_menu_toggle_aria_label' | t }}"
-          aria-expanded="false"
-          aria-controls="mobile-menu-panel"
-        >
-          <span class="site-header__hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </button>
-      {% endif %}
+      <div class="nv-header-logo-wrapper nv-header-logo-desktop">
+        {%- render 'header-logo', default_logo: default_logo, logo_width: logo_width, global_name: global_name -%}
+      </div>
     </div>
-  </div>
 
-  {% if section.settings.menu != blank %}
-    <div class="site-header__mobile-panel" id="mobile-menu-panel" aria-hidden="true">
-      <nav class="site-header__mobile-nav">
-        {% render 'header-nav', menu: section.settings.menu, section: section %}
-      </nav>
-    </div>
-  {% endif %}
-
-  <div
-    class="cart-drawer"
-    id="cart-drawer"
-    aria-hidden="true"
-    aria-label="{{ 'sections.header.cart_drawer_aria_label' | t }}"
-    role="dialog"
-  >
-    <div class="cart-drawer__overlay" data-cart-drawer-close></div>
-    <div class="cart-drawer__panel" role="document">
-      <header class="cart-drawer__header">
-        <h2 class="cart-drawer__title">{{ 'sections.header.cart_drawer_title' | t }}</h2>
-        <button
-          type="button"
-          class="cart-drawer__close"
-          aria-label="{{ 'sections.header.cart_drawer_close_aria_label' | t }}"
-          data-cart-drawer-close
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </header>
-
-      <div class="cart-drawer__body">
-       
+    {% comment %} ---- CENTER SLOT --- {% endcomment %}
+    <div class="nv-header-slot nv-header-slot-center">
+      <div class="nv-header-logo-wrapper nv-header-logo-mobile">
+        {%- render 'header-logo', default_logo: default_logo, logo_width: logo_width, global_name: global_name -%}
       </div>
 
-      <footer class="cart-drawer__footer">
-        <div class="cart-drawer__subtotal">
-          <span>{{ 'sections.header.cart_drawer_subtotal' | t }}</span>
-          <span>{{ cart.total_price | money }}</span>
-        </div>
-        <div class="cart-drawer__actions">
+      {%- if menu != blank -%}
+        {%- render 'header-nav', menu: menu, section: section -%}
+      {%- endif -%}
+    </div>
+
+    {% comment %} -- RIGHT SLOT -- {% endcomment %}
+    <div class="nv-header-slot nv-header-slot-right">
+      {%- if show_search -%}
+        <button
+          type="button"
+          class="nv-icon-btn nv-search-btn nv-hide-mobile"
+          aria-label="{{ 'header.search.label' | t }}"
+          data-search-toggle
+        >
+          <span class="nv-mag-inner">
+            {%- render 'icons', icon: 'search' -%}
+          </span>
+        </button>
+      {%- endif -%}
+      {%- if show_account -%}
+        {%- if customer -%}
           <a
-            href="{{ routes.cart_url }}"
-            class="cart-drawer__button cart-drawer__button--secondary"
+            href="{{ routes.account_url }}"
+            class="nv-icon-btn nv-account-btn nv-hide-mobile"
+            aria-label="{{ 'header.account.my_account' | t }}"
           >
-            {{ 'sections.header.cart_drawer_view_cart' | t }}
+            {%- render 'icons', icon: 'account' -%}
           </a>
+        {%- else -%}
           <a
-            href="{{ routes.checkout_url }}"
-            class="cart-drawer__button cart-drawer__button--primary"
+            href="{{ routes.account_url }}"
+            class="nv-icon-btn nv-account-btn nv-hide-mobile"
+            aria-label="{{ 'header.account.label' | t }}"
+            aria-expanded="false"
+            aria-controls="nv-login-modal"
+            data-acct-toggle
           >
-            {{ 'sections.header.cart_drawer_checkout' | t }}
+            <span class="nv-mag-inner">
+              {%- render 'icons', icon: 'account' -%}
+            </span>
           </a>
-        </div>
-      </footer>
+
+          <div
+            id="nv-login-modal"
+            class="nv-login-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true"
+            aria-labelledby="nv-modal-title"
+            {% comment %}
+              data-lenis-prevent
+            {% endcomment %}
+          >
+            <button
+              id="nv-modal-close"
+              class="nv-acct-close"
+              type="button"
+              aria-label="Close"
+            >
+              {% render 'icons', icon: 'close' %}
+            </button>
+
+            <div class="nv-acct-head">
+              <h2 id="nv-modal-title" class="nv-acct-title">Welcome Back</h2>
+              <p class="nv-acct-sub">Sign in or create an account to continue</p>
+            </div>
+
+            <div class="nv-acct-body">
+              <a href="{{ routes.account_login_url }}" class="nv-shop-btn"> Sign in with Shop </a>
+
+              <div class="nv-acct-or">
+                <span></span>
+                <span>OR</span>
+                <span></span>
+              </div>
+
+              {%- form 'customer_login', id: 'nv-modal-form', class: 'nv-acct-form' -%}
+                <div class="nv-acct-email-row">
+                  <input
+                    type="email"
+                    name="customer[email]"
+                    id="nv-modal-email"
+                    class="nv-acct-email-input"
+                    placeholder="Email address"
+                    autocomplete="email"
+                    autocorrect="off"
+                    autocapitalize="off"
+                  >
+                  <button
+                    type="button"
+                    id="nv-modal-next"
+                    class="nv-acct-arrow exit-right"
+                    data-login-url="{{ routes.account_login_url }}"
+                    aria-label="Continue"
+                  >
+                    {% render 'icons', icon: 'arrow-right' %}
+                  </button>
+                </div>
+                <label class="nv-acct-marketing">
+                  <input
+                    type="checkbox"
+                    name="customer[accepts_marketing]"
+                    class="nv-acct-cb"
+                  >
+                  <span>Email me with updates and deals!</span>
+                </label>
+              {%- endform -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if show_cart -%}
+        <a
+          href="{{ routes.cart_url }}"
+          class="nv-icon-btn nv-cart-btn header-actions__cart-icon"
+          data-fly-to-cart-destination
+          data-cart-drawer-open
+          aria-controls="nv-cart-drawer"
+          aria-expanded="false"
+          aria-label="{{ 'header.cart.label' | t }}"
+        >
+          <span class="nv-mag-inner">
+            {%- render 'icons', icon: 'cart' -%}
+            <span class="nv-cart-count" aria-hidden="true"
+              >(<span class="header-actions__cart-count">{{ cart.item_count }}</span>)</span
+            >
+          </span>
+        </a>
+      {%- endif -%}
     </div>
   </div>
-</header>
+</nav>
 
-{% comment %}
-  {% stylesheet %}
+<div
+  class="nv-header-spacer"
+  id="nv-header-spacer"
+  aria-hidden="true"
+></div>
 
-  {% endstylesheet %}
-{% endcomment %}
+{%- if menu != blank -%}
+  {% comment %} -- MOBILE MENU -- {% endcomment %}
+  <div
+    id="nv-mobile-menu"
+    class="nv-mobile-menu color-{{ section.settings.color_scheme }}"
+    aria-label="{{ 'header.navigation.main' | t }}"
+    aria-hidden="true"
+    aria-modal="true"
+    role="dialog"
+    data-mobile-menu
+    data-lenis-prevent
+  >
+    <div class="nv-mobile-menu-header">
+      <div class="nv-mobile-menu-header-logo">
+        {%- render 'header-logo', default_logo: default_logo, logo_width: logo_width, global_name: global_name -%}
+      </div>
 
-{% javascript %}
-  (function () {
-    const header = document.querySelector('.site-header');
-    if (!header) return;
+      <div class="nv-mobile-menu-header-actions">
+        {%- if show_cart -%}
+          <a
+            href="{{ routes.cart_url }}"
+            class="nv-icon-btn nv-cart-btn"
+            data-cart-drawer-open
+            aria-controls="nv-cart-drawer"
+            aria-expanded="false"
+            aria-label="{{ 'header.cart.label' | t }}"
+          >
+            {%- render 'icons', icon: 'cart' -%}
+            <span class="nv-cart-count" aria-hidden="true">({{ cart.item_count }})</span>
+          </a>
+        {%- endif -%}
 
-    const stickyEnabled = header.dataset.sticky === 'true';
+        <button
+          type="button"
+          class="nv-icon-btn"
+          aria-label="{{ 'header.navigation.close_menu' | t }}"
+          data-mobile-close
+        >
+          {% render 'icons', icon: 'close' %}
+        </button>
+      </div>
+    </div>
 
-    if (stickyEnabled) {
-      const placeholder = document.createElement('div');
-      placeholder.classList.add('site-header-placeholder');
-      header.insertAdjacentElement('afterend', placeholder);
+    <div
+      class="nv-mobile-menu-dim"
+      aria-hidden="true"
+      data-locale-dim
+    ></div>
 
-      let isSticky = false;
+    <div class="nv-mobile-menu-body" data-lenis-prevent>
+      {%- if show_search -%}
+        <div class="nv-mobile-search-trigger">
+          <button
+            type="button"
+            class="nv-mobile-search-trigger-btn"
+            aria-label="Open search"
+            data-search-drawer-open
+          >
+            {% render 'icons', icon: 'search' %}
+            <span class="nv-mobile-search-trigger-text">Search here...</span>
+          </button>
+        </div>
+      {%- endif -%}
 
-      function updateSticky() {
-        const triggerPoint = header.offsetTop + header.offsetHeight;
+      <ul class="nv-mobile-menu-list" role="list">
+        {%- for link in linklists[menu].links -%}
+          <li class="nv-mobile-menu-item">
+            {%- if link.links.size > 0 -%}
+              <button
+                type="button"
+                class="nv-mobile-menu-link nv-mobile-menu-link-parent"
+                aria-expanded="false"
+                aria-controls="nv-mob-l2-{{ forloop.index }}"
+                data-submenu-toggle
+              >
+                {{- link.title -}}
+              </button>
 
-        if (window.scrollY > triggerPoint && !isSticky) {
-          isSticky = true;
-          placeholder.style.height = header.offsetHeight + 'px';
-          placeholder.classList.add('site-header-placeholder--active');
-          header.classList.add('site-header--sticky');
-        } else if (window.scrollY <= triggerPoint && isSticky) {
-          isSticky = false;
-          placeholder.style.height = '0';
-          placeholder.classList.remove('site-header-placeholder--active');
-          header.classList.remove('site-header--sticky');
-        }
-      }
+              <ul
+                id="nv-mob-l2-{{ forloop.index }}"
+                class="nv-mobile-submenu"
+                role="list"
+                aria-hidden="true"
+              >
+                {%- for child in link.links -%}
+                  <li class="nv-mobile-submenu-item">
+                    {%- if child.links.size > 0 -%}
+                      <button
+                        type="button"
+                        class="nv-mobile-submenu-link nv-mobile-submenu-link-parent"
+                        aria-expanded="false"
+                        aria-controls="nv-mob-l3-{{ forloop.parentloop.index }}-{{ forloop.index }}"
+                        data-submenu-toggle
+                      >
+                        {{- child.title -}}
+                      </button>
 
-      window.addEventListener('scroll', updateSticky, { passive: true });
-    }
+                      <ul
+                        id="nv-mob-l3-{{ forloop.parentloop.index }}-{{ forloop.index }}"
+                        class="nv-mobile-submenu nv-mobile-submenu-l3"
+                        role="list"
+                        aria-hidden="true"
+                      >
+                        {%- for grandchild in child.links -%}
+                          <li>
+                            <a
+                              href="{{ grandchild.url }}"
+                              class="nv-mobile-submenu-link nv-mobile-submenu-link-l3{% if grandchild.active %} is-active{% endif %}"
+                              {% if grandchild.active %}
+                                aria-current="page"
+                              {% endif %}
+                            >
+                              {{- grandchild.title -}}
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
 
-    const toggle = header.querySelector('.site-header__mobile-toggle');
-    const panel = header.querySelector('.site-header__mobile-panel');
+                    {%- else -%}
+                      <a
+                        href="{{ child.url }}"
+                        class="nv-mobile-submenu-link{% if child.active %} is-active{% endif %}"
+                        {% if child.active %}
+                          aria-current="page"
+                        {% endif %}
+                      >
+                        {{- child.title -}}
+                      </a>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
 
-    if (toggle && panel) {
-      toggle.addEventListener('click', function () {
-        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!isOpen));
-        panel.setAttribute('aria-hidden', String(isOpen));
-        panel.classList.toggle('is-open', !isOpen);
-      });
+            {%- else -%}
+              <a
+                href="{{ link.url }}"
+                class="nv-mobile-menu-link{% if link.active %} is-active{% endif %}"
+                {% if link.active %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{- link.title -}}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+    <div class="nv-mobile-menu-footer">
+      {%- if customer -%}
+        <a href="{{ routes.account_url }}" class="nv-mobile-menu-login-btn">
+          {{ 'header.account.my_account' | t }}
+        </a>
+      {%- else -%}
+        <a href="{{ routes.account_login_url }}" class="nv-mobile-menu-login-btn">
+          {{ 'header.customer.login.sign_in' | t }}
+        </a>
+      {%- endif -%}
 
-      document.addEventListener('click', function (event) {
-        if (!header.contains(event.target)) {
-          toggle.setAttribute('aria-expanded', 'false');
-          panel.setAttribute('aria-hidden', 'true');
-          panel.classList.remove('is-open');
-        }
-      });
+      <button
+        type="button"
+        class="nv-mobile-menu-locale-trigger"
+        aria-expanded="false"
+        aria-controls="nv-locale-drawer"
+        data-locale-toggle
+      >
+        <span class="nv-mobile-menu-locale-trigger-text">
+          {%- if localization.language != blank -%}
+            {{ localization.language.endonym_name }}
+          {%- else -%}
+            English
+          {%- endif -%}
+          <span aria-hidden="true"> | </span>
+          {%- if localization.country != blank -%}
+            {{ localization.country.currency.iso_code }}({{ localization.country.currency.symbol }})
+          {%- else -%}
+            USD($)
+          {%- endif -%}
+        </span>
+        {% render 'icons', icon: 'arrow-down-outline' %}
+      </button>
+    </div>
+  </div>
 
-      window.addEventListener('resize', function () {
-        if (window.innerWidth > 768) {
-          toggle.setAttribute('aria-expanded', 'false');
-          panel.setAttribute('aria-hidden', 'true');
-          panel.classList.remove('is-open');
-        }
-      });
-    }
+  <div
+    id="nv-locale-drawer"
+    class="nv-locale-drawer color-{{ section.settings.color_scheme }}"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{{ 'header.locale.settings_title' | t }}"
+    data-locale-view="main"
+    data-lenis-prevent
+  >
+    <div class="nv-locale-view nv-locale-view-main" data-view="main">
+      <div class="nv-locale-drawer-header">
+        <span class="nv-locale-drawer-title">{{ 'header.locale.settings_title' | t }}</span>
+        <button
+          type="button"
+          class="nv-icon-btn"
+          aria-label="{{ 'header.locale.close_settings' | t }}"
+          data-locale-close
+        >
+          {% render 'icons', icon: 'close' %}
+        </button>
+      </div>
 
-    const cartDrawer = document.getElementById('cart-drawer');
-    const cartToggle = header.querySelector('.site-header__cart-toggle');
+      <button
+        type="button"
+        class="nv-locale-drawer-row"
+        data-locale-goto="language"
+        aria-label="{{ 'header.locale.change_language' | t }}"
+      >
+        <span class="nv-locale-drawer-row-label">{{ 'header.locale.language' | t }}</span>
+        <div class="nv-locale-drawer-row-control">
+          <span class="nv-locale-drawer-row-value" data-current-language>
+            {{ localization.language.endonym_name }}
+          </span>
+          {% render 'icons', icon: 'arrow-right-outline' %}
+        </div>
+      </button>
 
-    if (cartDrawer && cartToggle) {
-      const closeElements = cartDrawer.querySelectorAll('[data-cart-drawer-close]');
+      <button
+        type="button"
+        class="nv-locale-drawer-row"
+        data-locale-goto="currency"
+        aria-label="{{ 'header.locale.change_currency' | t }}"
+      >
+        <span class="nv-locale-drawer-row-label">{{ 'header.locale.currency' | t }}</span>
+        <div class="nv-locale-drawer-row-control">
+          <span class="nv-locale-drawer-row-value" data-current-currency>
+            {{ localization.country.currency.iso_code }}({{ localization.country.currency.symbol }})
+          </span>
+          {% render 'icons', icon: 'arrow-right-outline' %}
+        </div>
+      </button>
+      <div class="nv-local-empty" aria-hidden="true"></div>
+    </div>
 
-      function openCartDrawer() {
-        cartDrawer.setAttribute('aria-hidden', 'false');
-        cartToggle.setAttribute('aria-expanded', 'true');
-      }
+    <div
+      class="nv-locale-view nv-locale-view-list"
+      data-view="language"
+      aria-hidden="true"
+    >
+      <div class="nv-locale-drawer-list-header">
+        <button
+          type="button"
+          class="nv-icon-btn nv-locale-drawer-back"
+          aria-label="{{ 'header.locale.back_to_settings' | t }}"
+          data-locale-back
+        >
+          {% render 'icons', icon: 'arrow-left' %}
+        </button>
+        <span class="nv-locale-drawer-title">{{ 'header.locale.language' | t }}</span>
+      </div>
 
-      function closeCartDrawer() {
-        cartDrawer.setAttribute('aria-hidden', 'true');
-        cartToggle.setAttribute('aria-expanded', 'false');
-      }
+      {%- form 'localization', id: 'nv-language-form', class: 'nv-localization-form' -%}
+        <ul
+          class="nv-locale-list"
+          role="list"
+          aria-label="{{ 'header.locale.select_language' | t }}"
+          data-lenis-prevent
+        >
+          {%- for language in localization.available_languages -%}
+            <li>
+              <button
+                type="submit"
+                name="language_code"
+                value="{{ language.iso_code }}"
+                class="nv-locale-list-item{% if language.iso_code == localization.language.iso_code %} nv-locale-list-item-active{% endif %}"
+                data-locale-option
+                {% if language.iso_code == localization.language.iso_code %}
+                  aria-current="true"
+                {% endif %}
+              >
+                <span class="nv-locale-list-item-check">
+                  {%- if language.iso_code == localization.language.iso_code -%}
+                    {% render 'icons', icon: 'check-2' %}
+                  {%- endif -%}
+                </span>
+                {%- liquid
+                  assign locale_parts = language.iso_code | split: '-'
+                  assign region_code = ''
+                  if locale_parts.size > 1
+                    assign region_code = locale_parts[1] | upcase
+                  endif
+                -%}
+                {{ language.endonym_name -}}
+                {%- if region_code != '' %} ({{ region_code }}){% endif %}
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endform -%}
+    </div>
 
-      cartToggle.addEventListener('click', function () {
-        const isOpen = cartDrawer.getAttribute('aria-hidden') === 'false';
+    <div
+      class="nv-locale-view nv-locale-view-list"
+      data-view="currency"
+      aria-hidden="true"
+    >
+      <div class="nv-locale-drawer-list-header">
+        <button
+          type="button"
+          class="nv-icon-btn nv-locale-drawer-back"
+          aria-label="{{ 'header.locale.back_to_settings' | t }}"
+          data-locale-back
+        >
+          {% render 'icons', icon: 'arrow-left' %}
+        </button>
+        <span class="nv-locale-drawer-title">{{ 'header.locale.currency' | t }}</span>
+      </div>
 
-        if (isOpen) {
-          closeCartDrawer();
-        } else {
-          if (document.startViewTransition) {
-            document.startViewTransition(function () {
-              openCartDrawer();
-            });
-          } else {
-            openCartDrawer();
-          }
-        }
-      });
+      {%- form 'localization', id: 'nv-currency-form', class: 'nv-localization-form' -%}
+        <ul
+          class="nv-locale-list"
+          role="list"
+          aria-label="{{ 'header.locale.select_currency' | t }}"
+          data-lenis-prevent
+        >
+          {%- for country in localization.available_countries -%}
+            <li>
+              <button
+                type="submit"
+                name="country_code"
+                value="{{ country.iso_code }}"
+                class="nv-locale-list-item{% if country.iso_code == localization.country.iso_code %} nv-locale-list-item-active{% endif %}"
+                data-locale-option
+                {% if country.iso_code == localization.country.iso_code %}
+                  aria-current="true"
+                {% endif %}
+              >
+                <span class="nv-locale-list-item-check">
+                  {%- if country.iso_code == localization.country.iso_code -%}
+                    {% render 'icons', icon: 'check-2' %}
+                  {%- endif -%}
+                </span>
+                {{ country.currency.iso_code }} ({{ country.currency.symbol }})
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endform -%}
+    </div>
+  </div>
 
-      closeElements.forEach(function (element) {
-        element.addEventListener('click', function () {
-          closeCartDrawer();
-        });
-      });
+  {%- if show_search -%}
+    <div
+      id="nv-search-drawer"
+      class="nv-search-drawer"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search"
+      data-lenis-prevent
+    >
+      {%- render 'mobile-inline-search',
+        suggested_searches: section.settings.suggested_searches,
+        featured_collection: section.settings.featured_collection,
+        color: section.settings.color_scheme
+      -%}
+    </div>
+  {%- endif -%}
 
-      document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-          const isOpen = cartDrawer.getAttribute('aria-hidden') === 'false';
-          if (isOpen) {
-            closeCartDrawer();
-          }
-        }
-      });
-    }
-  })();
+  <div
+    class="nv-overlay"
+    aria-hidden="true"
+    data-overlay
+  ></div>
+{%- endif -%}
 
-  document.querySelectorAll('.header-nav__item').forEach((item) => {
-    item.addEventListener('mouseenter', function () {
-      let name = this.dataset.menu;
+{%- if show_cart -%}
+  {% render 'cart-drawer',
+    section_id: section.id,
+    color_scheme: section.settings.color_scheme,
+    gift_product: cart_drawer_gift_product
+  %}
+{%- endif -%}
 
-      document.querySelectorAll('.mega-panel').forEach((panel) => {
-        panel.classList.remove('active');
-
-        if (panel.dataset.menu === name) {
-          panel.classList.add('active');
-        }
-      });
-    });
-  });
-{% endjavascript %}
-
+<script src="{{ 'header.js' | asset_url }}" defer></script>
+{% render 'search-modal',
+  suggested_searches: section.settings.suggested_searches,
+  featured_collection: collections[section.settings.featured_collection],
+  color_scheme: section.settings.color_scheme
+%}
 {% schema %}
 {
   "name": "t:sections.header.name",
+  "tag": "header",
+  "class": "section-header",
   "settings": [
     {
-      "type": "image_picker",
-      "id": "logo_image",
-      "label": "t:sections.header.settings.logo_image.label"
+      "type": "header",
+      "content": "t:sections.header.settings.general_header.content"
     },
     {
-      "type": "text",
-      "id": "logo_text",
-      "label": "t:sections.header.settings.logo_text.label",
-      "default": "My Store"
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.header.settings.color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.settings.navigation_header.content"
     },
     {
       "type": "link_list",
       "id": "menu",
-      "label": "t:sections.header.settings.menu.label"
+      "label": "t:sections.header.settings.menu.label",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.settings.icons_header.content"
     },
     {
       "type": "checkbox",
@@ -288,7 +619,7 @@
       "type": "checkbox",
       "id": "show_account",
       "label": "t:sections.header.settings.show_account.label",
-      "default": true
+      "default": false
     },
     {
       "type": "checkbox",
@@ -298,77 +629,141 @@
     },
     {
       "type": "checkbox",
+      "id": "enable_cart_drawer_gift_box",
+      "label": "t:sections.header.settings.enable_cart_drawer_gift_box.label",
+      "default": false
+    },
+    {
+      "type": "product",
+      "id": "cart_drawer_gift_product",
+      "label": "t:sections.header.settings.cart_drawer_gift_product.label",
+      "info": "t:sections.header.settings.cart_drawer_gift_product.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.settings.behaviour_header.content"
+    },
+    {
+      "type": "checkbox",
       "id": "enable_sticky",
       "label": "t:sections.header.settings.enable_sticky.label",
-      "default": true
+      "default": true,
+      "info": "t:sections.header.settings.enable_sticky.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.settings.search_features_header.content"
+    },
+    {
+      "type": "text",
+      "id": "suggested_searches",
+      "label": "t:sections.header.settings.suggested_searches.label",
+      "info": "t:sections.header.settings.suggested_searches.info"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "t:sections.header.settings.featured_product.label"
     }
   ],
   "blocks": [
     {
       "type": "mega_menu",
-      "name": "Mega Menu",
-      "settings": [
-        { "type": "text", "id": "link_name", "label": "Menu Link Name" },
-        { "type": "link_list", "id": "link_list_1", "label": "Link Column 1" },
-        { "type": "link_list", "id": "link_list_2", "label": "Link Column 2" },
-        { "type": "link_list", "id": "link_list_3", "label": "Link Column 3" },
-        { "type": "image_picker", "id": "first_image", "label": "Image Card 1" },
-        { "type": "url", "id": "first_image_url", "label": "Image 1 URL" },
-        { "type": "text", "id": "highlight_overlay_text", "label": "Image 1 Bold Text", "default": "Weekly" },
-        { "type": "text", "id": "overlay_text", "label": "Image 1 Sub Text", "default": "Top sales" },
-        { "type": "image_picker", "id": "second_image", "label": "Image Card 2" },
-        { "type": "url", "id": "second_image_url", "label": "Image 2 URL" },
-        { "type": "text", "id": "highlight_overlay_text_second", "label": "Image 2 Bold Text", "default": "50% Off" },
-        { "type": "text", "id": "overlay_text_second", "label": "Image 2 Sub Text", "default": "On this order" }
-      ]
-    },
-    {
-      "type": "nav_badge",
-      "name": "Nav Badge",
+      "name": "t:sections.header.blocks.mega_menu.name",
       "settings": [
         {
-          "type": "text",
-          "id": "link_name",
-          "label": "Menu Link Name",
-          "info": "Must match the exact menu link title (case-sensitive)"
+          "type": "paragraph",
+          "content": "t:sections.header.blocks.mega_menu.settings.nav_link_paragraph.content"
         },
         {
           "type": "text",
-          "id": "badge_text",
-          "label": "Badge Text",
-          "default": "New"
+          "id": "nav_link_title",
+          "label": "t:sections.header.blocks.mega_menu.settings.nav_link_title.label",
+          "info": "t:sections.header.blocks.mega_menu.settings.nav_link_title.info"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.header.blocks.mega_menu.settings.column_1_header.content"
+        },
+        {
+          "type": "text",
+          "id": "col_heading_cats",
+          "label": "t:sections.header.blocks.mega_menu.settings.col_heading_cats.label",
+          "default": "t:sections.header.blocks.mega_menu.settings.col_heading_cats.default"
+        },
+        {
+          "type": "link_list",
+          "id": "categories_menu",
+          "label": "t:sections.header.blocks.mega_menu.settings.categories_menu.label",
+          "info": "t:sections.header.blocks.mega_menu.settings.categories_menu.info"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.header.blocks.mega_menu.settings.column_2_header.content"
+        },
+        {
+          "type": "text",
+          "id": "col_heading_brands",
+          "label": "t:sections.header.blocks.mega_menu.settings.col_heading_brands.label",
+          "default": "t:sections.header.blocks.mega_menu.settings.col_heading_brands.default"
+        },
+        {
+          "type": "link_list",
+          "id": "brands_menu",
+          "label": "t:sections.header.blocks.mega_menu.settings.brands_menu.label",
+          "info": "t:sections.header.blocks.mega_menu.settings.brands_menu.info"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.header.blocks.mega_menu.settings.column_3_header.content"
+        },
+        {
+          "type": "text",
+          "id": "col_heading_feat",
+          "label": "t:sections.header.blocks.mega_menu.settings.col_heading_feat.label",
+          "default": "t:sections.header.blocks.mega_menu.settings.col_heading_feat.default"
         },
         {
           "type": "range",
-          "id": "badge_padding_x",
-          "label": "Badge Horizontal Padding",
-          "min": 4,
-          "max": 20,
+          "id": "featured_products_limit",
+          "label": "t:sections.header.blocks.mega_menu.settings.featured_products_limit.label",
+          "min": 1,
+          "max": 10,
           "step": 1,
-          "unit": "px",
-          "default": 8
+          "default": 5
         },
         {
-          "type": "range",
-          "id": "badge_padding_y",
-          "label": "Badge Vertical Padding",
-          "min": 2,
-          "max": 12,
-          "step": 1,
-          "unit": "px",
-          "default": 4
+          "type": "product_list",
+          "id": "featured_products",
+          "label": "t:sections.header.blocks.mega_menu.settings.featured_products.label",
+          "limit": 10,
+          "info": "t:sections.header.blocks.mega_menu.settings.featured_products.info"
         },
         {
-          "type": "color",
-          "id": "badge_bg_color",
-          "label": "Badge Background Color",
-          "default": "#ef4444"
+          "type": "header",
+          "content": "t:sections.header.blocks.mega_menu.settings.column_4_header.content"
         },
         {
-          "type": "color",
-          "id": "badge_text_color",
-          "label": "Badge Text Color",
-          "default": "#ffffff"
+          "type": "image_picker",
+          "id": "hero_image",
+          "label": "t:sections.header.blocks.mega_menu.settings.banner_image.label",
+          "info": "t:sections.header.blocks.mega_menu.settings.banner_image.info"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.header.blocks.mega_menu.settings.marquee_header.content"
+        },
+        {
+          "type": "text",
+          "id": "marquee_text_1",
+          "label": "t:sections.header.blocks.mega_menu.settings.marquee_text_1.label",
+          "default": "t:sections.header.blocks.mega_menu.settings.marquee_text_1.default"
+        },
+        {
+          "type": "text",
+          "id": "marquee_text_2",
+          "label": "t:sections.header.blocks.mega_menu.settings.marquee_text_2.label",
+          "default": "t:sections.header.blocks.mega_menu.settings.marquee_text_2.default"
         }
       ]
     }
@@ -377,6 +772,9 @@
     {
       "name": "t:sections.header.presets.default.name"
     }
-  ]
+  ],
+  "enabled_on": {
+    "groups": ["header", "footer"]
+  }
 }
 {% endschema %}
