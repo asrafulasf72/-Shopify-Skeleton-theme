@@ -78,7 +78,7 @@
                       data-language="{{ language.iso_code }}"
                     >
                       {% if language.iso_code == localization.language.iso_code %}
-                        <span>
+                        <span class="nv-local-option-check">
                           {% render 'icons', icon: "check-2" %}
                         </span>
                       {% endif %}
@@ -122,16 +122,8 @@
                       data-country="{{ country.iso_code }}"
                     >
                       {% if country.iso_code == localization.country.iso_code %}
-                        <span>
-                          <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path d="M4.5 12.75L10.5 18.75L19.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
+                        <span class="nv-local-option-currency-check">
+                          {% render 'icons', icon: "check-2" %}
                         </span>
                       {% endif %}
                       <span>
