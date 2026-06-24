@@ -40,7 +40,8 @@
     "stock": "Stock",
     "notification": "Notification",
     "body": "Body",
-    "border":"Border",
+    "border": "Border",
+    "pagination": "Pagination",
     "typography": "Typography",
     "fonts": "Fonts",
     "heading_fonts": "Heading Font",
@@ -115,9 +116,11 @@
     "notification_warning": "Warning",
     "notification_error": "Error",
     "body_background": "Background",
-    "primary_border":"Primary",
-    "secondary_border":"Secondary",
-    "cursor_text_color":"Cursor text color",
+    "primary_border": "Primary",
+    "secondary_border": "Secondary",
+    "cursor_text_color": "Cursor text color",
+    "pagination_active": "Active",
+    "pagination_inactive": "Inactive",
     "weight": "Weight",
     "default_logo": "Default logo",
     "favicon": "Favicon",
@@ -299,8 +302,8 @@
     "tiktok": "https://www.tiktok.com/shopify",
     "linkedin": "https://www.linkedin.com/shopify",
     "pinterest": "https://www.pinterest.com/shopify",
-    "whatsapp": "https://wa.me/<number>",
-    "telegram": "https://t.me/<username>"
+    "whatsapp": "https://wa.me/15551234567",
+    "telegram": "https://t.me/shopify"
   },
   "sections": {
     "404": {
@@ -319,8 +322,14 @@
         "announcement_text": {
           "label": "Top Heading"
         },
+        "announcement_text_default": {
+          "label": "We can’t find the page that you’re looking for"
+        },
         "button_text": {
           "label": "Button label"
+        },
+        "button_text_default": {
+          "label": "Back to homepage"
         },
         "button_link": {
           "label": "Button link",
@@ -328,6 +337,9 @@
         },
         "subheadline_text": {
           "label": "404 heading"
+        },
+        "subheadline_text_default": {
+          "label": "Page Not Found"
         },
         "show_status_code": {
           "label": "Show status code"
@@ -354,6 +366,14 @@
         },
         "bar_content_heading": {
           "content": "Bar content"
+        },
+        "bar_content_message_label":{
+             "label":"Message",
+             "default": "Free Express Shipping on orders $500!",
+             "info":"Best results with 40 - 60 characters"
+        },
+        "bar_content_link_label":{
+          "label":"Link (optional)"
         },
         "contact_text": {
           "label": "Contact info",
@@ -640,7 +660,7 @@
       "name": "Latest insights",
       "headers": {
         "general": "General",
-        "contents": "Contents",
+        "contents": "Contents"
       },
       "settings": {
         "heading": {
@@ -692,12 +712,12 @@
         "overlay_gradient_end": {
           "label": "Gradient opacity - middle (fade)"
         },
-        "blog": {
-          "label": "Button link"
-        },
         "button_text": {
           "label": "Button label",
           "default": "Explore more insights"
+        },
+        "blog": {
+          "label": "Button link"
         }
       },
       "blocks": {
@@ -777,7 +797,8 @@
           "info": "Paste a full YouTube or Vimeo video URL."
         },
         "video_url_direct": {
-          "label": "Direct video URL"
+          "label": "Direct video URL",
+          "info": "Direct .mp4 URL only. For Shopify-hosted or YouTube/Vimeo, use other types."
         },
         "show_marquee": {
           "label": "Show marquee"
@@ -894,7 +915,7 @@
         },
         "video_url_direct": {
           "label": "Direct video URL",
-          "info": "Link to an .mp4 or .webm file."
+          "info": "Direct .mp4 URL only. For Shopify-hosted or YouTube/Vimeo, use other types."
         },
         "section_height": {
           "label": "Minimum section height - desktop"
@@ -972,7 +993,7 @@
     "rich_text": {
       "name": "Rich Text",
       "headers": {
-        "general": "General",
+        "general": "General"
       },
       "settings": {
         "color_schemes": {
@@ -1373,7 +1394,26 @@
     },
     "blog": {
       "name": "Blog",
+      "headers":{
+        "general":"General",
+        "contents":"Contents"
+      },
       "settings": {
+        "color_schemes": {
+          "label": "Color scheme"
+        },
+        "padding_top": {
+          "label": "Padding top"
+        },
+        "padding_bottom": {
+          "label": "Padding bottom"
+        },
+        "margin_top": {
+          "label": "Margin top"
+        },
+        "margin_bottom": {
+          "label": "Margin bottom"
+        },
         "featured_article_image": {
           "label": "First article custom image"
         },
@@ -1404,7 +1444,7 @@
         "second_card": "Second card settings",
         "third_card": "Third card settings",
         "fourth_card": "Fourth card settings",
-        "button_settings": "Button settings",
+        "button_settings": "Button settings"
       },
       "settings": {
         "color_schemes": {
@@ -1643,24 +1683,18 @@
         "overlay_text_shadow": {
           "label": "Shadow"
         },
-        "collection_header_1": {
-          "content": "Collection 1"
-        },
-        "overlay_1_collection": {
-          "label": "Collection"
-        },
-        "overlay_1_label": {
-          "label": "Custom label",
-          "info": "Leave blank to use the collection's title automatically.",
-          "content": "Displayed as the top-right overlay link on the hero image. Product count is pulled automatically from the selected collection."
-        },
-        "collection_header_2": {
-          "content": "Collection 2"
-        },
-        "overlay_2_collection": {
-          "label": "Custom Label",
-          "info": "Leave blank to use the collection's title automatically.",
-          "content": "Displayed as the bottom-right overlay link on the hero image. Product count is pulled automatically from the selected collection."
+        "overlay_collections": {
+          "header": "Overlay collections",
+          "label": "Collections",
+          "item1": {
+            "label": "Custom label first collection",
+            "info": "Leave blank to use the collection's title automatically.",
+          },
+          "item2": {
+            "label": "Custom label second collection",
+            "info": "Leave blank to use the collection's title automatically.",
+          },
+          "info": "Displayed as the top-right overlay link on the hero image. Product count is pulled automatically from the selected collection."
         },
         "shop_all": {
           "label": "Text",
@@ -1759,7 +1793,7 @@
       "name": "Contact Form",
       "headers": {
         "general": "General",
-        "form_fields": "Form fields",
+        "form_fields": "Form fields"
       },
       "settings": {
         "color_schemes": {
@@ -1857,7 +1891,7 @@
         },
         "copyright_text": {
           "label": "Copyright text",
-          "default": "<p>Copyright © 2026 Rico.Powered by Shopify</p>",
+          "default": "<p>Copyright © 2026 Rico.Powered by Shopify</p>"
         },
         "show_bottom_image": {
           "label": "Show bottom image"
@@ -1865,7 +1899,7 @@
         "bottom_image_label": {
           "label": "Bottom sticky image",
           "info": "Footer bottom use a 1920×400px wide image with centered subject and dark/muted background for best results."
-        },
+        }
       },
       "blocks": {
         "menu": {
@@ -2010,11 +2044,42 @@
       "default": {
         "view_all_text": "View all",
         "load_more_text": "Load more",
-        "heading": "Product list",
+        "heading": "Product list"
       },
       "presets": {
         "default": {
           "name": "Product list"
+        }
+      }
+    },
+    "password": {
+      "name": "Password",
+      "settings": {
+        "general": {
+          "content": "General"
+        },
+        "color_schemes": {
+          "label": "Color scheme"
+        },
+        "heading": {
+          "label": "Heading",
+          "default": "Opening soon!!!"
+        },
+        "subheading": {
+          "label": "Subheading",
+          "default": "Be the first one to know when we open!"
+        },
+        "subscribe_button_label": {
+          "label": "Subscribe button label",
+          "default": "Subscribe"
+        },
+        "header_cta_label": {
+          "label": "Header button label",
+          "default": "Enter storefront password"
+        },
+        "enter_button_label": {
+          "label": "Password modal button label",
+          "default": "Enter"
         }
       }
     },
@@ -2102,7 +2167,7 @@
       "default": {
         "view_all_text": "View all",
         "load_more_text": "Load more",
-        "heading": "Product list",
+        "heading": "Product list"
       },
       "presets": {
         "default": {
@@ -2111,13 +2176,14 @@
       }
     },
     "new_arrivals": {
-      "name": "Product list",
+      "name": "New Arrivals",
       "settings": {
         "color_schemes": {
           "label": "Color scheme"
         },
         "heading": {
-          "label": "Heading"
+          "label": "Heading",
+          "default": "Latest arrivals"
         },
         "products_header": {
           "content": "Products"
@@ -2183,6 +2249,7 @@
           "label": "Grid gap"
         },
         "tab": {
+          "name": "Tab",
           "tab_title": {
             "label": "Tab title"
           },
@@ -2194,13 +2261,13 @@
       "default": {
         "view_all_text": "View all",
         "load_more_text": "Load more",
-        "heading": "Latest arrivals",
+        "heading": "Latest arrivals"
       },
       "presets": {
         "default": {
           "name": "New Arrivals",
           "solid": "Solid",
-          "multicolor": "Multicolor",
+          "multicolor": "Multicolor"
         }
       }
     },
@@ -2364,7 +2431,13 @@
           }
         },
         "btn": {
-          "name": "Button"
+          "name": "Button",
+          "settings": {
+            "enable_selling_plan_fallback": {
+              "label": "Enable theme selling plan fallback",
+              "info": "Keep enabled unless a subscription app block manages selling plan inputs for this product form."
+            }
+          }
         },
         "stock_urgency": {
           "name": "Stock",
@@ -2380,6 +2453,9 @@
             "heading": {
               "label": "Heading",
               "default": "Pickup availability"
+            },
+            "heading_default": {
+              "label": "Store Locations"
             },
             "note": {
               "label": "Footer note",
@@ -2503,6 +2579,9 @@
     "newsletter-popup": {
       "name": "Newsletter popup",
       "settings": {
+        "color_schemes": {
+          "label": "Color scheme"
+        },
         "layout": {
           "content": "Layout",
           "label": "Popup layout",
@@ -2612,12 +2691,6 @@
         "popup_delay": {
           "label": "Delay before showing (seconds)"
         },
-        "colors_header": {
-          "content": "Colors"
-        },
-        "popup_bg_color": {
-          "label": "Popup background"
-        },
         "close_btn_color": {
           "label": "Close button color"
         }
@@ -2693,6 +2766,9 @@
         "sort_label": {
           "label": "Sort label"
         },
+        "sort_label_default": {
+          "label": "Sort by"
+        },
         "show_availability": {
           "label": "Show availability"
         },
@@ -2758,8 +2834,14 @@
         "title": {
           "label": "Page title"
         },
+        "title_default": {
+          "label": "Collections"
+        },
         "subtitle": {
           "label": "Page subtitle"
+        },
+        "subtitle_default": {
+          "label": "Explore performance-driven designs from top sneaker brands."
         },
         "show_product_image_fallback": {
           "label": "Show first available product's image as collection image, if collection doesn't have a dedicated image"
@@ -2812,6 +2894,9 @@
             },
             "label": {
               "label": "Section label"
+            },
+            "label_default": {
+              "label": "Sort by"
             }
           }
         },
@@ -2844,8 +2929,14 @@
         "btn_label": {
           "label": "Button label"
         },
+        "btn_label_default": {
+          "label": "View collections"
+        },
         "heading": {
           "label": "Section heading"
+        },
+        "heading_default": {
+          "label": "Some of our collection"
         },
         "padding_top": {
           "label": "Padding top"
@@ -2858,7 +2949,7 @@
         },
         "margin_bottom": {
           "label": "Margin bottom"
-        },
+        }
       },
       "blocks": {
         "collection": {
@@ -2888,12 +2979,18 @@
         "heading": {
           "label": "Section heading"
         },
+        "heading_default": {
+          "label": "Socials connect"
+        },
         "accessibility_header": {
           "content": "Accessibility"
         },
         "section_aria_label": {
           "label": "Section aria label",
           "info": "Announced to screen readers in place of a visible heading. Keep it short and descriptive."
+        },
+        "section_aria_label_default": {
+          "label": "Media gallery"
         },
         "layout_direction": {
           "label": "Layout direction",
@@ -3097,6 +3194,15 @@
             "email_label": "Email address",
             "email_default": "store@example.com"
           }
+        },
+        "feature_block": {
+          "name": "Feature Strip",
+          "settings": {
+            "title_label": "Feature Title",
+            "title_default": "Feature Title",
+            "desc_label": "Feature Description",
+            "desc_default": "Feature Description"
+          }
         }
       },
       "presets": {
@@ -3192,6 +3298,9 @@
         "heading": {
           "label": "Section heading"
         },
+        "heading_default": {
+          "label": "Build your bundle"
+        },
         "bundle_header": {
           "content": "Bundle customizer"
         },
@@ -3251,6 +3360,9 @@
         },
         "heading": {
           "label": "Section heading"
+        },
+        "heading_default": {
+          "label": "Frequently asked questions"
         },
         "open_first": {
           "label": "Keep Open first FAQ by default"
