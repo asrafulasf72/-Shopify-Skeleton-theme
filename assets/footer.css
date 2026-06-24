@@ -32,7 +32,7 @@
 
 .nv-newsletter-top-con {
   padding: 1.5rem 1rem;
-  background: var(--nv-foreground);
+  background-color: var(--nv-foreground);
 }
 
 .nv-footer-newsletter-copy {
@@ -71,8 +71,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 1.5px solid var(--nv-text);
-  border-top: 1.5px solid var(--nv-text);
+  border-bottom: 1.5px solid var(--nv-primary-border);
+  border-top: 1.5px solid var(--nv-primary-border);
   width: 100%;
   margin-top: 2.5rem;
 }
@@ -80,10 +80,10 @@
 .nv-footer-newsletter-input {
   flex: 1;
   min-width: 0;
-  background: transparent;
+  background-color: transparent;
   border: none;
   outline: none;
-  color: var(--footer-muted, #888);
+  color: var(--nv-foreground-text);
   font-size: 1rem;
   padding-block: 12px;
 
@@ -95,7 +95,7 @@
 
 .nv-footer-newsletter-btn {
   flex-shrink: 0;
-  background: transparent;
+  background-color: transparent;
   border: none;
   cursor: pointer;
   color: var(--nv-text);
@@ -295,7 +295,7 @@
 
 /*  BOTTOM BAR */
 .nv-footer-bottom {
-  border-top: 1px solid var(--nv-text);
+  border-top: 1px solid var(--nv-primary-border);
   padding-block: 1.25rem;
 }
 
@@ -370,8 +370,8 @@
 .nv-localization-trigger {
   width: 100%;
   min-height: 48px;
-  border: 1px solid var(--nv-text);
-  background: transparent;
+  border: 1px solid var(--nv-primary-border);
+  background-color: var(--nv-foreground);
   color: var(--nv-text);
   display: flex;
   align-items: center;
@@ -397,8 +397,8 @@
   bottom: 100%;
   left: 0;
   width: 100%;
-  background: var(--nv-background);
-  border: 1px solid var(--nv-text);
+  background-color: var(--nv-background);
+  border: 1px solid var(--nv-primary-border);
   z-index: 50;
   opacity: 0;
   visibility: hidden;
@@ -421,14 +421,14 @@
 /* GROUP */
 .nv-locale-group {
   position: relative;
-  border-bottom: 1px solid var(--nv-text);
+  border-top: 1px solid var(--nv-primary-border);
 }
 
 .nv-locale-toggle {
   width: 100%;
   min-height: 48px;
   padding: 1rem 0.75rem;
-  background: transparent;
+  background-color: var(--nv-foreground);
   border: none;
   color: var(--nv-text);
   display: flex;
@@ -446,8 +446,8 @@
   bottom: calc(100% + 1px);
   max-height: 240px;
   overflow-y: auto;
-  background: var(--nv-background);
-  border: 1px solid var(--nv-text);
+  background-color: var(--nv-background);
+  border: 1px solid var(--nv-primary-border);
   z-index: 20;
   opacity: 0;
   visibility: hidden;
@@ -476,12 +476,13 @@
 
 /* OPTION */
 .nv-locale-option {
+  position: relative;
   width: 100%;
   min-height: 48px;
-  padding: 1rem 0.75rem;
-  background: var(--nv-background);
+  padding: 1rem 3.75rem;
+  background-color: var(--nv-foreground);
   border: none;
-  border-bottom: 1px solid var(--nv-text);
+  border-bottom: 1px solid var(--nv-primary-border);
   color: var(--nv-text);
   display: flex;
   align-items: center;
@@ -491,12 +492,30 @@
   font-size: 14px;
 }
 
-.nv-locale-option:hover {
-  background: var(--nv-foreground);
+.nv-local-option-check{
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 0;
+}
+.nv-local-option-currency-check{
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 0;
 }
 
-.nv-locale-option.is-active {
-  background: var(--nv-foreground);
+.nv-locale-option:hover {
+  background-color: var(--nv-foreground);
 }
 
 /* SCROLLBAR */
@@ -504,8 +523,12 @@
   width: 5px;
 }
 
+.nv-locale-content::-webkit-scrollbar-track {
+  background-color: var(--nv-background);
+}
+
 .nv-locale-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, .25);
+  background-color: var(--nv-text);
 }
 
 /* RIGHT SIDE */
@@ -547,7 +570,7 @@
 .nv-footer-country-select {
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background-color: transparent;
   border: 1px solid (--nv-text);
   outline: none;
   color: var(--nv-text);
@@ -559,7 +582,7 @@
 }
 
 .nv-footer-country-select option {
-  background: var(--nv-background);
+  background-color: var(--nv-background);
   color: var(--nv-text);
 }
 
@@ -615,7 +638,7 @@
 @media screen and (min-width: 768px) {
   .nv-newsletter-top-con {
     padding: 2rem 2rem 4.25rem 2rem;
-    background: var(--nv-foreground);
+    background-color: var(--nv-foreground);
   }
 
   /* Newsletter */
