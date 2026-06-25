@@ -1,68 +1,272 @@
-{% comment %}
-  This section is used in the article template to render the article page, which
-  displays the full content of the blog post and can optionally include a
-  comments section for customers (not shown in this example).
+{% liquid
+  # Padding: use one desktop value and scale it for laptop, tablet, and mobile
+  assign padding_top = section.settings.padding_top | default: 0
+  assign laptop_padding_top = padding_top | times: 80 | divided_by: 100
+  assign tab_padding_top = laptop_padding_top | times: 80 | divided_by: 100
+  assign mobile_padding_top = tab_padding_top | times: 50 | divided_by: 100
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/article
-{% endcomment %}
+  assign padding_bottom = section.settings.padding_bottom | default: 0
+  assign laptop_padding_bottom = padding_bottom | times: 80 | divided_by: 100
+  assign tab_padding_bottom = laptop_padding_bottom | times: 80 | divided_by: 100
+  assign mobile_padding_bottom = tab_padding_bottom | times: 50 | divided_by: 100
 
-{% if article.image %}
-  {{ article.image | image_url: width: 1000 | image_tag }}
-{% endif %}
+  # margin: use one desktop value and scale it for laptop, tablet, and mobile
+  assign margin_top = section.settings.margin_top | default: 0
+  assign laptop_margin_top = margin_top | times: 80 | divided_by: 100
+  assign tab_margin_top = laptop_margin_top | times: 80 | divided_by: 100
+  assign mobile_margin_top = tab_margin_top | times: 50 | divided_by: 100
 
-<h1>{{ article.title }}</h1>
+  assign margin_bottom = section.settings.margin_bottom | default: 0
+  assign laptop_margin_bottom = margin_bottom | times: 80 | divided_by: 100
+  assign tab_margin_bottom = laptop_margin_bottom | times: 80 | divided_by: 100
+  assign mobile_margin_bottom = tab_margin_bottom | times: 50 | divided_by: 100
+%}
 
-{% assign date = article.published_at | time_tag: format: 'date' %}
-<p>{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
 
-{{ article.content }}
+{% stylesheet %}
 
-{% if blog.comments_enabled? %}
-  <h2>{{ 'blog.article_comments' | t }}</h2>
+  .nv-article {
+    padding-bottom: 5rem;
+  }
 
-  <div id="comments">
-    {% paginate article.comments by 10 %}
-      {% for comment in article.comments %}
-        <div>
-          <p>{{ comment.author }}</p>
-          <p>
-            {{- comment.created_at | time_tag: format: 'date' -}}
-          </p>
-          <p>{{ comment.content }}</p>
+  .nv-article-banner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+
+  .nv-article-banner img {
+    width: 100%;
+    height: 18rem;
+    object-fit: cover;
+    display: block;
+  }
+
+  @media screen and (min-width: 768px) {
+    .nv-article-banner img {
+      height: 28rem;
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    .nv-article-banner img {
+      height: 42rem;
+    }
+  }
+
+  @media screen and (min-width: 1400px) {
+    .nv-article-banner img {
+      height: 51rem;
+    }
+  }
+
+  .nv-article-meta-overlay {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    background-color: var(--nv-primary-btn-background);
+    color: var(--nv-primary-btn-text);
+
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    z-index: 2;
+  }
+
+  @media screen and (max-width: 767px) {
+    .nv-article-meta-overlay {
+      left: 1rem;
+      right: 1rem;
+      top: auto;
+      bottom: 1rem;
+      justify-content: space-around;
+      font-size: 12px;
+    }
+  }
+
+  .nv-article-layout {
+    width: 100%;
+  }
+
+  .nv-article-main {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .nv-article-title {
+    margin: 0 0 2rem;
+    font-size: 28px;
+    
+  }
+
+  @media screen and (min-width: 768px) {
+    .nv-article-title {
+      font-size: 32px;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .nv-article-title {
+      font-size: 42px;
+    }
+  }
+
+{% endstylesheet %}
+
+<div class="shopify-section-{{ section.id }} color-{{section.settings.color_schemes}}">
+
+  <div class="container">
+
+    {% if article.image %}
+      <div class="nv-article-banner">
+        <img
+          src="{{ article.image | image_url: width: 2200 }}"
+          alt="{{ article.title | escape }}"
+          width="2200"
+          height="{{ 2200 | divided_by: article.image.aspect_ratio | round }}"
+          loading="lazy">
+
+        <div class="nv-article-meta-overlay">
+          <span>By {{ article.author }}</span>
+          <span>{{ article.published_at | date: "%B %d, %Y" }}</span>
         </div>
-      {% endfor %}
+      </div>
+    {% endif %}
 
-      {{ paginate | default_pagination: anchor: 'comments' }}
-    {% endpaginate %}
+    <div class="nv-article-layout">
+
+      <div class="nv-article-main">
+
+        <h1 class="nv-article-title">
+          {{ article.title }}
+        </h1>
+
+        <div class="nv-article-content rte">
+          {{ article.content }}
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
+</div>
 
-  {% form 'new_comment', article %}
-    <h2>{{ 'blog.comment_form_title' | t }}</h2>
 
-    {{ form.errors | default_errors }}
+{% style %}
 
-    <div>
-      <label for="author">{{ 'blog.comment_form_name' | t }}</label>
-      <input type="text" name="comment[author]" id="author" value="{{ form.author }}" required>
-    </div>
+  /* Mobile: base spacing and single-column grid */
+  .shopify-section-{{ section.id }} {
+    padding-top: {{ mobile_padding_top }}px;
+    padding-bottom: {{ mobile_padding_bottom }}px;
+    margin-top: {{ mobile_margin_top }}px;
+    margin-bottom: {{ mobile_margin_bottom }}px;
+  }
 
-    <div>
-      <label for="email">{{ 'blog.comment_form_email' | t }}</label>
-      <input type="email" name="comment[email]" id="email" value="{{ form.email }}" required>
-    </div>
+  .shopify-section-{{ section.id }}
+  .container {
+    margin-top: 1.25rem;
+  }
 
-    <div>
-      <label for="body">{{ 'blog.comment_form_body' | t }}</label>
-      <textarea name="comment[body]" id="body" required>{{ form.body }}</textarea>
-    </div>
+  @media (min-width: 768px) {
+    /* Tablet: use tablet padding and column setting */
+    .shopify-section-{{ section.id }} {
+      padding-top: {{ tab_padding_top }}px;
+      padding-bottom: {{ tab_padding_bottom }}px;
+      margin-top: {{ tab_margin_top }}px;
+      margin-bottom: {{ tab_margin_bottom }}px;
+    }
 
-    <input type="submit" value="{{ 'blog.comment_form_submit' | t }}">
-  {% endform %}
-{% endif %}
+    .shopify-section-{{ section.id }}
+    .container {
+      margin-top: 2rem;
+    }
+  }
+
+  @media (min-width: 992px) {
+    /* Laptop: laptop padding and columns */
+    .shopify-section-{{ section.id }} {
+      padding-top: {{ laptop_padding_top }}px;
+      padding-bottom: {{ laptop_padding_bottom }}px;
+      margin-top: {{ laptop_margin_top }}px;
+      margin-bottom: {{ laptop_margin_bottom }}px;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    /* Desktop: full padding and desktop columns */
+    .shopify-section-{{ section.id }} {
+      padding-top: {{ padding_top }}px;
+      padding-bottom: {{ padding_bottom }}px;
+      margin-top: {{ margin_top }}px;
+      margin-bottom: {{ margin_bottom }}px;
+    }
+  }
+
+{% endstyle %}
 
 {% schema %}
 {
-  "name": "t:general.article",
-  "settings": []
+  "name": "t:sections.article.name",
+  "tag": "section",
+  "class": "nv-article",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_schemes",
+      "label": "t:sections.article.settings.color_schemes.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.article.settings.padding_top.label",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.article.settings.padding_bottom.label",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "t:sections.article.settings.margin_top.label",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "t:sections.article.settings.margin_bottom.label",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
 }
 {% endschema %}
