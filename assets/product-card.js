@@ -85,6 +85,15 @@ class ProductCard extends HTMLElement {
       },
     });
 
+    // ── Dot clicks → Swiper.slideTo ───────────────────────────
+    this.dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        this.swiper?.slideTo(Number(dot.dataset.slideIndex || 0));
+      });
+    });
+  }
+
+
 }
 
 if (!customElements.get('product-card')) {
