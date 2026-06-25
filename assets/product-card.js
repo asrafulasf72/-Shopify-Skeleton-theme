@@ -93,7 +93,43 @@ class ProductCard extends HTMLElement {
     });
   }
 
+  // ── Helpers ────────────────────────────────────────────────
 
+  syncDots(activeIndex) {
+    this.dots.forEach((dot, i) => {
+      const isActive = i === activeIndex;
+      dot.classList.toggle('is-active', isActive);
+      dot.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
+  // Mirrors the existing CSS data-direction trick from base.css
+  syncDotsDirection(prevIndex, nextIndex) {
+    const dotsContainer = this.sliderControls?.querySelector('.product-slider-dots');
+    if (!dotsContainer) return;
+    dotsContainer.dataset.direction = nextIndex > prevIndex ? 'next' : 'prev';
+    void dotsContainer.offsetHeight; // force reflow so transform-origin updates
+  }
+
+  syncVideoPlayback(swiper) {
+    swiper.slides.forEach((slide, i) => {
+      const video = slide.querySelector('video');
+      if (!video) return;
+      if (i === swiper.activeIndex) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }
+
+  updateFlyToCartImage(swiper) {
+    if (!(this.addToCartForm instanceof HTMLFormElement)) return;
+    const activeSlide = swiper.slides[swiper.activeIndex];
+    const img = activeSlide?.querySelector('img');
+    const src = img?.currentSrc || img?.getAttribute('src') || this.defaultFlyToCartImage;
+    if (src) this.addToCartForm.dataset.flyToCartImage = src;
+  }
 }
 
 if (!customElements.get('product-card')) {
