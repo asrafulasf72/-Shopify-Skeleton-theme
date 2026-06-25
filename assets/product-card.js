@@ -37,6 +37,54 @@ class ProductCard extends HTMLElement {
     this.defaultFlyToCartImage = this.addToCartForm?.dataset.flyToCartImage || '';
 
     runWhenSwiperReady(() => this.initSwiper());
+  }
+
+  disconnectedCallback() {
+    if (this.swiper) {
+      this.swiper.destroy(true, true);
+      this.swiper = null;
+    }
+  }
+
+  cacheElements() {
+    this.swiperEl       = this.querySelector(PRODUCT_CARD_SELECTORS.swiperEl);
+    this.sliderControls = this.querySelector(PRODUCT_CARD_SELECTORS.sliderControls);
+    this.prevButton     = this.querySelector(PRODUCT_CARD_SELECTORS.previousButton);
+    this.nextButton     = this.querySelector(PRODUCT_CARD_SELECTORS.nextButton);
+    this.dots           = Array.from(this.querySelectorAll(PRODUCT_CARD_SELECTORS.dots));
+    this.addToCartForm  = this.querySelector(PRODUCT_CARD_SELECTORS.addToCartForm);
+  }
+
+  initSwiper() {
+    if (this.swiper) return;
+
+    this.swiper = new Swiper(this.swiperEl, {
+      slidesPerView: 1,
+      loop:          false,
+      threshold:     8,
+      grabCursor:    true,
+
+      // ── Wire the existing product-card arrows ──────────────
+      navigation: {
+        prevEl: this.prevButton,
+        nextEl: this.nextButton,
+      },
+
+      on: {
+        afterInit:   (swiper) => {
+          this.syncDots(swiper.activeIndex);
+          this.syncDotsDirection(swiper.activeIndex, swiper.activeIndex);
+          this.updateFlyToCartImage(swiper);
+        },
+        slideChange: (swiper) => {
+          this.syncDots(swiper.activeIndex);
+          this.syncDotsDirection(swiper.previousIndex, swiper.activeIndex);
+          this.syncVideoPlayback(swiper);
+          this.updateFlyToCartImage(swiper);
+        },
+      },
+    });
+
 }
 
 if (!customElements.get('product-card')) {
