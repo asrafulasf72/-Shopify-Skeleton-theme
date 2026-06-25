@@ -1,4 +1,4 @@
-{{ 'announcement-bar.css' | asset_url | stylesheet_tag: preload: true }}
+{{ 'announcement-bar.css' | asset_url | stylesheet_tag }}
 
 {% liquid
   # Padding: use one desktop value and scale it for laptop, tablet, and mobile
@@ -44,42 +44,51 @@
             hidden
           {% endif %}
         >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path d="M8.75 16.25L2.5 10L8.75 3.75M2.5 10H17.5" stroke="currentColor" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          {% render 'icons', icon: 'arrow-left' %}
         </button>
 
-        <div
-          class="nv-announcement-bar-slider"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          {%- for block in section.blocks -%}
+        <div class="nv-announcement-bar-slider" aria-live="polite" aria-atomic="true">
+          {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+              <div
+                class="nv-announcement-bar-slide"
+                role="group"
+                aria-label="{{ 'announcement_bar.slide_count' | t: current: forloop.index, total: section.blocks.size }}"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.type == '@app' -%}
+                  {% render block %}
+                {%- else -%}
+                  <p>
+                    {%- if block.settings.url != blank -%}
+                      <a href="{{ block.settings.url }}" class="nv-announcement-bar-link">
+                        {{ block.settings.text | escape }}
+                      </a>
+                    {%- else -%}
+                      {{ block.settings.text | escape }}
+                    {%- endif -%}
+                  </p>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            {%- comment -%} fallback default slide, jokhon merchant kono block na add kore {%- endcomment -%}
             <div
               class="nv-announcement-bar-slide"
               role="group"
-              aria-label="{{ 'announcement_bar.slide_count' | t: current: forloop.index, total: section.blocks.size }}"
-              {{ block.shopify_attributes }}
+              aria-label="{{ 'announcement_bar.slide_count' | t: current: 1, total: 1 }}"
             >
               <p>
-                {%- if block.settings.url != blank -%}
-                  <a href="{{ block.settings.url }}" class="nv-announcement-bar-link">
-                    {{ block.settings.text | escape }}
+                {%- if section.settings.default_announcement_url != blank -%}
+                  <a href="{{ section.settings.default_announcement_url }}" class="nv-announcement-bar-link">
+                    {{ section.settings.default_announcement_text | escape }}
                   </a>
                 {%- else -%}
-                  {{ block.settings.text | escape }}
+                  {{ section.settings.default_announcement_text | escape }}
                 {%- endif -%}
               </p>
             </div>
-          {%- endfor -%}
+          {%- endif -%}
         </div>
 
         <button
@@ -89,17 +98,7 @@
             hidden
           {% endif %}
         >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="currentColor" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          {% render 'icons', icon: 'arrow-right' %}
         </button>
       </div>
 
@@ -121,16 +120,7 @@
               {{ localization.country.currency.symbol }})
 
               <span class="nv-announcement-bar-chevron" aria-hidden="true">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  focusable="false"
-                >
-                  <path d="M19.5 8.25L12 15.75L4.5 8.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                {% render 'icons', icon: 'arrow-down-outline' %}
               </span>
             </button>
           </div>
@@ -158,17 +148,7 @@
           <span class="nv-locale-row-label">{{ 'announcement_bar.language' | t }}</span>
           <span class="nv-locale-row-value">
             {{ localization.language.endonym_name }}
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <path d="M8.25 4.5L15.75 12L8.25 19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            {% render 'icons', icon: 'arrow-right-outline' %}
           </span>
         </button>
         <button
@@ -182,17 +162,7 @@
           <span class="nv-locale-row-value">
             {{ localization.country.currency.iso_code }}
             ({{ localization.country.currency.symbol }})
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <path d="M8.25 4.5L15.75 12L8.25 19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            {% render 'icons', icon: 'arrow-right-outline' %}
           </span>
         </button>
         <div class="nv-locale-row-empty" aria-hidden="true"></div>
@@ -223,17 +193,7 @@
                   aria-label="{{ language.endonym_name }}{% if language.iso_code == localization.language.iso_code %} — {{ 'announcement_bar.currently_selected' | t }}{% endif %}"
                 >
                   {%- if language.iso_code == localization.language.iso_code -%}
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path d="M4.5 12.75L10.5 18.75L19.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    {% render 'icons', icon: 'check-2' %}
                   {%- endif -%}
                   {{ language.endonym_name }}
                 </button>
@@ -268,17 +228,7 @@
                   aria-label="{{ country.name }} {{ country.currency.iso_code }} {{ country.currency.symbol }}{% if country.iso_code == localization.country.iso_code %} — {{ 'announcement_bar.currently_selected' | t }}{% endif %}"
                 >
                   {%- if country.iso_code == localization.country.iso_code -%}
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path d="M4.5 12.75L10.5 18.75L19.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    {% render 'icons', icon: 'check-2' %}
                   {%- endif -%}
                   {{ country.name }} ({{ country.currency.iso_code }}
                   {{ country.currency.symbol }})
@@ -382,6 +332,18 @@
     },
     {
       "type": "text",
+      "id": "default_announcement_text",
+      "label": "t:sections.announcement_bar.settings.bar_content_message_label.label",
+      "default":"t:sections.announcement_bar.settings.bar_content_message_label.default",
+      "info":"t:sections.announcement_bar.settings.bar_content_message_label.info"
+    },
+    {
+      "type": "url",
+      "id": "default_announcement_url",
+      "label":"t:sections.announcement_bar.settings.bar_content_link_label.label"
+    },
+    {
+      "type": "text",
       "id": "contact_text",
       "label": "t:sections.announcement_bar.settings.contact_text.label",
       "default": "t:sections.announcement_bar.settings.contact_text.default"
@@ -395,6 +357,9 @@
   ],
   "blocks": [
     {
+      "type": "@app"
+    },
+    {
       "type": "announcement",
       "name": "t:sections.announcement_bar.blocks.announcement.name",
       "limit": 5,
@@ -404,7 +369,7 @@
           "id": "text",
           "label": "t:sections.announcement_bar.blocks.announcement.settings.text.label",
           "default": "t:sections.announcement_bar.blocks.announcement.settings.text.default",
-          "info":"t:sections.announcement_bar.blocks.announcement.settings.text.info"
+          "info": "t:sections.announcement_bar.blocks.announcement.settings.text.info"
         },
         {
           "type": "url",
