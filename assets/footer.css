@@ -91,7 +91,7 @@
 }
 
 .nv-footer-newsletter-input::placeholder {
-  color: var(--footer-muted, #888);
+  color: var(--nv-foreground-text);
 }
 
 .nv-footer-newsletter-btn {
@@ -121,11 +121,11 @@
 }
 
 .nv-footer-newsletter-msg-error {
-  color: #ff5252;
+  color: var(--nv-notification-error);
 }
 
 .nv-footer-newsletter-msg-success {
-  color: #69f0ae;
+  color: var(--nv-notification-success);
 }
 
 /* --  MAIN BODY -- */
@@ -248,7 +248,7 @@
 }
 
 .nv-footer-block-nav {
-  border-top: 1px solid var(--footer-border, #999090);
+  border-top: 1px solid var(--nv-foreground-text);
   padding-top: 1.25rem;
 }
 
@@ -259,7 +259,7 @@
 
 /* Social block */
 .nv-footer-block-social {
-  border-top: 1px solid var(--footer-border, #999090);
+  border-top: 1px solid var(--nv-secondary-border);
   padding-top: 1.25rem;
 }
 
@@ -283,7 +283,7 @@
 /* Text block */
 .nv-footer-block-text {
   font-size: 14px;
-  color: var(--footer-muted, #888);
+  color: var(--nv-foreground-text);
   line-height: 1.65;
   word-break: break-word;
 }
@@ -385,7 +385,7 @@
 }
 
 .nv-footer-local-divider {
-  color: #FFFFFF60;
+  color: var(--nv-secondary-border);
 }
 
 .nv-localization-trigger-icon {
@@ -592,15 +592,7 @@
   position: absolute;
   right: 10px;
   pointer-events: none;
-  color: var(--footer-muted, #888);
   line-height: 0;
-}
-
-.nv-localization-trigger:focus-visible,
-.nv-locale-toggle:focus-visible,
-.nv-locale-option:focus-visible {
-  outline: 1px solid rgba(255, 255, 255, .3);
-  outline-offset: -1px;
 }
 
 /* ------ Footer Bottom Image -------- */
