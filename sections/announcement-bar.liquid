@@ -40,7 +40,7 @@
         <button
           class="nv-announcement-bar-arrow nv-announcement-bar-arrow--prev exit-left"
           aria-label="{{ 'announcement_bar.previous_announcement' | t }}"
-          {% if section.blocks.size <= 1 %}
+          {% if section.blocks.size == 1 %}
             hidden
           {% endif %}
         >
@@ -72,11 +72,11 @@
               </div>
             {%- endfor -%}
           {%- else -%}
-            {%- comment -%} fallback default slide, jokhon merchant kono block na add kore {%- endcomment -%}
+            {%- comment -%} fallback default slide {%- endcomment -%}
             <div
               class="nv-announcement-bar-slide"
               role="group"
-              aria-label="{{ 'announcement_bar.slide_count' | t: current: 1, total: 1 }}"
+              aria-label="{{ 'announcement_bar.slide_count' | t: current: 1, total: 2 }}"
             >
               <p>
                 {%- if section.settings.default_announcement_url != blank -%}
@@ -88,13 +88,29 @@
                 {%- endif -%}
               </p>
             </div>
+
+            <div
+              class="nv-announcement-bar-slide"
+              role="group"
+              aria-label="{{ 'announcement_bar.slide_count' | t: current: 2, total: 2 }}"
+            >
+              <p>
+                {%- if section.settings.default_announcement_url_2 != blank -%}
+                  <a href="{{ section.settings.default_announcement_url_2 }}" class="nv-announcement-bar-link">
+                    {{ section.settings.default_announcement_text_2 | escape }}
+                  </a>
+                {%- else -%}
+                  {{ section.settings.default_announcement_text_2 | escape }}
+                {%- endif -%}
+              </p>
+            </div>
           {%- endif -%}
         </div>
 
         <button
           class="nv-announcement-bar-arrow nv-announcement-bar-arrow--next exit-right"
           aria-label="{{ 'announcement_bar.next_announcement' | t }}"
-          {% if section.blocks.size <= 1 %}
+          {% if section.blocks.size == 1 %}
             hidden
           {% endif %}
         >
@@ -332,18 +348,6 @@
     },
     {
       "type": "text",
-      "id": "default_announcement_text",
-      "label": "t:sections.announcement_bar.settings.bar_content_message_label.label",
-      "default":"t:sections.announcement_bar.settings.bar_content_message_label.default",
-      "info":"t:sections.announcement_bar.settings.bar_content_message_label.info"
-    },
-    {
-      "type": "url",
-      "id": "default_announcement_url",
-      "label":"t:sections.announcement_bar.settings.bar_content_link_label.label"
-    },
-    {
-      "type": "text",
       "id": "contact_text",
       "label": "t:sections.announcement_bar.settings.contact_text.label",
       "default": "t:sections.announcement_bar.settings.contact_text.default"
@@ -380,10 +384,26 @@
     }
   ],
   "presets": [
-    {
-      "name": "t:sections.announcement_bar.presets.announcement_bar.name",
-      "blocks": [{ "type": "announcement" }]
-    }
-  ]
+  {
+    "name": "t:sections.announcement_bar.presets.announcement_bar.name",
+    "blocks": [
+      {
+        "type": "announcement",
+        "settings": {
+          "text":"t:sections.announcement_bar.presets.block.settings.text_one"
+        }
+      },
+      {
+        "type": "announcement",
+        "settings": {
+          "text": "t:sections.announcement_bar.presets.block.settings.text_two"
+        }
+      }
+    ]
+  }
+],
+"enabled_on": {
+   "groups": ["header"]
+}
 }
 {% endschema %}
