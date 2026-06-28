@@ -1457,3 +1457,204 @@ body.nv-cart-drawer-open .nv-overlay.is-visible {
   font-size: 0.875rem;
   color: var(--nv-text);
 }
+
+/* ---- Product list slider ---- */
+.nv-mega-menu-slider-wrap {
+  overflow: hidden;
+  position: relative;
+}
+
+.nv-mega-menu-slides {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nv-mega-menu-slide {
+  min-width: 100%;
+}
+
+.nv-mega-menu-product-card {
+  background-color: var(--nv-card-background);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.nv-mega-menu-product-img-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.nv-mega-menu-product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.nv-mega-menu-product-title {
+  font-size: 0.875rem;
+  color: var(--nv-card-text);
+  line-height: 1.4;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nv-mega-menu-product-price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nv-mega-menu-price-original {
+  font-size: 0.8125rem;
+  color: var(--nv-price-regular);
+  text-decoration: line-through;
+}
+
+.nv-mega-menu-price-sale {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--nv-price-sale);
+}
+
+/* ---- Dot indicators ---- */
+/* ---- Dot indicators ---- */
+.nv-mega-menu-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+  margin-top: 4.125rem;
+  width: 100%;
+}
+
+.nv-mega-menu-dot {
+  position: relative;
+  width: min(4.25rem, 100%);
+  height: 0.1875rem;
+  background-color: var(--nv-secondary-border);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.5;
+  overflow: hidden;
+  transition: opacity 0.25s ease;
+}
+
+.nv-mega-menu-dot::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--nv-text);
+  transform: scaleX(0);
+  transition: transform 0.35s ease;
+}
+
+.nv-mega-menu-dot.is-active {
+  opacity: 1;
+}
+
+.nv-mega-menu-dot.is-active::after {
+  transform: scaleX(1);
+}
+
+/* Next direction */
+.nv-mega-menu-dots[data-direction="next"] .nv-mega-menu-dot::after {
+  transform-origin: right;
+}
+
+.nv-mega-menu-dots[data-direction="next"] .nv-mega-menu-dot.is-active::after {
+  transform-origin: left;
+}
+
+/* Prev direction */
+.nv-mega-menu-dots[data-direction="prev"] .nv-mega-menu-dot::after {
+  transform-origin: left;
+}
+
+.nv-mega-menu-dots[data-direction="prev"] .nv-mega-menu-dot.is-active::after {
+  transform-origin: right;
+}
+
+/* ---- Hero image column ---- */
+.nv-mega-menu-hero-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.nv-mega-menu-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transform: scale(1);
+  transition:
+    opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nv-mega-menu.is-open .nv-mega-menu-hero-img {
+  opacity: 1;
+}
+
+.nv-mega-menu-col-hero:hover .nv-mega-menu-hero-img {
+  opacity: 0.85;
+  transform: scale(1.03);
+}
+
+/* ---- Marquee strip ---- */
+.nv-mega-menu-marquee-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #1C1C1C66;
+  overflow: hidden;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.nv-mega-menu-marquee-row {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.nv-mega-menu-marquee-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation-name: sopMarqueeBounce;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.nv-mega-menu-marquee-track span {
+  font-size: 0.6875rem;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  padding: 0 1.5rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nv-mega-menu-marquee-sep {
+  color: rgba(255, 255, 255, 0.4) !important;
+  padding: 0 0.5rem !important;
+}
