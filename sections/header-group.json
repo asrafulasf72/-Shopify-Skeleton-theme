@@ -8,21 +8,27 @@
  * ------------------------------------------------------------
  */
 {
-  "type": "header",
-  "name": "header group",
-  "sections": {
-      "announcement":{
-        "type": "announcement-bar",
-        "settings": {}
-      },
-      "header":{
-        "type":"header",
-        "settings": {}
-      }
-  },
-
-  "order": [
-     "announcement",
-     "header"
-  ]
+	"type": "header",
+	"name": "t:general.header",
+	"sections": {
+		"announcement":{
+          "type":"announcement-bar",
+		  "settings": {},
+		  "blocks": {
+			"announcement-bar-item-1": { "type": "announcement", "settings": { "text": "Save Upto 60% For Your First Order" } },
+			"announcement-bar-item-2": { "type": "announcement", "settings": { "text": "Free Express Shipping on orders $500!" } },
+			"announcement-bar-item-3": { "type": "announcement", "settings": { "text": "Save up to 20% with code LOVEGIFT" } }
+		  },
+		  "block_order": [
+			"announcement-bar-item-1",
+			"announcement-bar-item-2",
+			"announcement-bar-item-3"
+		  ]
+		},
+		"header": {
+			"type": "header",
+			"settings": {}
+		}
+	},
+	"order": ["announcement","header"]
 }
