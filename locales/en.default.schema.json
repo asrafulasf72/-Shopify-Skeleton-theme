@@ -3,6 +3,11 @@
     "colors_palette": "Colors palette",
     "button": "Button"
   },
+  "common": {
+    "general": {
+      "content": "General"
+    }
+  },
   "general": {
     "404": "Not found",
     "article": "Article",
@@ -289,9 +294,7 @@
     },
     "cart_drawer_auto_open": "Automatically open the cart drawer every time a product is added to the cart.",
     "marquee_background_color": "Choose the background color behind the scrolling cards.",
-    "marquee_item_gap": "Each step adds 0.25 rem to the gap between marquee items (for example, 4 = 1 rem).",
     "marquee_text_color": "Choose the text color for content inside the marquee.",
-    "marquee_vertical_padding": "Each step increases the marquee's vertical padding by 0.25 rem (for example, 4 = 1 rem).",
     "reverse_button_order": "Swap the position of the quick view and add to cart buttons.",
     "show_currency_codes": "Example: $1.00 USD.",
     "show_product_marquee": "Display cards in a continuous scrolling marquee.",
@@ -367,13 +370,18 @@
         "bar_content_heading": {
           "content": "Bar content"
         },
-        "bar_content_message_label":{
-             "label":"Message",
-             "default": "Free Express Shipping on orders $500!",
-             "info":"Best results with 40 - 60 characters"
+        "bar_content_message_one": {
+          "label": "Announcement message 1",
+          "default": "Free Express Shipping on orders $500!",
+          "info": "Best results with 40 - 60 characters"
         },
-        "bar_content_link_label":{
-          "label":"Link (optional)"
+        "bar_content_message_two": {
+          "label": "Announcement message 2",
+          "default": "New arrivals are here!",
+          "info": "Best results with 40 - 60 characters"
+        },
+        "bar_content_link_label": {
+          "label": "Link (optional)"
         },
         "contact_text": {
           "label": "Contact info",
@@ -408,6 +416,12 @@
       "presets": {
         "announcement_bar": {
           "name": "Announcement bar"
+        },
+        "block": {
+          "settings": {
+            "text_one": "Free Express Shipping on orders $500!",
+            "text_two": "Save up to 20% with code LOVEGIFT"
+          }
         }
       }
     },
@@ -570,6 +584,9 @@
               "label": "Mega banner image",
               "info": "Recommended image size: 790 x 499px (landscape, ~3:2 ratio). Portrait or square images will be cropped to fit."
             },
+            "banner_image_link_label": {
+              "label": "Hero image link"
+            },
             "marquee_header": {
               "content": "Marquee text"
             },
@@ -595,7 +612,20 @@
       "settings": {
         "heading": {
           "label": "Heading",
-          "default": "Featured collection"
+          "default": "Featured collection",
+          "content": "General"
+        },
+        "padding_top_label": {
+          "label": "Padding top"
+        },
+        "padding_bottom_label": {
+          "label": "padding bottom"
+        },
+        "margin_top_label": {
+          "label": "Margin top"
+        },
+        "margin_bottom_label": {
+          "label": "Margin bottom"
         },
         "card_1_image": {
           "label": "Background image"
@@ -775,8 +805,20 @@
           "info": "Portrait crop recommended · 800 x 660 px"
         },
         "desktop_video": {
-          "label": "Shopify hosted video",
+          "label": "Desktop video",
           "info": "A placeholder video is shown until one is selected."
+        },
+        "mobile_video": {
+          "label": "Mobile video",
+          "info": "Falls back to desktop video if not set."
+        },
+        "video_url_external_mobile": {
+          "label": "Mobile video URL",
+          "info": "Falls back to desktop URL if not set."
+        },
+        "video_url_direct_mobile": {
+          "label": "Mobile video URL",
+          "info": "Falls back to desktop URL if not set."
         },
         "section_height": {
           "label": "Desktop height"
@@ -793,11 +835,11 @@
           }
         },
         "video_url_external": {
-          "label": "YouTube or Vimeo URL",
+          "label": "Desktop video URL",
           "info": "Paste a full YouTube or Vimeo video URL."
         },
         "video_url_direct": {
-          "label": "Direct video URL",
+          "label": "Desktop video URL",
           "info": "Direct .mp4 URL only. For Shopify-hosted or YouTube/Vimeo, use other types."
         },
         "show_marquee": {
@@ -906,22 +948,34 @@
           }
         },
         "video_shopify": {
-          "label": "Shopify hosted video",
+          "label": "Desktop video",
           "info": "A placeholder video is shown until one is selected."
         },
         "video_url_external": {
-          "label": "YouTube or Vimeo URL",
+          "label": "Desktop vidoe URL",
           "info": "Paste a full YouTube or Vimeo video URL."
         },
         "video_url_direct": {
-          "label": "Direct video URL",
+          "label": "Desktop video URL",
           "info": "Direct .mp4 URL only. For Shopify-hosted or YouTube/Vimeo, use other types."
         },
+        "mobile_video": {
+          "label": "Mobile video",
+          "info": "Falls back to desktop video if not set."
+        },
+        "video_url_external_mobile": {
+          "label": "Mobile video URL",
+          "info": "Falls back to desktop URL if not set."
+        },
+        "video_url_direct_mobile": {
+          "label": "Mobile video URL",
+          "info": "Falls back to desktop URL if not set."
+        },
         "section_height": {
-          "label": "Minimum section height - desktop"
+          "label": "Desktop height"
         },
         "section_height_mobile": {
-          "label": "Minimum section height - mobile"
+          "label": "Mobile height"
         },
         "show_overlay": {
           "label": "Show overlay"
@@ -1128,8 +1182,7 @@
           "default": "<p>We think shopping should be all about celebrating your personal style.</p>"
         },
         "button_label": {
-          "label": "Button label",
-          "default": "Shop Now"
+          "label": "Button label"
         },
         "button_link": {
           "label": "Button link"
@@ -1143,6 +1196,10 @@
     },
     "flash_sale_timer": {
       "name": "Flash sale timer",
+      "headers": {
+        "general": "General",
+        "contents": "Contents"
+      },
       "settings": {
         "color_schemes": {
           "label": "Color scheme"
@@ -1163,23 +1220,14 @@
         "margin_bottom": {
           "label": "Margin bottom"
         },
-        "image_header": {
-          "content": "Images"
-        },
         "left_image": {
           "label": "Left image — desktop"
         },
         "left_image_mobile": {
           "label": "Mobile image"
         },
-        "mobile_image_header": {
-          "content": "Mobile image"
-        },
         "right_image": {
           "label": "Right image — desktop"
-        },
-        "text_content_header": {
-          "content": "Text content"
         },
         "flash_label": {
           "label": "Flash label",
@@ -1394,9 +1442,9 @@
     },
     "blog": {
       "name": "Blog",
-      "headers":{
-        "general":"General",
-        "contents":"Contents"
+      "headers": {
+        "general": "General",
+        "contents": "Contents"
       },
       "settings": {
         "color_schemes": {
@@ -1591,7 +1639,7 @@
       }
     },
     "collections_banner": {
-      "name": "Collections Banner",
+      "name": "Collections banner",
       "settings": {
         "general": {
           "content": "General"
@@ -1612,14 +1660,14 @@
           "label": "Margin bottom"
         },
         "image": {
-          "label": "Banner Image"
+          "label": "Banner image"
         },
         "subbadge": {
-          "label": "Sub-badge Text",
+          "label": "Sub-badge text",
           "default": "CURATED BRANDS"
         },
         "heading": {
-          "label": "Main Heading",
+          "label": "Main heading",
           "default": "Different styles. One movement"
         },
         "heading_tag": {
@@ -1631,22 +1679,22 @@
           }
         },
         "body": {
-          "label": "Paragraph Body Text",
+          "label": "Paragraph body text",
           "default": "From street to lifestyle, explore collections that move with you."
         },
         "btn_label": {
-          "label": "Button Label",
+          "label": "Button label",
           "default": "View collections"
         },
         "btn_link": {
           "label": "Button URL"
         },
         "btn_aria_label": {
-          "label": "Button ARIA Label",
+          "label": "Button ARIA label",
           "default": "View collections - browse our curated styles"
         },
         "loading_eager": {
-          "label": "Eager Loading (Prioritize Above Fold)"
+          "label": "Eager loading (prioritize above fold)"
         }
       }
     },
@@ -1704,7 +1752,7 @@
           "label": "Collection"
         },
         "new_arrivals_text": {
-          "label": "Collection Name",
+          "label": "Collection name",
           "default": "New arrivals"
         }
       },
@@ -1782,15 +1830,15 @@
               "default": "Maya R."
             },
             "author_title": {
-              "label": "Author Title",
-              "default": "Weekend Wanderer"
+              "label": "Author title",
+              "default": "Weekend wanderer"
             }
           }
         }
       }
     },
     "contact_form": {
-      "name": "Contact Form",
+      "name": "Contact form",
       "headers": {
         "general": "General",
         "form_fields": "Form fields"
@@ -1868,7 +1916,7 @@
           "default": "Awesome designs for brands that matter!"
         },
         "show_follow_on_shop": {
-          "label": "Show Follow on Shop"
+          "label": "Show follow on shop"
         },
         "newsletter_header": {
           "content": "Newsletter"
@@ -1941,10 +1989,10 @@
       }
     },
     "custom_liquid": {
-      "name": "Custom Liquid",
+      "name": "Custom liquid",
       "settings": {
         "custom_liquid": {
-          "label": "Custom Liquid",
+          "label": "Custom liquid",
           "info": "Add app snippets or other Liquid/HTML code to create advanced customizations."
         },
         "padding_top": {
@@ -2176,7 +2224,7 @@
       }
     },
     "new_arrivals": {
-      "name": "New Arrivals",
+      "name": "New arrivals",
       "settings": {
         "color_schemes": {
           "label": "Color scheme"
@@ -2265,7 +2313,7 @@
       },
       "presets": {
         "default": {
-          "name": "New Arrivals",
+          "name": "New arrivals",
           "solid": "Solid",
           "multicolor": "Multicolor"
         }
@@ -2387,6 +2435,9 @@
             "alignment": {
               "label": "Alignment"
             },
+            "price_tax": {
+              "label": "Price tax status"
+            },
             "price_reverse": {
               "label": "Reverse price order"
             }
@@ -2395,7 +2446,7 @@
         "countdown": {
           "name": "Countdown",
           "settings": {
-            "content": "",
+            "content": "This countdown only works when the product metafields Discount ending time, Discount code, and Discount title are filled in. If any of these metafields are empty, the countdown section will not be displayed on the product page.",
             "heading": {
               "label": "Heading",
               "default": "Don't miss the deal!"
@@ -2929,6 +2980,12 @@
         "btn_label": {
           "label": "Button label"
         },
+        "button_link": {
+          "info": "You can choose the collection from the dropdown menu, or enter a custom URL to link to any page you want."
+        },
+        "button_link_label": {
+          "label": "Button link"
+        },
         "btn_label_default": {
           "label": "View collections"
         },
@@ -2975,6 +3032,15 @@
         },
         "color_schemes": {
           "label": "Color scheme"
+        },
+        "shadow_color": {
+          "label": "Shadow color"
+        },
+        "label_text_color": {
+          "label": "Label text color"
+        },
+        "shadow_opacity": {
+          "label": "Shadow opacity"
         },
         "heading": {
           "label": "Section heading"
@@ -3196,33 +3262,39 @@
           }
         },
         "feature_block": {
-          "name": "Feature Strip",
+          "name": "Feature strip",
           "settings": {
-            "title_label": "Feature Title",
-            "title_default": "Feature Title",
-            "desc_label": "Feature Description",
-            "desc_default": "Feature Description"
+            "title_label": "Feature title",
+            "title_default": "Feature title",
+            "desc_label": "Feature description",
+            "desc_default": "Feature description"
           }
         }
       },
       "presets": {
         "default": {
           "name": "Store location",
-          "location_1_title": "Downtown store",
+          "location_1_title": "Sylhet",
           "location_1_open_hours": "Monday – Sunday\n11:00 – 23:00",
-          "location_1_address": "123 Example Street\nSample City, Region 00001\nCountry",
-          "location_1_phone": "+1 (555) 123‑4567",
-          "location_1_email": "store@example.com",
-          "location_2_title": "Uptown store",
+          "location_1_address": "House 45, Road 7, Sylhet 3100, Bangladesh",
+          "location_1_phone": "+01234567890",
+          "location_1_email": "sylhet@rico.sneakers",
+          "location_2_title": "Dhaka",
           "location_2_open_hours": "Monday – Sunday\n10:00 – 22:00",
-          "location_2_address": "456 Sample Avenue\nSample City, Region 00002\nCountry",
-          "location_2_phone": "+1 (555) 234‑5678",
-          "location_2_email": "store@example.com",
-          "location_3_title": "Mall store",
+          "location_2_address": "House 45, Road 7, Dhaka 3100, Bangladesh",
+          "location_2_phone": "+01234567891",
+          "location_2_email": "dhaka@rico.sneakers",
+          "location_3_title": "Chittagong",
           "location_3_open_hours": "Monday – Sunday\n09:00 – 21:00",
-          "location_3_address": "789 Market Road\nSample City, Region 00003\nCountry",
-          "location_3_phone": "+1 (555) 345‑6789",
-          "location_3_email": "store@example.com"
+          "location_3_address": "House 45, Road 7, Chittagong 3100, Bangladesh",
+          "location_3_phone": "+01234567892",
+          "location_3_email": "ctg@rico.sneakers",
+          "feature_1_title": "Secure Payment",
+          "feature_1_desc": "Shop in confidence with us",
+          "feature_2_title": "Scandi style",
+          "feature_2_desc": "Developed in Mirpur, DhK",
+          "feature_3_title": "Free Shipping",
+          "feature_3_desc": "On all orders over $150"
         }
       }
     },
@@ -3287,7 +3359,7 @@
       }
     },
     "bundle_builder": {
-      "name": "Bundle Builder",
+      "name": "Bundle builder",
       "settings": {
         "general": {
           "content": "General"
