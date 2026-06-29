@@ -6,6 +6,18 @@
   "common": {
     "general": {
       "content": "General"
+    },
+    "padding_top": {
+      "label": "Padding top"
+    },
+    "padding_bottom": {
+      "label": "Padding bottom"
+    },
+    "margin_top": {
+      "label": "Margin top"
+    },
+    "margin_bottom": {
+      "label": "Margin bottom"
     }
   },
   "general": {
@@ -312,21 +324,24 @@
     "404": {
       "name": "404 Page",
       "settings": {
-        "general": {
-          "content": "General"
-        },
         "color_schemes": {
           "label": "Color scheme"
         },
-        "image": {
-          "label": "Image",
-          "info": "Upload a high-resolution contextual image. Fallbacks to dynamic outline if left empty."
+        "show_status_code": {
+          "label": "Show status code"
         },
-        "announcement_text": {
-          "label": "Top Heading"
+        "status_code": {
+          "label": "404 code"
         },
-        "announcement_text_default": {
-          "label": "We can’t find the page that you’re looking for"
+        "subheadline_text": {
+          "label": "Page not found heading"
+        },
+        "subheadline_text_default": {
+          "label": "Page Not Found"
+        },
+        "subtext": {
+          "label": "Subtext",
+          "info": "Optional descriptive text shown below the heading. Leave blank to hide."
         },
         "button_text": {
           "label": "Button label"
@@ -336,36 +351,15 @@
         },
         "button_link": {
           "label": "Button link",
-          "info": "Route to redirect customers back from failure routes."
-        },
-        "subheadline_text": {
-          "label": "404 heading"
-        },
-        "subheadline_text_default": {
-          "label": "Page Not Found"
-        },
-        "show_status_code": {
-          "label": "Show status code"
-        },
-        "status_code": {
-          "label": "404 code"
+          "info": "Leave blank to link to homepage by default."
         }
       }
     },
     "announcement_bar": {
       "name": "Announcement bar",
       "settings": {
-        "general_header": {
-          "content": "General"
-        },
         "color_scheme": {
           "label": "Color scheme"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
         },
         "bar_content_heading": {
           "content": "Bar content"
@@ -477,9 +471,6 @@
     "header": {
       "name": "Header",
       "settings": {
-        "general_header": {
-          "content": "General"
-        },
         "color_scheme": {
           "label": "Color scheme"
         },
@@ -612,20 +603,7 @@
       "settings": {
         "heading": {
           "label": "Heading",
-          "default": "Featured collection",
-          "content": "General"
-        },
-        "padding_top_label": {
-          "label": "Padding top"
-        },
-        "padding_bottom_label": {
-          "label": "padding bottom"
-        },
-        "margin_top_label": {
-          "label": "Margin top"
-        },
-        "margin_bottom_label": {
-          "label": "Margin bottom"
+          "default": "Featured collection"
         },
         "card_1_image": {
           "label": "Background image"
@@ -689,25 +667,12 @@
     "latest_insights": {
       "name": "Latest insights",
       "headers": {
-        "general": "General",
         "contents": "Contents"
       },
       "settings": {
         "heading": {
           "label": "Section heading",
           "default": "Latest insights"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "sop_latest_cover_img": {
           "label": "Cover image"
@@ -770,7 +735,6 @@
       "name": "Promotion banner",
       "settings": {
         "header": {
-          "general": "General",
           "contents": "Contents"
         },
         "color_scheme_header": {
@@ -778,12 +742,6 @@
         },
         "color_scheme": {
           "label": "Color scheme"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "heading": {
           "label": "Section heading",
@@ -909,17 +867,8 @@
     "hero_banner": {
       "name": "Hero Banner",
       "settings": {
-        "header_general": {
-          "content": "General"
-        },
         "color_schemes": {
           "label": "Color scheme"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "header_content": {
           "content": "Contents"
@@ -1046,24 +995,9 @@
     },
     "rich_text": {
       "name": "Rich Text",
-      "headers": {
-        "general": "General"
-      },
       "settings": {
         "color_schemes": {
           "label": "Color scheme"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "content_alignment": {
           "label": "Text alignment",
@@ -1132,7 +1066,6 @@
     "image_with_text": {
       "name": "Image with text",
       "headers": {
-        "general": "General",
         "contents": "Contents"
       },
       "settings": {
@@ -1142,18 +1075,6 @@
         "heading": {
           "label": "Section heading",
           "default": "Our Philosophy"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "image": {
           "label": "Image"
@@ -1197,7 +1118,6 @@
     "flash_sale_timer": {
       "name": "Flash sale timer",
       "headers": {
-        "general": "General",
         "contents": "Contents"
       },
       "settings": {
@@ -1207,18 +1127,6 @@
         "heading": {
           "label": "Heading",
           "default": "Step up your game."
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "left_image": {
           "label": "Left image — desktop"
@@ -1403,18 +1311,6 @@
           "label": "Heading",
           "default": "Suggested insights"
         },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
-        },
         "articles_to_show": {
           "label": "Articles to show"
         }
@@ -1425,42 +1321,17 @@
       "settings": {
         "color_schemes": {
           "label": "Color scheme"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         }
       }
     },
     "blog": {
       "name": "Blog",
       "headers": {
-        "general": "General",
         "contents": "Contents"
       },
       "settings": {
         "color_schemes": {
           "label": "Color scheme"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "featured_article_image": {
           "label": "First article custom image"
@@ -1486,7 +1357,6 @@
     "breakdown": {
       "name": "Breakdown",
       "headers": {
-        "general_header": "General",
         "animation_settings": "Animation settings",
         "first_card": "First card settings",
         "second_card": "Second card settings",
@@ -1497,9 +1367,6 @@
       "settings": {
         "color_schemes": {
           "label": "Color scheme"
-        },
-        "nv-breakdown_padding_bottom": {
-          "label": "Padding bottom"
         },
         "first_title": {
           "label": "Title",
@@ -1641,23 +1508,8 @@
     "collections_banner": {
       "name": "Collections banner",
       "settings": {
-        "general": {
-          "content": "General"
-        },
         "color_schemes": {
           "label": "Color scheme"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "image": {
           "label": "Banner image"
@@ -1700,9 +1552,6 @@
     },
     "collection_carousel": {
       "name": "Collection carousel",
-      "general_header": {
-        "content": "General"
-      },
       "headers": {
         "view_transition": "View transition",
         "text": "Text",
@@ -1737,10 +1586,12 @@
           "item1": {
             "label": "Custom label first collection",
             "info": "Leave blank to use the collection's title automatically.",
+            "default": "First collection"
           },
           "item2": {
             "label": "Custom label second collection",
             "info": "Leave blank to use the collection's title automatically.",
+            "default": "Second collection"
           },
           "info": "Displayed as the top-right overlay link on the hero image. Product count is pulled automatically from the selected collection."
         },
@@ -1781,8 +1632,7 @@
     "testimonials": {
       "name": "Testimonials",
       "headers": {
-        "slider": "Slider settings",
-        "general": "General"
+        "slider": "Slider settings"
       },
       "settings": {
         "color_schemes": {
@@ -1791,18 +1641,6 @@
         "heading": {
           "label": "Section heading",
           "default": "Testimonials"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "autoplay": {
           "label": "Enable autoplay"
@@ -1840,18 +1678,11 @@
     "contact_form": {
       "name": "Contact form",
       "headers": {
-        "general": "General",
         "form_fields": "Form fields"
       },
       "settings": {
         "color_schemes": {
           "label": "Color scheme"
-        },
-        "section_padding_top": {
-          "label": "Padding top"
-        },
-        "section_padding_bottom": {
-          "label": "Padding bottom"
         },
         "heading": {
           "label": "Heading",
@@ -1897,15 +1728,6 @@
       "settings": {
         "color_scheme": {
           "label": "Color scheme"
-        },
-        "general_header": {
-          "content": "General"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "footer_logo": {
           "label": "Footer logo",
@@ -1994,12 +1816,6 @@
         "custom_liquid": {
           "label": "Custom liquid",
           "info": "Add app snippets or other Liquid/HTML code to create advanced customizations."
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
         }
       },
       "presets": {
@@ -2050,18 +1866,6 @@
         "enable_loop": {
           "label": "Enable loop"
         },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
-        },
         "layout_header": {
           "content": "Layout"
         },
@@ -2103,9 +1907,6 @@
     "password": {
       "name": "Password",
       "settings": {
-        "general": {
-          "content": "General"
-        },
         "color_schemes": {
           "label": "Color scheme"
         },
@@ -2158,6 +1959,9 @@
         "view_all_text": {
           "label": "View all text"
         },
+        "view_all_Link": {
+          "label": "View all link"
+        },
         "load_more": {
           "label": "Load more button"
         },
@@ -2172,18 +1976,6 @@
         },
         "enable_loop": {
           "label": "Enable loop"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "layout_header": {
           "content": "Layout"
@@ -2266,18 +2058,6 @@
         "enable_loop": {
           "label": "Enable loop"
         },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
-        },
         "layout_header": {
           "content": "Layout"
         },
@@ -2340,12 +2120,6 @@
             "layout_2": "Layout 2"
           }
         },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
         "cursor_text": {
           "label": "Cursor text",
           "default": "(Zoom)"
@@ -2364,19 +2138,7 @@
       "blocks": {
         "common": {
           "padding_header": "Padding",
-          "padding_top": {
-            "label": "Top"
-          },
-          "padding_bottom": {
-            "label": "Bottom"
-          },
-          "margin_header": "Margin",
-          "margin_top": {
-            "label": "Top"
-          },
-          "margin_bottom": {
-            "label": "Bottom"
-          }
+          "margin_header": "Margin"
         },
         "badge": {
           "name": "Badge",
@@ -2585,12 +2347,6 @@
             },
             "show_telegram": {
               "label": "Show telegram"
-            },
-            "padding_top": {
-              "label": "Padding top"
-            },
-            "padding_bottom": {
-              "label": "Padding bottom"
             }
           }
         },
@@ -2755,17 +2511,8 @@
     "cart": {
       "name": "Cart page",
       "settings": {
-        "general": {
-          "content": "General"
-        },
         "color_scheme": {
           "label": "Color scheme"
-        },
-        "padding_top": {
-          "label": "Top padding"
-        },
-        "padding_bottom": {
-          "label": "Bottom padding"
         },
         "header": {
           "content": "Gift box"
@@ -2779,25 +2526,20 @@
         "gift_product": {
           "label": "Gift upsell product",
           "info": "Select the gift box product to offer as an upsell. Only works when 'Enable gift box' is turned on."
+        },
+        "payment_icons": {
+          "label": "Show payment icons"
         }
       }
     },
     "collection": {
       "name": "Collection page",
       "settings": {
-        "general": {
-          "content": "General"
-        },
         "color_schemes": {
           "label": "Color scheme"
         },
         "padding_header": "Padding",
-        "padding_top": {
-          "label": "Top"
-        },
-        "padding_bottom": {
-          "label": "Bottom"
-        },
+
         "navigation_header": {
           "content": "Navigation menu"
         },
@@ -2869,19 +2611,10 @@
     "collections": {
       "name": "Collections list",
       "settings": {
-        "general": {
-          "content": "General"
-        },
         "color_schemes": {
           "label": "Color scheme"
         },
         "padding_header": "Padding",
-        "padding_top": {
-          "label": "Top"
-        },
-        "padding_bottom": {
-          "label": "Bottom"
-        },
         "title": {
           "label": "Page title"
         },
@@ -2917,17 +2650,8 @@
     "search": {
       "name": "Search results",
       "settings": {
-        "general": {
-          "content": "General"
-        },
         "color_schemes": {
           "label": "Color scheme"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
         },
         "products_per_page": {
           "label": "Products per page"
@@ -2994,18 +2718,6 @@
         },
         "heading_default": {
           "label": "Some of our collection"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         }
       },
       "blocks": {
@@ -3027,9 +2739,6 @@
     "socials-connect": {
       "name": "Socials connect",
       "settings": {
-        "general": {
-          "content": "General"
-        },
         "color_schemes": {
           "label": "Color scheme"
         },
@@ -3068,18 +2777,6 @@
         },
         "card_radius": {
           "label": "Card corner radius"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "slideshow_header": {
           "content": "Slideshow settings"
@@ -3168,9 +2865,6 @@
     "store_location": {
       "name": "Store location",
       "settings": {
-        "general_settings_header": {
-          "label": "General"
-        },
         "color_schemes": {
           "label": "Color scheme"
         },
@@ -3212,18 +2906,7 @@
         "feature_3_title_default": "Free shipping",
         "feature_3_desc_label": "Feature 3 description",
         "feature_3_desc_default": "Free shipping on qualifying orders.",
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
-        },
+
         "caption_overlay_header": {
           "content": "Caption overlay"
         },
@@ -3304,9 +2987,6 @@
         "paragraph": {
           "content": "This section only works on product pages. It will not display on the home page or other pages."
         },
-        "general_header": {
-          "content": "General"
-        },
         "color_schemes": {
           "label": "Color scheme"
         },
@@ -3326,18 +3006,6 @@
         },
         "layout_header": {
           "content": "Layout"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         },
         "desktop_grid_row": {
           "label": "Desktop columns"
@@ -3361,11 +3029,12 @@
     "bundle_builder": {
       "name": "Bundle builder",
       "settings": {
-        "general": {
-          "content": "General"
-        },
         "color_schemes": {
           "label": "Color scheme"
+        },
+        "show_breadcrumb": {
+          "label": "Show breadcrumb instead of heading",
+          "info": "When enabled, the global breadcrumb navigation replaces the section heading. Ideal when Bundle Builder is used as a standalone page."
         },
         "heading": {
           "label": "Section heading"
@@ -3385,18 +3054,6 @@
         },
         "max_items": {
           "label": "Maximum bundle size"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         }
       },
       "blocks": {
@@ -3427,9 +3084,6 @@
       "name": "FAQ",
       "label": "Frequently asked questions",
       "settings": {
-        "general": {
-          "content": "General"
-        },
         "heading": {
           "label": "Section heading"
         },
@@ -3441,18 +3095,6 @@
         },
         "color_scheme": {
           "label": "Color scheme"
-        },
-        "padding_top": {
-          "label": "Padding top"
-        },
-        "padding_bottom": {
-          "label": "Padding bottom"
-        },
-        "margin_top": {
-          "label": "Margin top"
-        },
-        "margin_bottom": {
-          "label": "Margin bottom"
         }
       },
       "blocks": {
