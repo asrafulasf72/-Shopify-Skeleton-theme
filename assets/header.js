@@ -72,4 +72,25 @@
 
   let mobileTrap = mobileMenu ? createFocusTrap(mobileMenu) : null;
   let localeTrap = localeDrawer ? createFocusTrap(localeDrawer) : null;
+
+    /* --- LOCALE DRAWER -- */
+  function showLocaleView(viewName) {
+    if (!localeDrawer) return;
+
+    const views = localeDrawer.querySelectorAll('[data-view]');
+    views.forEach(function (view) {
+      const isTarget = view.getAttribute('data-view') === viewName;
+      view.setAttribute('aria-hidden', String(!isTarget));
+      view.style.display = isTarget ? 'flex' : 'none';
+    });
+
+    localeDrawer.setAttribute('data-locale-view', viewName);
+
+    // Focus the first meaningful element in the new view
+    const activeView = localeDrawer.querySelector('[data-view="' + viewName + '"]');
+    if (activeView) {
+      const firstFocusable = activeView.querySelector('button:not([disabled]), a[href], input:not([disabled])');
+      if (firstFocusable) setTimeout(() => firstFocusable.focus(), 50);
+    }
+  }
 })
