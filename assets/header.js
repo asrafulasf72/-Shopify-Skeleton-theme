@@ -45,4 +45,20 @@
             }
         };
     }
+
+      /* STICKY HEADER */
+  (function initSticky() {
+    let header = document.getElementById('nv-header');
+    if (!header || header.dataset.sticky !== 'true') return;
+
+    let section = header.closest('.section-header');
+    if (section) section.style.position = 'sticky';
+
+    function handleScroll() {
+      header.classList.toggle('is-scrolled', window.scrollY > 4);
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+  })();
 })
