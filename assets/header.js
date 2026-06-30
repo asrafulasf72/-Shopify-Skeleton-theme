@@ -61,4 +61,15 @@
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
   })();
+
+    /* --- SHARED STATE --- */
+  let mobileMenu = document.getElementById('nv-mobile-menu');
+  let overlay = document.querySelector('[data-overlay]');
+  let localeDrawer = document.getElementById('nv-locale-drawer');
+  let localeTrigger = document.querySelector('[data-locale-toggle]');
+  let dim = document.querySelector('[data-locale-dim]');
+  let toggleBtns = document.querySelectorAll('[data-mobile-toggle]');
+
+  let mobileTrap = mobileMenu ? createFocusTrap(mobileMenu) : null;
+  let localeTrap = localeDrawer ? createFocusTrap(localeDrawer) : null;
 })
