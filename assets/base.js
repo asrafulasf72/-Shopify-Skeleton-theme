@@ -119,16 +119,46 @@ class CharAnimationManager {
   }
 
   wrapChars(button) {
-    const text = button.textContent.trim();
-    if (!text || button.querySelector('.char')) return;
-    button.innerHTML = `<span class="char">${[...text]
+  const text = button.tagName === 'INPUT'
+    ? (button.value || '').trim()
+    : button.textContent.trim();
+
+  if (!text || button.querySelector('.char')) return;
+
+  if (button.tagName === 'INPUT') {
+    const wrapper = document.createElement('button');
+    wrapper.type = button.type || 'button';
+    wrapper.className = button.className;
+    wrapper.innerHTML = `<span class="char">${[...text]
       .map((char, i) =>
         char === ' '
           ? `<span data-label=" " style="--i:${i + 1}">&nbsp;</span>`
           : `<span data-label="${char}" style="--i:${i + 1}">${char}</span>`
       )
       .join('')}</span>`;
+    button.replaceWith(wrapper);
+    return;
   }
+
+  // Only wrap text nodes, leave other elements (icons, svgs) untouched
+  button.childNodes.forEach((node) => {
+    if (node.nodeType !== Node.TEXT_NODE) return;
+    const chars = node.textContent.trim();
+    if (!chars) return;
+
+    const span = document.createElement('span');
+    span.className = 'char';
+    span.innerHTML = [...chars]
+      .map((char, i) =>
+        char === ' '
+          ? `<span data-label=" " style="--i:${i + 1}">&nbsp;</span>`
+          : `<span data-label="${char}" style="--i:${i + 1}">${char}</span>`
+      )
+      .join('');
+
+    node.replaceWith(span); // replace only the text node
+  });
+}
 
   initBtnAnimations(root = document) {
     root.querySelectorAll('.nv-btn-animation').forEach((btn) => this.wrapChars(btn));
@@ -156,9 +186,9 @@ class CharAnimationManager {
 
 class ThemeApp {
   constructor() {
-    this.lenis      = new LenisManager();
+    this.lenis = new LenisManager();
     this.announcement = new AnnouncementBarManager();
-    this.arrows     = new ArrowAnimationManager();
+    this.arrows = new ArrowAnimationManager();
     this.charAnimation = new CharAnimationManager();
   }
 }
@@ -167,3 +197,20 @@ class ThemeApp {
 document.addEventListener('DOMContentLoaded', () => {
   window.themeApp = new ThemeApp();
 });
+
+
+function setHeaderHeight() {
+  const header = document.querySelector('.section-header');
+  if (!header) return;
+  requestAnimationFrame(() => {
+    document.documentElement.style.setProperty('--nv-header-height', header.offsetHeight + 'px');
+  });
+}
+
+let headerHeightTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(headerHeightTimer);
+  headerHeightTimer = setTimeout(setHeaderHeight, 100);
+}, { passive: true });
+
+setHeaderHeight();
