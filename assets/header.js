@@ -109,4 +109,21 @@
     if (localeTrap) localeTrap.activate();
     setTimeout(() => localeDrawer.focus(), 100);
   }
+  function closeLocaleDrawer() {
+    if (!localeDrawer) return;
+    if (localeTrap) localeTrap.deactivate();
+    localeDrawer.classList.remove('is-open');
+    localeDrawer.setAttribute('aria-hidden', 'true');
+    if (localeTrigger) localeTrigger.setAttribute('aria-expanded', 'false');
+    if (dim) dim.classList.remove('is-visible');
+
+    // Only unlock scroll if mobile menu is also closed
+    if (!mobileMenu || !mobileMenu.classList.contains('is-open')) {
+      document.body.style.overflow = '';
+      document.documentElement.classList.remove('lenis-stop');
+      if (window.lenis) window.lenis.start();
+    }
+
+    if (localeTrigger) localeTrigger.focus();
+  }
 })
