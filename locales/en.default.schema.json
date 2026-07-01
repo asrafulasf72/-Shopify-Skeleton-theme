@@ -310,15 +310,15 @@
     "reverse_button_order": "Swap the position of the quick view and add to cart buttons.",
     "show_currency_codes": "Example: $1.00 USD.",
     "show_product_marquee": "Display cards in a continuous scrolling marquee.",
-    "facebook": "https://facebook.com/shopify",
-    "instagram": "https://www.instagram.com/shopify",
-    "twitter": "https://x.com/shopify",
-    "youtube": "https://www.youtube.com/shopify",
-    "tiktok": "https://www.tiktok.com/shopify",
-    "linkedin": "https://www.linkedin.com/shopify",
-    "pinterest": "https://www.pinterest.com/shopify",
-    "whatsapp": "https://wa.me/15551234567",
-    "telegram": "https://t.me/shopify"
+    "facebook": "https://facebook.com/username",
+    "instagram": "https://www.instagram.com/username",
+    "twitter": "https://x.com/username",
+    "youtube": "https://www.youtube.com/username",
+    "tiktok": "https://www.tiktok.com/username",
+    "linkedin": "https://www.linkedin.com/username",
+    "pinterest": "https://www.pinterest.com/username",
+    "whatsapp": "https://wa.me/phone_number",
+    "telegram": "https://t.me/username"
   },
   "sections": {
     "404": {
@@ -709,7 +709,7 @@
         },
         "button_text": {
           "label": "Button label",
-          "default": "Explore more insights"
+          "default": "Explore more +"
         },
         "blog": {
           "label": "Button link"
@@ -800,6 +800,23 @@
           "label": "Desktop video URL",
           "info": "Direct .mp4 URL only. For Shopify-hosted or YouTube/Vimeo, use other types."
         },
+        "show_cursor": {
+        "label": "Show custom cursor"
+      },
+      "cursor_link": {
+        "label": "Cursor click destination",
+        "info": "Where clicking anywhere in the section takes the user"
+      },
+      "cursor_text": {
+        "label": "Cursor label",
+        "default": "Explore"
+      },
+      "cursor_bg_color": {
+        "label": "Cursor background color"
+      },
+      "cursor_text_color": {
+        "label": "Cursor text color"
+      },
         "show_marquee": {
           "label": "Show marquee"
         },
@@ -1063,6 +1080,172 @@
         }
       }
     },
+    "page_header": {
+      "name": "Page header",
+      "headers": {
+        "general":"General",
+        "contents": "Contents",
+      },
+      "settings": {
+        "color_scheme": {
+      "label": "Color scheme"
+    },
+        "show_breadcrumb": {
+          "label": "Show breadcrumb"
+        },
+        "show_title": {
+          "label": "Show title"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "short_desc": {
+          "label": "Subtitle"
+        },
+        "gap": {
+          "label": "Gap between breadcrumb and title"
+        },
+        "padding_top": {
+          "label": "Padding top"
+        },
+        "padding_bottom": {
+          "label": "Padding bottom"
+        },
+        "margin_top": {
+          "label": "Margin top"
+        },
+        "margin_bottom": {
+          "label": "Margin bottom"
+        },
+        "show_divider": {
+          "label": "Show divider"
+        },
+        "divider_height": {
+          "label": "Divider height"
+        },
+        "divider_margin_top": {
+          "label": "Divider margin top"
+        },
+        "divider_margin_bottom": {
+          "label": "Divider margin bottom"
+        }
+      },
+      "presets": {
+      "default": {
+        "name": "Page Header"
+      }
+    }
+    },
+    "custom_content": {
+  "name": "Custom content",
+  "headers": {
+    "general": "General",
+    "layout": "Layout",
+    "button": "Button",
+    "style": "Style"
+  },
+  "settings": {
+    "color_scheme": {
+      "label": "Color scheme"
+    },
+    "padding_top": {
+      "label": "Padding top"
+    },
+    "padding_bottom": {
+      "label": "Padding bottom"
+    },
+    "margin_top": {
+      "label": "Margin top"
+    },
+    "margin_bottom": {
+      "label": "Margin bottom"
+    },
+    "column_gap": {
+      "label": "Column gap"
+    },
+    "row_gap": {
+      "label": "Row gap"
+    }
+  },
+  "blocks": {
+    "image_card": {
+      "name": "Image",
+      "settings": {
+        "image": {
+          "label": "Image"
+        },
+        "mobile_image": {
+          "label": "Mobile image"
+        },
+        "image_link": {
+          "label": "Image link"
+        },
+        "width": {
+          "label": "Column width %"
+        }
+      }
+    },
+    "text": {
+      "name": "Text",
+      "headers": {
+        "button": "Button",
+        "style": "Style",
+        "layout": "Layout"
+      },
+      "settings": {
+        "subheading": {
+          "label": "Subheading"
+        },
+        "heading": {
+          "label": "Heading",
+          "default": "Talk about your brand"
+        },
+        "text_size": {
+          "label": "Heading size",
+          "options": {
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+          }
+        },
+        "text": {
+          "label": "Description",
+          "default": "<p>Share information about your brand with your customers.</p>"
+        },
+        "button_label": {
+          "label": "Label"
+        },
+        "button_link": {
+          "label": "Link"
+        },
+        "text_color": {
+          "label": "Text color",
+          "options": {
+            "inherit": "Inherit",
+            "white": "Light",
+            "black": "Dark"
+          }
+        },
+        "align_text": {
+          "label": "Alignment",
+          "options": {
+            "left": "Left",
+            "center": "Center",
+            "right": "Right"
+          }
+        },
+        "width": {
+          "label": "Column width %"
+        }
+      }
+    }
+  },
+  "presets": {
+    "default": {
+      "name": "Custom content"
+    }
+  }
+},
     "image_with_text": {
       "name": "Image with text",
       "headers": {
@@ -2874,6 +3057,9 @@
         "accessibility_header": {
           "content": "Accessibility"
         },
+        "detail_font_text": {
+          "label": "Detail & feature text font"
+        },
         "section_aria_label": {
           "label": "Gallery label",
           "info": "Announced to screen readers in place of a visible heading. Keep it short and descriptive."
@@ -3032,9 +3218,8 @@
         "color_schemes": {
           "label": "Color scheme"
         },
-        "show_breadcrumb": {
-          "label": "Show breadcrumb instead of heading",
-          "info": "When enabled, the global breadcrumb navigation replaces the section heading. Ideal when Bundle Builder is used as a standalone page."
+        "show_heading": {
+          "label": "Show heading"
         },
         "heading": {
           "label": "Section heading"
