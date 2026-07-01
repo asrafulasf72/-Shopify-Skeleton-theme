@@ -126,4 +126,17 @@
 
     if (localeTrigger) localeTrigger.focus();
   }
+
+    /* -- MOBILE MENU -- */
+  function openMobileMenu() {
+    if (!mobileMenu) return;
+    mobileMenu.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    if (overlay) overlay.classList.add('is-visible');
+    document.body.style.overflow = 'hidden';
+    document.documentElement.classList.add('lenis-stop');
+    if (window.lenis) window.lenis.stop();
+    toggleBtns.forEach(function (btn) { btn.setAttribute('aria-expanded', 'true'); });
+    if (mobileTrap) mobileTrap.activate();
+  }
 })
