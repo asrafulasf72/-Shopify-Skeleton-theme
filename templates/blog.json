@@ -9,12 +9,53 @@
  */
 {
   "sections": {
+  "page_header": {
+      "type": "page-header",
+      "settings": {
+        "heading": "The Insights",
+        "short_desc": "Packed with ideas, materials, and stories about our inspirations."
+      }
+    },
     "main": {
       "type": "blog",
-      "settings": {}
+      "settings": {
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "socials_connect": {
+      "type": "socials-connect",
+      "blocks": {
+        "socials-connect-item-1": { "type": "media_item", "settings": { "label": "@rico.snickers" } },
+        "socials-connect-item-2": { "type": "media_item", "settings": { "label": "@rico.snickers" } },
+        "socials-connect-item-3": { "type": "media_item", "settings": { "label": "@rico.snickers" } },
+        "socials-connect-item-4": { "type": "media_item", "settings": { "label": "@rico.snickers" } }
+      },
+      "block_order": [
+        "socials-connect-item-1",
+        "socials-connect-item-2",
+        "socials-connect-item-3",
+        "socials-connect-item-4"
+      ],
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
     }
   },
   "order": [
-    "main"
+    "page_header",
+    "main",
+    "featured-collection",
+    "socials_connect"
   ]
 }
