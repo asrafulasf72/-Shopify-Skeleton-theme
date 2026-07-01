@@ -1,0 +1,68 @@
+<div
+  class="nv-featured-collection-section shopify-section-{{ section.id }} color-{{ section.settings.color_schemes }}"
+  id="featured-collection-{{ section.id }}"
+>
+  {% render 'heading', title: section.settings.heading %}
+  <div class="nv-featured-collection-inner">
+    <div class="nv-container">
+      <div class="nv-featured-collection-wrapper">
+        <article
+          class="nv-featured-collection-card nv-featured-collection-card-one {% if section.settings.card_1_image == blank %}nv-featured-collection-card--placeholder{% endif %}"
+          aria-label="{{ section.settings.card_1_title | escape }}"
+        >
+          {%- if section.settings.card_1_image == blank -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'nv-featured-collection-placeholder-svg' }}
+          {%- endif -%}
+          <div class="nv-featured-collection-card__content">
+            {%- if section.settings.card_1_title != blank -%}
+              <h2
+                class="nv-featured-collection-card__title"
+                style="color: {{ section.settings.left_heading_color }}; max-width: {{ section.settings.card_1_title_width }}px;"
+              >
+                {{ section.settings.card_1_title }}
+              </h2>
+            {%- endif -%}
+            {%- if section.settings.card_1_link_label != blank -%}
+              
+              <a  href="{{ section.settings.card_1_link_url }}"
+                class="nv-featured-collection-card__link"
+                style="color: {{ section.settings.left_subtext_color }}"
+                aria-label="{{ section.settings.card_1_link_label | escape }} - {{ section.settings.card_1_title | escape }}"
+              >
+                {{- section.settings.card_1_link_label -}}
+              </a>
+            {%- endif -%}
+          </div>
+        </article>
+        <article
+          class="nv-featured-collection-card nv-featured-collection-card-two {% if section.settings.card_2_image == blank %}nv-featured-collection-card--placeholder{% endif %}"
+          aria-label="{{ section.settings.card_2_title | escape }}"
+        >
+          {%- if section.settings.card_2_image == blank -%}
+            {{ 'collection-2' | placeholder_svg_tag: 'nv-featured-collection-placeholder-svg' }}
+          {%- endif -%}
+          <div class="nv-featured-collection-card__content">
+            {%- if section.settings.card_2_title != blank -%}
+              <h2
+                class="nv-featured-collection-card__title"
+                style="color: {{ section.settings.right_heading_color }}; max-width: {{ section.settings.card_2_title_width }}px;"
+              >
+                {{ section.settings.card_2_title }}
+              </h2>
+            {%- endif -%}
+            {%- if section.settings.card_2_link_label != blank -%}
+              
+               <a href="{{ section.settings.card_2_link_url }}"
+                class="nv-featured-collection-card__link"
+                style="color: {{ section.settings.right_subtext_color }}"
+                aria-label="{{ section.settings.card_2_link_label | escape }} - {{ section.settings.card_2_title | escape }}"
+              >
+                {{- section.settings.card_2_link_label -}}
+              </a>
+            {%- endif -%}
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
