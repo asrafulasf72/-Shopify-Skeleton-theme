@@ -126,4 +126,32 @@
 
     if (localeTrigger) localeTrigger.focus();
   }
+
+    /* -- MOBILE MENU -- */
+  function openMobileMenu() {
+    if (!mobileMenu) return;
+    mobileMenu.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    if (overlay) overlay.classList.add('is-visible');
+    document.body.style.overflow = 'hidden';
+    document.documentElement.classList.add('lenis-stop');
+    if (window.lenis) window.lenis.stop();
+    toggleBtns.forEach(function (btn) { btn.setAttribute('aria-expanded', 'true'); });
+    if (mobileTrap) mobileTrap.activate();
+  }
+
+    function closeMobileMenu() {
+    if (!mobileMenu) return;
+    if (mobileTrap) mobileTrap.deactivate();
+    mobileMenu.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    if (overlay) overlay.classList.remove('is-visible');
+    // Only unlock scroll if localization drawer is also closed
+    if (!localeDrawer || !localeDrawer.classList.contains('is-open')) {
+      document.body.style.overflow = '';
+      document.documentElement.classList.remove('lenis-stop');
+      if (window.lenis) window.lenis.start();
+    }
+    toggleBtns.forEach(function (btn) { btn.setAttribute('aria-expanded', 'false'); });
+  }
 })
