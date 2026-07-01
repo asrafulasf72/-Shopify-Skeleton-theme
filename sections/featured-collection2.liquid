@@ -1,3 +1,28 @@
+{% liquid
+  # Padding: use one desktop value and scale it for laptop, tablet, and mobile
+  assign padding_top = section.settings.padding_top | default: 0
+  assign laptop_padding_top = padding_top | times: 80 | divided_by: 100
+  assign tab_padding_top = laptop_padding_top | times: 80 | divided_by: 100
+  assign mobile_padding_top = tab_padding_top | times: 50 | divided_by: 100
+
+  assign padding_bottom = section.settings.padding_bottom | default: 0
+  assign laptop_padding_bottom = padding_bottom | times: 80 | divided_by: 100
+  assign tab_padding_bottom = laptop_padding_bottom | times: 80 | divided_by: 100
+  assign mobile_padding_bottom = tab_padding_bottom | times: 50 | divided_by: 100
+
+  # margin: use one desktop value and scale it for laptop, tablet, and mobile
+  assign margin_top = section.settings.margin_top | default: 0
+  assign laptop_margin_top = margin_top | times: 80 | divided_by: 100
+  assign tab_margin_top = laptop_margin_top | times: 80 | divided_by: 100
+  assign mobile_margin_top = tab_margin_top | times: 50 | divided_by: 100
+
+  assign margin_bottom = section.settings.margin_bottom | default: 0
+  assign laptop_margin_bottom = margin_bottom | times: 80 | divided_by: 100
+  assign tab_margin_bottom = laptop_margin_bottom | times: 80 | divided_by: 100
+  assign mobile_margin_bottom = tab_margin_bottom | times: 50 | divided_by: 100
+%}
+
+
 <div
   class="nv-featured-collection-section shopify-section-{{ section.id }} color-{{ section.settings.color_schemes }}"
   id="featured-collection-{{ section.id }}"
