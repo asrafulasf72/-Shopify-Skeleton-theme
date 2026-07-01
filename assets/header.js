@@ -139,4 +139,19 @@
     toggleBtns.forEach(function (btn) { btn.setAttribute('aria-expanded', 'true'); });
     if (mobileTrap) mobileTrap.activate();
   }
+
+    function closeMobileMenu() {
+    if (!mobileMenu) return;
+    if (mobileTrap) mobileTrap.deactivate();
+    mobileMenu.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    if (overlay) overlay.classList.remove('is-visible');
+    // Only unlock scroll if localization drawer is also closed
+    if (!localeDrawer || !localeDrawer.classList.contains('is-open')) {
+      document.body.style.overflow = '';
+      document.documentElement.classList.remove('lenis-stop');
+      if (window.lenis) window.lenis.start();
+    }
+    toggleBtns.forEach(function (btn) { btn.setAttribute('aria-expanded', 'false'); });
+  }
 })
