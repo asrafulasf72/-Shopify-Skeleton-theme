@@ -25,9 +25,18 @@
       {% comment %} LEFT  contact info  {% endcomment %}
       <div class="nv-announcement-bar-left">
         {%- if section.settings.contact_text != blank -%}
-          <span class="nv-announcement-bar-contact">
-            {{ section.settings.contact_text }}
-          </span>
+          {%- if section.settings.contact_email != blank -%}
+            <a
+              href="mailto:{{ section.settings.contact_email }}"
+              class="nv-announcement-bar-contact nv-underline-hover"
+            >
+              {{ section.settings.contact_text }}
+            </a>
+          {%- else -%}
+            <span class="nv-announcement-bar-contact">
+              {{ section.settings.contact_text }}
+            </span>
+          {%- endif -%}
         {%- endif -%}
       </div>
 
@@ -353,6 +362,12 @@
       "default": "t:sections.announcement_bar.settings.contact_text.default"
     },
     {
+      "type": "text",
+      "id": "contact_email",
+      "label": "t:sections.announcement_bar.settings.contact_email.label",
+      "info": "t:sections.announcement_bar.settings.contact_email.info"
+    },
+    {
       "type": "checkbox",
       "id": "show_country_selector",
       "label": "t:sections.announcement_bar.settings.show_country_selector.label",
@@ -384,26 +399,26 @@
     }
   ],
   "presets": [
-  {
-    "name": "t:sections.announcement_bar.presets.announcement_bar.name",
-    "blocks": [
-      {
-        "type": "announcement",
-        "settings": {
-          "text":"t:sections.announcement_bar.presets.block.settings.text_one"
+    {
+      "name": "t:sections.announcement_bar.presets.announcement_bar.name",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "t:sections.announcement_bar.presets.block.settings.text_one"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "t:sections.announcement_bar.presets.block.settings.text_two"
+          }
         }
-      },
-      {
-        "type": "announcement",
-        "settings": {
-          "text": "t:sections.announcement_bar.presets.block.settings.text_two"
-        }
-      }
-    ]
+      ]
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
   }
-],
-"enabled_on": {
-   "groups": ["header"]
-}
 }
 {% endschema %}
