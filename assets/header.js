@@ -294,4 +294,31 @@
       panel.setAttribute('aria-hidden', String(isExpanded));
     });
   })();
+
+    /* --- LOCALE DRAWER EVENTS --- */
+  (function initLocaleDrawer() {
+    if (!localeTrigger || !localeDrawer) return;
+
+    localeTrigger.addEventListener('click', function () {
+      localeDrawer.classList.contains('is-open') ? closeLocaleDrawer() : openLocaleDrawer();
+    });
+
+    let closeBtns = document.querySelectorAll('[data-locale-close]');
+    closeBtns.forEach(btn => btn.addEventListener('click', closeLocaleDrawer));
+
+    if (dim) dim.addEventListener('click', closeLocaleDrawer);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && localeDrawer.classList.contains('is-open')) {
+        closeLocaleDrawer();
+      }
+    });
+
+    localeDrawer.addEventListener('click', function (e) {
+      let gotoBtn = e.target.closest('[data-locale-goto]');
+      if (gotoBtn) { showLocaleView(gotoBtn.getAttribute('data-locale-goto')); return; }
+      let backBtn = e.target.closest('[data-locale-back]');
+      if (backBtn) showLocaleView('main');
+    });
+  })();
 })
