@@ -154,4 +154,144 @@
     }
     toggleBtns.forEach(function (btn) { btn.setAttribute('aria-expanded', 'false'); });
   }
+
+    /* -- MOBILE MENU EVENTS --- */
+  (function initMobileMenu() {
+    if (!mobileMenu) return;
+
+    toggleBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        mobileMenu.classList.contains('is-open') ? closeMobileMenu() : openMobileMenu();
+      });
+    });
+
+    let closeBtn = document.querySelector('[data-mobile-close]');
+    if (closeBtn) closeBtn.addEventListener('click', closeMobileMenu);
+
+    if (overlay) {
+      overlay.addEventListener('click', function () {
+        // Cart drawer manages its own overlay — let cart-drawer.liquid handle it
+        let cartDrawer = document.getElementById('nv-cart-drawer');
+        if (cartDrawer && cartDrawer.classList.contains('is-open')) {
+          return;
+        }
+
+        // Search drawer: close it, then hide overlay (was: incorrectly re-added is-visible)
+        let searchDrawer = document.getElementById('nv-search-drawer');
+        if (searchDrawer && searchDrawer.classList.contains('is-open')) {
+          searchDrawer.classList.remove('is-open');
+          searchDrawer.setAttribute('aria-hidden', 'true');
+          setTimeout(function () {
+            if (dim) dim.classList.remove('is-visible');
+            if (overlay) overlay.classList.remove('is-visible');
+          }, 450);
+          return;
+        }
+
+        // Locale drawer: close it; overlay will auto-hide (was: incorrectly re-added is-visible)
+        if (localeDrawer && localeDrawer.classList.contains('is-open')) {
+          closeLocaleDrawer();
+          if (overlay) overlay.classList.remove('is-visible');
+          return;
+        }
+
+        // Product page collapsible drawer (size guide, accordion, store location)
+        let collapsibleDrawer = document.getElementById('nv-collapsible-drawer');
+        if (collapsibleDrawer && collapsibleDrawer.classList.contains('open')) {
+          collapsibleDrawer.classList.remove('open');
+          collapsibleDrawer.setAttribute('aria-hidden', 'true');
+          if (overlay) overlay.classList.remove('is-visible');
+          // Unlock scroll if no other drawer is open
+          let anyOtherOpen = document.querySelector(
+            '#nv-cart-drawer.is-open, #nv-mobile-menu.is-open, #nv-locale-drawer.is-open, #nv-search-drawer.is-open, #nv-drawer.open'
+          );
+          if (!anyOtherOpen) {
+            document.body.style.overflow = '';
+            document.documentElement.classList.remove('lenis-stop');
+            if (window.lenis) window.lenis.start();
+          }
+          return;
+        }
+
+        // Product page ask-question / store-location drawer
+        let simpleDrawer = document.getElementById('nv-drawer');
+        if (simpleDrawer && simpleDrawer.classList.contains('open')) {
+          simpleDrawer.classList.remove('open');
+          simpleDrawer.setAttribute('aria-hidden', 'true');
+          if (overlay) overlay.classList.remove('is-visible');
+          let anyOtherOpen = document.querySelector(
+            '#nv-cart-drawer.is-open, #nv-mobile-menu.is-open, #nv-locale-drawer.is-open, #nv-search-drawer.is-open, #nv-collapsible-drawer.open'
+          );
+          if (!anyOtherOpen) {
+            document.body.style.overflow = '';
+            document.documentElement.classList.remove('lenis-stop');
+            if (window.lenis) window.lenis.start();
+          }
+          return;
+        }
+
+        // Default: mobile menu
+        closeMobileMenu();
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        let searchDrawer = document.getElementById('nv-search-drawer');
+        if (searchDrawer && searchDrawer.classList.contains('is-open')) {
+          searchDrawer.classList.remove('is-open');
+          searchDrawer.setAttribute('aria-hidden', 'true');
+          setTimeout(function () {
+            if (dim) dim.classList.remove('is-visible');
+            if (overlay) overlay.classList.remove('is-visible');
+          }, 450);
+          return;
+        }
+        if (localeDrawer && localeDrawer.classList.contains('is-open')) {
+          closeLocaleDrawer();
+          return;
+        }
+        if (mobileMenu && mobileMenu.classList.contains('is-open')) closeMobileMenu();
+      }
+    });
+
+    /* Accordion submenus */
+    mobileMenu.addEventListener('click', function (e) {
+      let btn = e.target.closest('[data-submenu-toggle]');
+      if (!btn) return;
+      let panelId = btn.getAttribute('aria-controls');
+      let panel = panelId && document.getElementById(panelId);
+      if (!panel) return;
+
+      let isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+      /* Close siblings */
+      let parentList = btn.closest('ul, nav');
+      if (parentList) {
+        parentList.querySelectorAll(':scope > li > [data-submenu-toggle]').forEach(function (sibling) {
+          if (sibling === btn) return;
+          let sibId = sibling.getAttribute('aria-controls');
+          let sibPanel = sibId && document.getElementById(sibId);
+          if (sibPanel) {
+            sibling.setAttribute('aria-expanded', 'false');
+            sibPanel.classList.remove('is-open');
+            sibPanel.setAttribute('aria-hidden', 'true');
+            sibPanel.querySelectorAll('[data-submenu-toggle]').forEach(function (gc) {
+              gc.setAttribute('aria-expanded', 'false');
+              let gcId = gc.getAttribute('aria-controls');
+              let gcPanel = gcId && document.getElementById(gcId);
+              if (gcPanel) {
+                gcPanel.classList.remove('is-open');
+                gcPanel.setAttribute('aria-hidden', 'true');
+              }
+            });
+          }
+        });
+      }
+
+      btn.setAttribute('aria-expanded', String(!isExpanded));
+      panel.classList.toggle('is-open', !isExpanded);
+      panel.setAttribute('aria-hidden', String(isExpanded));
+    });
+  })();
 })
