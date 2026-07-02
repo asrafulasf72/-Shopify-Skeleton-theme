@@ -234,6 +234,27 @@
         closeMobileMenu();
       });
     }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        let searchDrawer = document.getElementById('nv-search-drawer');
+        if (searchDrawer && searchDrawer.classList.contains('is-open')) {
+          searchDrawer.classList.remove('is-open');
+          searchDrawer.setAttribute('aria-hidden', 'true');
+          setTimeout(function () {
+            if (dim) dim.classList.remove('is-visible');
+            if (overlay) overlay.classList.remove('is-visible');
+          }, 450);
+          return;
+        }
+        if (localeDrawer && localeDrawer.classList.contains('is-open')) {
+          closeLocaleDrawer();
+          return;
+        }
+        if (mobileMenu && mobileMenu.classList.contains('is-open')) closeMobileMenu();
+      }
+    });
+
  
   })();
 })
