@@ -381,6 +381,10 @@
           "label": "Contact info",
           "default": "Contact us: hello@demo.com"
         },
+        "contact_email": {
+          "label": "Contact email",
+          "info": "Add an email to make the contact text clickable (opens mail app)"
+        },
         "show_country_selector": {
           "label": "Show country/currency selector"
         },
@@ -801,22 +805,22 @@
           "info": "Direct .mp4 URL only. For Shopify-hosted or YouTube/Vimeo, use other types."
         },
         "show_cursor": {
-        "label": "Show custom cursor"
-      },
-      "cursor_link": {
-        "label": "Cursor click destination",
-        "info": "Where clicking anywhere in the section takes the user"
-      },
-      "cursor_text": {
-        "label": "Cursor label",
-        "default": "Explore"
-      },
-      "cursor_bg_color": {
-        "label": "Cursor background color"
-      },
-      "cursor_text_color": {
-        "label": "Cursor text color"
-      },
+          "label": "Show custom cursor"
+        },
+        "cursor_link": {
+          "label": "Cursor click destination",
+          "info": "Where clicking anywhere in the section takes the user"
+        },
+        "cursor_text": {
+          "label": "Cursor label",
+          "default": "Explore"
+        },
+        "cursor_bg_color": {
+          "label": "Cursor background color"
+        },
+        "cursor_text_color": {
+          "label": "Cursor text color"
+        },
         "show_marquee": {
           "label": "Show marquee"
         },
@@ -1083,13 +1087,13 @@
     "page_header": {
       "name": "Page header",
       "headers": {
-        "general":"General",
+        "general": "General",
         "contents": "Contents",
       },
       "settings": {
         "color_scheme": {
-      "label": "Color scheme"
-    },
+          "label": "Color scheme"
+        },
         "show_breadcrumb": {
           "label": "Show breadcrumb"
         },
@@ -1131,121 +1135,121 @@
         }
       },
       "presets": {
-      "default": {
-        "name": "Page Header"
-      }
-    }
-    },
-    "custom_content": {
-  "name": "Custom content",
-  "headers": {
-    "general": "General",
-    "layout": "Layout",
-    "button": "Button",
-    "style": "Style"
-  },
-  "settings": {
-    "color_scheme": {
-      "label": "Color scheme"
-    },
-    "padding_top": {
-      "label": "Padding top"
-    },
-    "padding_bottom": {
-      "label": "Padding bottom"
-    },
-    "margin_top": {
-      "label": "Margin top"
-    },
-    "margin_bottom": {
-      "label": "Margin bottom"
-    },
-    "column_gap": {
-      "label": "Column gap"
-    },
-    "row_gap": {
-      "label": "Row gap"
-    }
-  },
-  "blocks": {
-    "image_card": {
-      "name": "Image",
-      "settings": {
-        "image": {
-          "label": "Image"
-        },
-        "mobile_image": {
-          "label": "Mobile image"
-        },
-        "image_link": {
-          "label": "Image link"
-        },
-        "width": {
-          "label": "Column width %"
+        "default": {
+          "name": "Page Header"
         }
       }
     },
-    "text": {
-      "name": "Text",
+    "custom_content": {
+      "name": "Custom content",
       "headers": {
+        "general": "General",
+        "layout": "Layout",
         "button": "Button",
-        "style": "Style",
-        "layout": "Layout"
+        "style": "Style"
       },
       "settings": {
-        "subheading": {
-          "label": "Subheading"
+        "color_scheme": {
+          "label": "Color scheme"
         },
-        "heading": {
-          "label": "Heading",
-          "default": "Talk about your brand"
+        "padding_top": {
+          "label": "Padding top"
         },
-        "text_size": {
-          "label": "Heading size",
-          "options": {
-            "small": "Small",
-            "medium": "Medium",
-            "large": "Large"
+        "padding_bottom": {
+          "label": "Padding bottom"
+        },
+        "margin_top": {
+          "label": "Margin top"
+        },
+        "margin_bottom": {
+          "label": "Margin bottom"
+        },
+        "column_gap": {
+          "label": "Column gap"
+        },
+        "row_gap": {
+          "label": "Row gap"
+        }
+      },
+      "blocks": {
+        "image_card": {
+          "name": "Image",
+          "settings": {
+            "image": {
+              "label": "Image"
+            },
+            "mobile_image": {
+              "label": "Mobile image"
+            },
+            "image_link": {
+              "label": "Image link"
+            },
+            "width": {
+              "label": "Column width %"
+            }
           }
         },
         "text": {
-          "label": "Description",
-          "default": "<p>Share information about your brand with your customers.</p>"
-        },
-        "button_label": {
-          "label": "Label"
-        },
-        "button_link": {
-          "label": "Link"
-        },
-        "text_color": {
-          "label": "Text color",
-          "options": {
-            "inherit": "Inherit",
-            "white": "Light",
-            "black": "Dark"
+          "name": "Text",
+          "headers": {
+            "button": "Button",
+            "style": "Style",
+            "layout": "Layout"
+          },
+          "settings": {
+            "subheading": {
+              "label": "Subheading"
+            },
+            "heading": {
+              "label": "Heading",
+              "default": "Talk about your brand"
+            },
+            "text_size": {
+              "label": "Heading size",
+              "options": {
+                "small": "Small",
+                "medium": "Medium",
+                "large": "Large"
+              }
+            },
+            "text": {
+              "label": "Description",
+              "default": "<p>Share information about your brand with your customers.</p>"
+            },
+            "button_label": {
+              "label": "Label"
+            },
+            "button_link": {
+              "label": "Link"
+            },
+            "text_color": {
+              "label": "Text color",
+              "options": {
+                "inherit": "Inherit",
+                "white": "Light",
+                "black": "Dark"
+              }
+            },
+            "align_text": {
+              "label": "Alignment",
+              "options": {
+                "left": "Left",
+                "center": "Center",
+                "right": "Right"
+              }
+            },
+            "width": {
+              "label": "Column width %"
+            }
           }
-        },
-        "align_text": {
-          "label": "Alignment",
-          "options": {
-            "left": "Left",
-            "center": "Center",
-            "right": "Right"
-          }
-        },
-        "width": {
-          "label": "Column width %"
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "Custom content"
         }
       }
-    }
-  },
-  "presets": {
-    "default": {
-      "name": "Custom content"
-    }
-  }
-},
+    },
     "image_with_text": {
       "name": "Image with text",
       "headers": {
@@ -1944,7 +1948,7 @@
         },
         "copyright_text": {
           "label": "Copyright text",
-          "default": "<p>Copyright © 2026 Rico.Powered by Shopify</p>"
+          "default": "<p>Copyright © 2026 Rico. Powered by Shopify</p>"
         },
         "show_bottom_image": {
           "label": "Show bottom image"
@@ -2722,7 +2726,6 @@
           "label": "Color scheme"
         },
         "padding_header": "Padding",
-
         "navigation_header": {
           "content": "Navigation menu"
         },
@@ -3092,7 +3095,6 @@
         "feature_3_title_default": "Free shipping",
         "feature_3_desc_label": "Feature 3 description",
         "feature_3_desc_default": "Free shipping on qualifying orders.",
-
         "caption_overlay_header": {
           "content": "Caption overlay"
         },
