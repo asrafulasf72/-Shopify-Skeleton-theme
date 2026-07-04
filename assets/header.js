@@ -405,4 +405,26 @@
       if (e.key === 'Escape') closeAll();
     });
   })();
+
+    /* --- MEGA MENU --- */
+  (function initMegaMenu() {
+    let HOVER_DELAY = 120;
+
+    document.querySelectorAll('[data-mega-panel]').forEach(function (panel) {
+      setMegaInteractiveState(panel, true);
+    });
+
+    function setMegaInteractiveState(panel, isHidden) {
+      if (!panel) return;
+      let interactiveEls = panel.querySelectorAll('a, button');
+      interactiveEls.forEach(function (el) {
+        el.setAttribute('aria-hidden', isHidden ? 'true' : 'false');
+        if (isHidden) {
+          el.setAttribute('tabindex', '-1');
+        } else {
+          el.removeAttribute('tabindex');
+        }
+      });
+    }
+  })();
 })
