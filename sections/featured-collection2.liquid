@@ -21,8 +21,6 @@
   assign tab_margin_bottom = laptop_margin_bottom | times: 80 | divided_by: 100
   assign mobile_margin_bottom = tab_margin_bottom | times: 50 | divided_by: 100
 %}
-
-
 <div
   class="nv-featured-collection-section shopify-section-{{ section.id }} color-{{ section.settings.color_schemes }}"
   id="featured-collection-{{ section.id }}"
@@ -50,7 +48,7 @@
             {%- if section.settings.card_1_link_label != blank -%}
               
               <a  href="{{ section.settings.card_1_link_url }}"
-                class="nv-featured-collection-card__link"
+                class="nv-featured-collection-card__link nv-underline-hover"
                 style="color: {{ section.settings.left_subtext_color }}"
                 aria-label="{{ section.settings.card_1_link_label | escape }} - {{ section.settings.card_1_title | escape }}"
               >
@@ -78,7 +76,7 @@
             {%- if section.settings.card_2_link_label != blank -%}
               
                <a href="{{ section.settings.card_2_link_url }}"
-                class="nv-featured-collection-card__link"
+                class="nv-featured-collection-card__link nv-underline-hover"
                 style="color: {{ section.settings.right_subtext_color }}"
                 aria-label="{{ section.settings.card_2_link_label | escape }} - {{ section.settings.card_2_title | escape }}"
               >
@@ -132,6 +130,10 @@
      text-decoration: underline;
      font-size:1rem;
    }
+
+   .nv-featured-collection-card__link:hover{
+    text-decoration: none;
+   }
    .nv-featured-collection-card__content {
      position: sticky;
      top: 6.25rem;
@@ -149,6 +151,7 @@
    .nv-featured-collection-placeholder-svg {
      position: absolute;
      top: 0;
+     background-color: #ddd;
      left: 0;
      width: 100%;
      height: 100%;
@@ -280,7 +283,8 @@
     {
       "type": "image_picker",
       "id": "card_1_image",
-      "label": "t:sections.featured_collection.settings.card_1_image.label"
+      "label": "t:sections.featured_collection.settings.card_1_image.label",
+      "info": "Recommended image size: 790 x 499px (landscape, ~3:2 ratio). Portrait or square images will be cropped to fit."
     },
     {
       "type": "range",
@@ -330,7 +334,8 @@
     {
       "type": "image_picker",
       "id": "card_2_image",
-      "label": "t:sections.featured_collection.settings.card_2_image.label"
+      "label": "t:sections.featured_collection.settings.card_2_image.label",
+      "info": "Recommended image size: 790 x 499px (landscape, ~3:2 ratio). Portrait or square images will be cropped to fit."
     },
     {
       "type": "range",
