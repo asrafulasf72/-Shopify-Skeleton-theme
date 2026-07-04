@@ -426,5 +426,38 @@
         }
       });
     }
+
+    function closeAllMega() {
+      document.querySelectorAll('[data-mega-item]').forEach(function (item) {
+        let panel = item.querySelector('[data-mega-panel]');
+        let toggle = item.querySelector('[data-mega-toggle]');
+        if (!panel) return;
+        panel.classList.remove('is-open');
+        panel.setAttribute('aria-hidden', 'true');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        setMegaInteractiveState(panel, true);
+      });
+    }
+
+    function openMega(item) {
+      let panel = item.querySelector('[data-mega-panel]');
+      let toggle = item.querySelector('[data-mega-toggle]');
+      if (!panel) return;
+      closeAllMega();
+      panel.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
+      if (toggle) toggle.setAttribute('aria-expanded', 'true');
+      setMegaInteractiveState(panel, false);
+
+      let swiperEl = panel.querySelector('.nv-mega-featured-swiper');
+      if (swiperEl && swiperEl.swiper) {
+        setTimeout(function () {
+          swiperEl.swiper.update();
+          if (typeof swiperEl._updateNavState === 'function') {
+            swiperEl._updateNavState();
+          }
+        }, 50);
+      }
+    }
   })();
 })
