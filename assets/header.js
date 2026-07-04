@@ -459,5 +459,29 @@
         }, 50);
       }
     }
-  })();
+
+    function closeMega(item) {
+      let panel = item.querySelector('[data-mega-panel]');
+      let toggle = item.querySelector('[data-mega-toggle]');
+      if (!panel) return;
+      panel.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      setMegaInteractiveState(panel, true);
+
+
+      panel.querySelectorAll('.nv-mega-menu-cat-link, .nv-mega-menu-brand-link').forEach(function (el) {
+        el.style.animation = 'none';
+        el.offsetHeight;
+        el.style.animation = '';
+      });
+
+      panel.querySelectorAll('.nv-mega-menu-col-featured .swiper-slide').forEach(function (el) {
+        el.style.animation = 'none';
+        el.offsetHeight;
+        el.style.animation = '';
+      });
+    }
+
+
 })
