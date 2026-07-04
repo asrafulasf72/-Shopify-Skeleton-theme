@@ -178,7 +178,7 @@
 
 .nv-footer-tagline {
   font-size: 1rem;
-  line-height: 100%;
+  line-height: 1.2;
   color: var(--nv-text);
   margin-top: 7px;
   overflow-wrap: break-word;
@@ -224,8 +224,7 @@
 .nv-footer-block-heading {
   font-size: 1.125rem;
   letter-spacing: 0;
-  text-transform: uppercase;
-  color: var(--nv-text);
+  color: var(--nv-foreground-text);
   margin: 0 0 1.25rem;
 }
 
@@ -248,7 +247,7 @@
 }
 
 .nv-footer-block-nav {
-  border-top: 1px solid var(--nv-foreground-text);
+  border-top: 1px solid var(--nv-secondary-border);
   padding-top: 1.25rem;
 }
 
@@ -379,7 +378,7 @@
   justify-content: space-between;
   padding: 0.75rem 3.625rem;
   font-size: 14px;
-  line-height: 100%;
+  line-height: 1.2;
   cursor: pointer;
   gap: 2rem;
 }
@@ -636,7 +635,13 @@
   }
   .nv-footer-block-heading {
   margin: 0 0 2rem;
+  font-size: 1.125rem;
 }
+    .nv-footer-nav-link,
+     .nv-footer-social-link,
+      .nv-footer-block-text{
+        font-size: .875rem;
+      }
   .nv-newsletter-top-con {
     padding: 2rem 2rem 4.25rem 2rem;
     background-color: var(--nv-foreground);
@@ -798,7 +803,14 @@
   }
   .nv-footer-block-heading {
   margin: 0 0 2rem;
+  font-size: 1.125rem;
 }
+
+    .nv-footer-nav-link, 
+    .nv-footer-social-link, 
+    .nv-footer-block-text{
+      font-size: .875rem;
+    }
 
   .nv-footer-body {
     padding-block: 7.75rem;
@@ -896,7 +908,14 @@
   }
   .nv-footer-block-heading {
   margin: 0 0 2rem;
+  font-size: 1.125rem;
 }
+
+    .nv-footer-nav-link, 
+    .nv-footer-social-link, 
+    .nv-footer-block-text{
+      font-size: .875rem;
+    }
   .nv-footer-newsletter-icon svg {
     height: 2.625rem;
     width: 2.625rem;
@@ -955,6 +974,7 @@
   }
   .nv-footer-block-heading {
   margin: 0 0 2rem;
+  font-size: 1.5rem;
 }
 
   .nv-footer-body {
@@ -992,7 +1012,7 @@
   }
 
   .nv-footer-block-heading {
-    font-size: 1.125rem;
+    font-size: 1.5rem;
   }
 
   .nv-footer-localization {
