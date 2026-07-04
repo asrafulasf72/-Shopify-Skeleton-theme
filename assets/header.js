@@ -483,5 +483,53 @@
       });
     }
 
+    document.querySelectorAll('[data-mega-item]').forEach(function (item) {
+      let leaveTimer = null;
 
+      item.addEventListener('mouseenter', function () {
+        clearTimeout(leaveTimer);
+        openMega(item);
+      });
+
+      item.addEventListener('mouseleave', function () {
+        leaveTimer = setTimeout(function () { closeMega(item); }, HOVER_DELAY);
+      });
+
+      let panel = item.querySelector('[data-mega-panel]');
+      if (panel) {
+        panel.addEventListener('mouseenter', function () { clearTimeout(leaveTimer); });
+        panel.addEventListener('mouseleave', function () {
+          leaveTimer = setTimeout(function () { closeMega(item); }, HOVER_DELAY);
+        });
+      }
+
+      let toggle = item.querySelector('[data-mega-toggle]');
+      if (toggle) {
+        toggle.addEventListener('click', function (e) {
+          e.stopPropagation();
+          let isOpen = panel && panel.classList.contains('is-open');
+          isOpen ? closeMega(item) : openMega(item);
+        });
+      }
+
+      item.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          closeMega(item);
+          let link = item.querySelector('.nv-nav-link');
+          if (link) link.focus();
+        }
+      });
+
+      item.addEventListener('focusout', function (e) {
+        if (!item.contains(e.relatedTarget)) closeMega(item);
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('[data-mega-item]')) closeAllMega();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAllMega();
+    });
+  })();
 })
