@@ -321,4 +321,88 @@
       if (backBtn) showLocaleView('main');
     });
   })();
+
+    /* ---- DESKTOP NAV DROPDOWNS --- */
+  (function initDesktopNav() {
+
+    function setNavInteractiveState(panel, isHidden) {
+      if (!panel) return;
+      let interactiveEls = panel.querySelectorAll('a, button');
+      interactiveEls.forEach(function (el) {
+        el.setAttribute('aria-hidden', isHidden ? 'true' : 'false');
+        if (isHidden) {
+          el.setAttribute('tabindex', '-1');
+        } else {
+          el.removeAttribute('tabindex');
+        }
+      });
+    }
+
+    function openPanel(toggle, panel) {
+      toggle.setAttribute('aria-expanded', 'true');
+      panel.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
+      setNavInteractiveState(panel, false);
+    }
+
+    function closePanel(toggle, panel) {
+      toggle.setAttribute('aria-expanded', 'false');
+      panel.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
+      setNavInteractiveState(panel, true);
+    }
+
+    function closeAll() {
+      document.querySelectorAll('[data-nav-toggle]').forEach(function (toggle) {
+        let id = toggle.getAttribute('aria-controls');
+        let panel = id && document.getElementById(id);
+        if (panel && panel.classList.contains('is-open')) closePanel(toggle, panel);
+      });
+    }
+
+    document.querySelectorAll('[data-nav-toggle]').forEach(function (toggle) {
+      let panelId = toggle.getAttribute('aria-controls');
+      let panel = panelId && document.getElementById(panelId);
+      if (panel) setNavInteractiveState(panel, true);
+    });
+
+    document.querySelectorAll('[data-nav-toggle]').forEach(function (toggle) {
+      let panelId = toggle.getAttribute('aria-controls');
+      let panel = panelId && document.getElementById(panelId);
+      let item = toggle.closest('[data-nav-item]');
+      if (!panel || !item) return;
+
+      toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        let isOpen = panel.classList.contains('is-open');
+        closeAll();
+        if (!isOpen) openPanel(toggle, panel);
+      });
+
+      toggle.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          let isOpen = panel.classList.contains('is-open');
+          closeAll();
+          if (!isOpen) openPanel(toggle, panel);
+        }
+        if (e.key === 'Escape') { closePanel(toggle, panel); toggle.focus(); }
+      });
+
+      panel.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { closePanel(toggle, panel); toggle.focus(); }
+      });
+
+      item.addEventListener('focusout', function (e) {
+        if (!item.contains(e.relatedTarget)) closePanel(toggle, panel);
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('[data-nav-item]')) closeAll();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAll();
+    });
+  })();
 })
