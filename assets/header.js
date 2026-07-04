@@ -531,5 +531,58 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') closeAllMega();
     });
+
+    /* ── Swiper for mega menu Product lists ── */
+    function initMegaSwipers() {
+      if (typeof Swiper === 'undefined') return;
+      document.querySelectorAll('.nv-mega-featured-swiper').forEach(function (el) {
+        if (el._swiperInitialized) return;
+        el._swiperInitialized = true;
+
+        let col = el.closest('.nv-mega-menu-col-featured');
+        let prevBtn = col ? col.querySelector('.nv-feat-prev') : null;
+        let nextBtn = col ? col.querySelector('.nv-feat-next') : null;
+        let dots = col ? col.querySelectorAll('.nv-mega-menu-dot') : [];
+
+        let swiper = new Swiper(el, {
+          slidesPerView: 1,
+          speed: 400,
+          loop: false,
+          on: {
+            slideChange: function () {
+              let dotsWrapper = col ? col.querySelector('.nv-mega-menu-dots') : null;
+              if (dotsWrapper) {
+                let dir = swiper.activeIndex > swiper.previousIndex ? 'next' : 'prev';
+                dotsWrapper.setAttribute('data-direction', dir);
+              }
+              dots.forEach(function (d, i) {
+                d.classList.toggle('is-active', i === swiper.activeIndex);
+              });
+              updateNavState();
+            }
+          }
+        });
+
+        function updateNavState() {
+          if (prevBtn) prevBtn.classList.toggle('is-disabled', swiper.isBeginning);
+          if (nextBtn) nextBtn.classList.toggle('is-disabled', swiper.isEnd);
+        }
+
+        updateNavState();
+
+        el._updateNavState = updateNavState;
+
+        if (prevBtn) prevBtn.addEventListener('click', function () {
+          if (!swiper.isBeginning) swiper.slidePrev();
+        });
+        if (nextBtn) nextBtn.addEventListener('click', function () {
+          if (!swiper.isEnd) swiper.slideNext();
+        });
+      });
+    }
+
+    document.querySelectorAll('[data-mega-item]').forEach(function (item) {
+      item.addEventListener('mouseenter', initMegaSwipers, { once: true });
+    });
   })();
 })
