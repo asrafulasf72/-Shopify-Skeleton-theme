@@ -585,4 +585,61 @@
       item.addEventListener('mouseenter', initMegaSwipers, { once: true });
     });
   })();
+
+    (function initAccountModal() {
+    const toggle = document.querySelector('[data-acct-toggle]');
+    const modal = document.getElementById('nv-login-modal');
+    if (!toggle || !modal) return;
+
+    const modalClose = document.getElementById('nv-modal-close');
+    const modalNextBtn = document.getElementById('nv-modal-next');
+    const modalEmailInput = document.getElementById('nv-modal-email');
+
+    const open = () => {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+    };
+
+    const close = () => {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+    };
+
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.classList.contains('is-open') ? close() : open();
+    });
+
+    modalClose?.addEventListener('click', close);
+
+    document.addEventListener('click', (e) => {
+      if (
+        modal.classList.contains('is-open') &&
+        !modal.contains(e.target) &&
+        !toggle.contains(e.target)
+      ) close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) close();
+    });
+
+    if (modalNextBtn && modalEmailInput) {
+      const loginUrl = modalNextBtn.dataset.loginUrl || '/account/login';
+
+      const submit = () => {
+        const email = modalEmailInput.value.trim();
+        if (!email || !modalEmailInput.validity.valid) { modalEmailInput.focus(); return; }
+        window.location.href = `${loginUrl}?email=${encodeURIComponent(email)}`;
+      };
+
+      modalNextBtn.addEventListener('click', submit);
+      modalEmailInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); submit(); }
+      });
+    }
+
+  })();
 })
