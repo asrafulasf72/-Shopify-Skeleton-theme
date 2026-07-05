@@ -667,4 +667,18 @@
       });
     });
   })();
+
+    (function () {
+    const PIXELS_PER_SECOND = 200;
+
+    function setMarqueeSpeed() {
+      document.querySelectorAll('.nv-mega-menu-marquee-track').forEach(function (track) {
+        const width = track.scrollWidth;
+        track.style.animationDuration = (width / PIXELS_PER_SECOND) + 's';
+      });
+    }
+
+    setMarqueeSpeed();
+    window.addEventListener('resize', setMarqueeSpeed);
+  })();
 })
