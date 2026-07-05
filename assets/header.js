@@ -1,52 +1,52 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    /** -- UTILITIES -- */
+  /** -- UTILITIES -- */
 
-    function getFocusable(container) {
-        return Array.from(
-            container.querySelectorAll(
-                'a[herf], button:not([disabled]), input:not([disabled]), ' +
-                'select:not([disabled]), textarea:not([disabled])', +
-            '[tabindex]:not([tabindex="-1"])'
-            )
-        ).filter(function (el) {
-            return !el.closest('[aria-hidden="true"]') && el.offsetParent !== null;
-        });
-    }
-    function createFocusTrap(panel) {
-        function handleKeydown(e) {
-            if (e.key !== 'Tab') return;
-            let focusable = getFocusable(panel);
-            if (!focusable.length) { e.preventDefault(); return; }
-            let first = focusable[0];
-            let last = focusable[focusable.length - 1];
-            if (e.shiftKey) {
-                if (document.activeElement === first) {
-                    e.preventDefault();
-                    last.focus();
-                }
-            } else {
-                if (document.activeElement === last) {
-                    e.preventDefault();
-                    first.focus();
-                }
-            }
+  function getFocusable(container) {
+    return Array.from(
+      container.querySelectorAll(
+        'a[herf], button:not([disabled]), input:not([disabled]), ' +
+        'select:not([disabled]), textarea:not([disabled])', +
+      '[tabindex]:not([tabindex="-1"])'
+      )
+    ).filter(function (el) {
+      return !el.closest('[aria-hidden="true"]') && el.offsetParent !== null;
+    });
+  }
+  function createFocusTrap(panel) {
+    function handleKeydown(e) {
+      if (e.key !== 'Tab') return;
+      let focusable = getFocusable(panel);
+      if (!focusable.length) { e.preventDefault(); return; }
+      let first = focusable[0];
+      let last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
         }
-
-        return {
-            activate: function () {
-                panel.addEventListener('keydown', handleKeydown);
-                let focusable = getFocusable(panel);
-                if (focusable.length) focusable[0].focus();
-            },
-            deactivate: function () {
-                panel.removeEventListener('keydown', handleKeydown);
-            }
-        };
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     }
 
-      /* STICKY HEADER */
+    return {
+      activate: function () {
+        panel.addEventListener('keydown', handleKeydown);
+        let focusable = getFocusable(panel);
+        if (focusable.length) focusable[0].focus();
+      },
+      deactivate: function () {
+        panel.removeEventListener('keydown', handleKeydown);
+      }
+    };
+  }
+
+  /* STICKY HEADER */
   (function initSticky() {
     let header = document.getElementById('nv-header');
     if (!header || header.dataset.sticky !== 'true') return;
@@ -62,7 +62,7 @@
     handleScroll();
   })();
 
-    /* --- SHARED STATE --- */
+  /* --- SHARED STATE --- */
   let mobileMenu = document.getElementById('nv-mobile-menu');
   let overlay = document.querySelector('[data-overlay]');
   let localeDrawer = document.getElementById('nv-locale-drawer');
@@ -73,7 +73,7 @@
   let mobileTrap = mobileMenu ? createFocusTrap(mobileMenu) : null;
   let localeTrap = localeDrawer ? createFocusTrap(localeDrawer) : null;
 
-    /* --- LOCALE DRAWER -- */
+  /* --- LOCALE DRAWER -- */
   function showLocaleView(viewName) {
     if (!localeDrawer) return;
 
@@ -94,7 +94,7 @@
     }
   }
 
-    function openLocaleDrawer() {
+  function openLocaleDrawer() {
     if (!localeDrawer) return;
     localeDrawer.classList.add('is-open');
     localeDrawer.setAttribute('aria-hidden', 'false');
@@ -127,7 +127,7 @@
     if (localeTrigger) localeTrigger.focus();
   }
 
-    /* -- MOBILE MENU -- */
+  /* -- MOBILE MENU -- */
   function openMobileMenu() {
     if (!mobileMenu) return;
     mobileMenu.classList.add('is-open');
@@ -140,7 +140,7 @@
     if (mobileTrap) mobileTrap.activate();
   }
 
-    function closeMobileMenu() {
+  function closeMobileMenu() {
     if (!mobileMenu) return;
     if (mobileTrap) mobileTrap.deactivate();
     mobileMenu.classList.remove('is-open');
@@ -155,7 +155,7 @@
     toggleBtns.forEach(function (btn) { btn.setAttribute('aria-expanded', 'false'); });
   }
 
-    /* -- MOBILE MENU EVENTS --- */
+  /* -- MOBILE MENU EVENTS --- */
   (function initMobileMenu() {
     if (!mobileMenu) return;
 
@@ -295,7 +295,7 @@
     });
   })();
 
-    /* --- LOCALE DRAWER EVENTS --- */
+  /* --- LOCALE DRAWER EVENTS --- */
   (function initLocaleDrawer() {
     if (!localeTrigger || !localeDrawer) return;
 
@@ -322,7 +322,7 @@
     });
   })();
 
-    /* ---- DESKTOP NAV DROPDOWNS --- */
+  /* ---- DESKTOP NAV DROPDOWNS --- */
   (function initDesktopNav() {
 
     function setNavInteractiveState(panel, isHidden) {
@@ -406,7 +406,7 @@
     });
   })();
 
-    /* --- MEGA MENU --- */
+  /* --- MEGA MENU --- */
   (function initMegaMenu() {
     let HOVER_DELAY = 120;
 
@@ -586,7 +586,7 @@
     });
   })();
 
-    (function initAccountModal() {
+  (function initAccountModal() {
     const toggle = document.querySelector('[data-acct-toggle]');
     const modal = document.getElementById('nv-login-modal');
     if (!toggle || !modal) return;
@@ -640,6 +640,31 @@
         if (e.key === 'Enter') { e.preventDefault(); submit(); }
       });
     }
+  })();
 
+    // Magnet effect for header icons
+  (function () {
+    let STRENGTH = 0.40;
+
+    document.querySelectorAll('.nv-header-slot-right .nv-icon-btn').forEach(function (btn) {
+      let inner = btn.querySelector('.nv-mag-inner');
+      if (!inner) return;
+
+      let rect;
+
+      btn.addEventListener('mouseenter', function () {
+        rect = btn.getBoundingClientRect();
+      });
+
+      btn.addEventListener('mousemove', function (e) {
+        let dx = e.clientX - (rect.left + rect.width / 2);
+        let dy = e.clientY - (rect.top + rect.height / 2);
+        inner.style.transform = 'translate(' + (dx * STRENGTH) + 'px, ' + (dy * STRENGTH) + 'px)';
+      });
+
+      btn.addEventListener('mouseleave', function () {
+        inner.style.transform = 'translate(0px, 0px)';
+      });
+    });
   })();
 })
