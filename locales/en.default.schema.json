@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "names": {
     "colors_palette": "Colors palette",
@@ -34,6 +43,7 @@
     "column": "Column",
     "content": "Content",
     "custom_section": "Custom section",
+    "custom_section_bg_info": "Landscape recommended · 1920 x 800 px.",
     "footer": "Footer",
     "group": "Group",
     "header": "Header",
@@ -75,6 +85,11 @@
     "cart_drawer": "Cart drawer",
     "price": "Price",
     "product_card": "Product card",
+    "product_card_border": {
+      "header": "Card border",
+      "checkbox": "Bordered card?",
+      "picker": "Border color"
+    },
     "section_heading": "Section heading",
     "social_accounts": "Social accounts",
     "social_media": "Social Media"
@@ -156,6 +171,9 @@
     "spin_bg_color": "Loading background",
     "spin_color": "Loading color",
     "hover_style": "Hover style",
+    "video_autoplay": "Video autoplay",
+    "video_muted": "Video muted",
+    "media_aspect_ratio": "Media aspect ratio",
     "flip_effect": "Flip effect",
     "price_reverse": "Reverse price order",
     "card_badge": "Show badge",
@@ -193,6 +211,10 @@
     "direction": "Direction"
   },
   "options": {
+    "square": "1:1",
+    "short": "3:2",
+    "tall": "4:3",
+    "taller": "16:9",
     "flip": "Flip",
     "fade": "Fade",
     "slide": "Slide",
@@ -430,7 +452,8 @@
           "name": "Item",
           "settings": {
             "icon": {
-              "label": "Icon image"
+              "label": "Icon image",
+              "info": "Landscape recommended · 30 x 30 px."
             },
             "icon-width": {
               "label": "Icon width",
@@ -610,7 +633,8 @@
           "default": "Featured collection"
         },
         "card_1_image": {
-          "label": "Background image"
+          "label": "Background image",
+          "info": "Recommended image size: 790 x 499px (landscape, ~3:2 ratio). Portrait or square images will be cropped to fit."
         },
         "card_1_title_width": {
           "label": "Left title max width"
@@ -633,7 +657,8 @@
           "label": "Link URL"
         },
         "card_2_image": {
-          "label": "Background image"
+          "label": "Background image",
+          "info": "Recommended image size: 790 x 499px (landscape, ~3:2 ratio). Portrait or square images will be cropped to fit."
         },
         "card_2_title_width": {
           "label": "Right title max width"
@@ -679,7 +704,8 @@
           "default": "Latest insights"
         },
         "sop_latest_cover_img": {
-          "label": "Cover image"
+          "label": "Cover image",
+          "info": "Landscape recommended · 2000 x 840 px."
         },
         "quote": {
           "label": "Quote text",
@@ -1088,7 +1114,7 @@
       "name": "Page header",
       "headers": {
         "general": "General",
-        "contents": "Contents",
+        "contents": "Contents"
       },
       "settings": {
         "color_scheme": {
@@ -1176,10 +1202,12 @@
           "name": "Image",
           "settings": {
             "image": {
-              "label": "Image"
+              "label": "Image",
+              "info": "Landscape recommended · 1920 x 800 px."
             },
             "mobile_image": {
-              "label": "Mobile image"
+              "label": "Mobile image",
+              "info": "Portrait crop recommended · 800 x 660 px"
             },
             "image_link": {
               "label": "Image link"
@@ -1263,8 +1291,12 @@
           "label": "Section heading",
           "default": "Our Philosophy"
         },
+        "row_gap": {
+          "label": "Gap between rows"
+        },
         "image": {
-          "label": "Image"
+          "label": "Image",
+          "info": "Recommended: portrait or square image, 1000px wide minimum"
         },
         "layout": {
           "label": "Layout",
@@ -1296,6 +1328,11 @@
           "label": "Button link"
         }
       },
+      "blocks": {
+        "image_text_row": {
+          "name": "Image & text"
+        }
+      },
       "presets": {
         "default": {
           "name": "Image with text"
@@ -1316,13 +1353,20 @@
           "default": "Step up your game."
         },
         "left_image": {
-          "label": "Left image — desktop"
+          "label": "Left image — desktop",
+          "info": "Landscape recommended · 820 x 820 px."
         },
         "left_image_mobile": {
-          "label": "Mobile image"
+          "label": "Mobile image",
+          "info": "Portrait crop recommended · 400 x 800 px"
         },
         "right_image": {
-          "label": "Right image — desktop"
+          "label": "Right image — desktop",
+          "info": "Landscape recommended · 820 x 820 px."
+        },
+                "right_heading": {
+          "label": "Right image heading",
+          "default": "Built for the street. Ready for every day."
         },
         "flash_label": {
           "label": "Flash label",
@@ -1521,7 +1565,8 @@
           "label": "Color scheme"
         },
         "featured_article_image": {
-          "label": "First article custom image"
+          "label": "First article custom image",
+          "info": "Landscape recommended · 2000 x 840 px."
         },
         "overlay_style": {
           "label": "Overlay style",
@@ -1569,10 +1614,11 @@
         },
         "animation_title": {
           "label": "Title",
-          "default": "QA Breakdown"
+          "default": "Product Anatomy"
         },
         "animation_image": {
-          "label": "Image"
+          "label": "Image",
+          "info": "Landscape recommended · 980 x 490 px."
         },
         "image_position_rotate": {
           "label": "Rotate"
@@ -1689,7 +1735,8 @@
             "default": "Default",
             "letter_slide": "Letter slide"
           }
-        }
+        },
+        "cards_img_info": "Landscape recommended · 260 x 150 px."
       }
     },
     "collections_banner": {
@@ -1699,7 +1746,8 @@
           "label": "Color scheme"
         },
         "image": {
-          "label": "Banner image"
+          "label": "Banner image",
+          "info": "Landscape recommended · 1070 x 630 px."
         },
         "subbadge": {
           "label": "Sub-badge text",
@@ -1723,10 +1771,11 @@
         },
         "btn_label": {
           "label": "Button label",
-          "default": "View collections"
+          "default": "Explore products"
         },
         "btn_link": {
-          "label": "Button URL"
+          "label": "Button URL",
+          "default": "/collections/all"
         },
         "btn_aria_label": {
           "label": "Button ARIA label",
@@ -1807,7 +1856,8 @@
             },
             "collection_image": {
               "label": "Image",
-              "content": "Optional: upload a custom hero image for this slide. If left empty, the collection's own featured image is used as a fallback. If neither exists, a placeholder is shown."
+              "content": "Optional: upload a custom hero image for this slide. If left empty, the collection's own featured image is used as a fallback. If neither exists, a placeholder is shown.",
+              "info": "Recommended: 1260 x 920 px"
             },
             "collection_name": {
               "label": "Name"
@@ -2358,7 +2408,10 @@
           "name": "Spacing",
           "settings": {
             "spacing": {
-              "label": "spacing"
+              "label": "Desktop spacing"
+            },
+            "mobile_spacing": {
+              "label": "Mobile spacing"
             }
           }
         },
@@ -2455,7 +2508,7 @@
               "default": "Pickup availability"
             },
             "heading_default": {
-              "label": "Store Locations"
+              "label": "Flagship Stores"
             },
             "note": {
               "label": "Footer note",
@@ -2605,7 +2658,8 @@
           "content": "Image"
         },
         "popup_image": {
-          "label": "Popup image"
+          "label": "Popup image",
+          "info": "Landscape recommended · 1920 x 800 px."
         },
         "subscribe_view_header": {
           "content": "Subscribe view"
@@ -2941,7 +2995,7 @@
           "label": "Section heading"
         },
         "heading_default": {
-          "label": "Socials connect"
+          "label": "Connect with us"
         },
         "accessibility_header": {
           "content": "Accessibility"
@@ -3009,7 +3063,8 @@
               "info": "Paste a YouTube or Vimeo video link."
             },
             "image": {
-              "label": "Image"
+              "label": "Image",
+              "info": "Portrait recommended · 800 x 550 px"
             },
             "video_url": {
               "label": "External video URL",
@@ -3233,7 +3288,7 @@
           "content": "Bundle customizer"
         },
         "add_bundle_title": {
-          "label": "Add your bundle title"
+          "label": "Your bundle"
         },
         "bundle_collection": {
           "label": "Bundleable collection",
