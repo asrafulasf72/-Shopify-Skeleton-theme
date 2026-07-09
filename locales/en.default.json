@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "404": {
     "title": "404",
@@ -58,6 +67,10 @@
       "select_currency": "Select currency",
       "back_to_settings": "Back to settings"
     },
+    "mega": {
+      "featured_product": "No products selected.",
+      "hero_image": "Add hero image"
+    },
     "customer": {
       "login": {
         "sign_in": "Sign in"
@@ -89,6 +102,9 @@
       "twitter": "Twitter",
       "youtube": "YouTube",
       "tiktok": "TikTok",
+      "linkedIn": "LinkedIn",
+      "whatsApp": "WhatsApp",
+      "telegram": "Telegram",
       "pinterest": "Pinterest"
     },
     "localization": {
@@ -99,7 +115,6 @@
     "navigation": {
       "footer_menu": "Footer navigation"
     },
-    "powered_by_shopify_html": "Powered by <a href=\"https://www.shopify.com\" target=\"_blank\" rel=\"noopener noreferrer\">Shopify</a>",
     "breadcrumbs": {
       "home": "Home",
       "collections": "Collections",
@@ -164,7 +179,7 @@
     "remove_from_cart": "Remove {{ title }} from cart",
     "remove_discount_code": "Remove discount {{ code }}",
     "discount_applied": "Discount code applied.",
-    "discount_invalid": "Please enter a valid discount code.",
+    "discount_invalid": "Please, enter a valid discount code.",
     "discount_already_applied": "Discount code is already applied."
   },
   "customers": {
@@ -205,6 +220,7 @@
   "search": {
     "title": "Search",
     "placeholder": "Search articles, pages, or products",
+    "button_text": "View All Products",
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
     "results_for_html": "{{ count }} results found for {{ terms }}",
@@ -222,7 +238,16 @@
     "quick_view": "{{ quick_view }}",
     "button_text": "{{ button_text }}"
   },
+  "new-arrivals": {
+    "title": "Example product title",
+    "next-prosucts": "Next products",
+    "previous-prosucts": "Previous products"
+  },
   "product": {
+    "days": "Days",
+    "hours": "Hours",
+    "min": "Min",
+    "sec": "Sec",
     "media_zoom": {
       "reset": "Reset"
     },
@@ -240,18 +265,24 @@
       "order_number_placeholder": "Enter order number",
       "message_label": "Your question",
       "message_placeholder": "Write your message here",
-      "submit": "Send message",
+      "submit": "Send Message",
       "success_message": "Thanks for contacting us. We'll get back to you as soon as possible.",
       "response_time": "Average response time: within 24 hours"
     }
   },
   "products": {
+    "product": {
+      "no_Product": "No product selected.",
+      "available": "Available",
+      "unavailable": "Unavailable",
+      "taxes_included": "Tax applies to this item."
+    },
     "marquee": {
       "message": "{{ message }}"
     },
     "badges": {
       "sold_out": "Sold out",
-      "discount_percent": "{{ percent }}% off",
+      "discount_percent": "SALE -{{ percent }}%",
       "custom": "{{ custom }}",
       "new": "New"
     },
@@ -278,18 +309,18 @@
     "continue_shopping": "Continue shopping"
   },
   "bundle_builder": {
-    "title": "Your bundle",
     "subtitle": "Add at least 2 items to unlock your bundle discount.",
-    "subtitle_one_more": " Add 1 more item to unlock your bundle discount.",
+    "subtitle_add_more": "Add {{ count }} more item to unlock your bundle discount.",
+    "subtitle_add_more_plural": "Add {{ count }} more items to unlock your bundle discount.",
     "subtitle_unlocked": "You unlocked {{ percent }}% OFF. Add {{ count }} more to get {{ next_percent }}% OFF.",
     "subtitle_unlocked_max": "You unlocked {{ percent }}% OFF.",
     "subtitle_max_reached": "Max limit reached! You unlocked the maximum discount of {{ percent }}% OFF!",
     "count_badge": "{{ current }}/{{ max }}",
     "items_count": "{{ count }} items",
     "item_singular": "{{ count }} item",
-    "discount_off": "{{ percent }}% OFF",
+    "discount_off": "SALE -{{ percent }}%",
     "no_discount": "0% OFF",
-    "add_to_bundle": "Add to Bundle",
+    "add_to_bundle": "Add to bundle",
     "adding": "Adding...",
     "added": "Added",
     "bundle_full": "Bundle Full",
@@ -297,15 +328,15 @@
     "sold_out": "Sold out",
     "add_items": "Add {{ count }} item",
     "add_items_plural": "Add {{ count }} items",
-    "add_to_cart": "Add to Cart",
+    "checkout": "Checkout",
     "close_drawer": "Close bundle list",
     "toggle_drawer": "Toggle bundle drawer",
     "empty_state": "Browse products and add items to build your bundle.",
     "placeholder_text": "Add item {{ number }}",
     "subtotal": "Subtotal",
-    "discount": "Discount",
+    "discount": "Bundle discount",
     "you_save": "You save",
-    "total": "Total",
+    "total": "Bundle total",
     "select_collection": "Please select a collection containing products in the section settings.",
     "decrease_quantity": "Decrease quantity",
     "increase_quantity": "Increase quantity",
@@ -323,8 +354,7 @@
       "title": "Enter storefront password",
       "password_placeholder": "Your password",
       "submit": "Enter",
-      "error": "Incorrect password. Please try again.",
-      "shopify_link_html": "Are you the store owner? <a href='{{ url }}'>Log in here</a>"
+      "error": "Incorrect password. Please try again."
     }
   },
   "faq": {
