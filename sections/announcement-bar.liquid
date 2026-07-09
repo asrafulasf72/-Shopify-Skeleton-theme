@@ -71,10 +71,10 @@
                   <p>
                     {%- if block.settings.url != blank -%}
                       <a href="{{ block.settings.url }}" class="nv-announcement-bar-link">
-                        {{ block.settings.text | escape }}
+                        {{ block.settings.text | escape | truncate: 70}}
                       </a>
                     {%- else -%}
-                      {{ block.settings.text | escape }}
+                      {{ block.settings.text | escape | truncate: 70}}
                     {%- endif -%}
                   </p>
                 {%- endif -%}
@@ -90,10 +90,10 @@
               <p>
                 {%- if section.settings.default_announcement_url != blank -%}
                   <a href="{{ section.settings.default_announcement_url }}" class="nv-announcement-bar-link">
-                    {{ section.settings.default_announcement_text | escape }}
+                    {{ section.settings.default_announcement_text | escape | truncate:70 }}
                   </a>
                 {%- else -%}
-                  {{ section.settings.default_announcement_text | escape }}
+                  {{ section.settings.default_announcement_text | escape | truncate:70 }}
                 {%- endif -%}
               </p>
             </div>
@@ -106,10 +106,10 @@
               <p>
                 {%- if section.settings.default_announcement_url_2 != blank -%}
                   <a href="{{ section.settings.default_announcement_url_2 }}" class="nv-announcement-bar-link">
-                    {{ section.settings.default_announcement_text_2 | escape }}
+                    {{ section.settings.default_announcement_text_2 | escape | truncate:70 }}
                   </a>
                 {%- else -%}
-                  {{ section.settings.default_announcement_text_2 | escape }}
+                  {{ section.settings.default_announcement_text_2 | escape | truncate:70 }}
                 {%- endif -%}
               </p>
             </div>
