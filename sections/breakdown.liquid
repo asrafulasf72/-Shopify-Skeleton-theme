@@ -1,0 +1,332 @@
+
+<nv-breakdown class="nv-breakdown shopify-section-{{ section.id }} color-{{ section.settings.color_schemes }}">
+  <div class="nv-breakdown-inner">
+    <div class="container">
+      <div class="nv-breakdown-wrapper">
+        <div class="nv-breakdown-comfort">
+          <h3 class="nv-comfort-title">
+            {%- if section.settings.first_title != blank -%}
+              {{ section.settings.first_title }}
+            {%- endif -%}
+          </h3>
+
+          <div class="nv-comfort-media-wrapper">
+            <h3 class="nv-comfort-title">
+              {%- if section.settings.second_title != blank -%}
+                {{ section.settings.second_title }}
+              {%- endif -%}
+            </h3>
+            <figure class="nv-comfort-media">
+              {%- if section.settings.animation_image != blank -%}
+                {{
+                  section.settings.animation_image
+                  | image_url: width: 400
+                  | image_tag: class: 'nv-comfort-media-img'
+                }}
+              {%- else -%}
+                {{ 'product-2' | placeholder_svg_tag: 'nv-comfort-media-img top-shoe' }}
+              {%- endif -%}
+            </figure>
+            <h3 class="nv-comfort-title">
+              {%- if section.settings.third_title != blank -%}
+                {{ section.settings.third_title }}
+              {%- endif -%}
+            </h3>
+          </div>
+        </div>
+
+        <div class="nv-breakdown-qa">
+          <ul class="nv-breakdown-qa-items">
+            <li class="nv-breakdown-qa-item">
+              <span class="nv-breakdown-item-badge">01</span>
+              <figure class="nv-breakdown-qa-item-media">
+                {%- if section.settings.first_card_image != blank -%}
+                  {{
+                    section.settings.first_card_image
+                    | image_url: width: 200
+                    | image_tag: class: 'nv-breakdown-qa-item-img'
+                  }}
+                {%- else -%}
+                  {{ 'product-2' | placeholder_svg_tag: 'nv-breakdown-qa-item-img' }}
+                {%- endif -%}
+              </figure>
+              <h5 class="nv-breakdown-qa-item-title">
+                {% if section.settings.first_card_title != blank %}
+                  {{ section.settings.first_card_title }}
+                {% endif %}
+              </h5>
+              <p class="nv-breakdown-qa-item-desc">
+                {% if section.settings.first_card_desc != blank %}
+                  {{ section.settings.first_card_desc }}
+                {% endif %}
+              </p>
+            </li>
+            <li class="nv-breakdown-qa-item">
+              <span class="nv-breakdown-item-badge">02</span>
+              <figure class="nv-breakdown-qa-item-media">
+                {%- if section.settings.second_card_image != blank -%}
+                  {{
+                    section.settings.second_card_image
+                    | image_url: width: 200
+                    | image_tag: class: 'nv-breakdown-qa-item-img'
+                  }}
+                {%- else -%}
+                  {{ 'product-2' | placeholder_svg_tag: 'nv-breakdown-qa-item-img' }}
+                {%- endif -%}
+              </figure>
+              <h5 class="nv-breakdown-qa-item-title">
+                {% if section.settings.second_card_title != blank %}
+                  {{ section.settings.second_card_title }}
+                {% endif %}
+              </h5>
+              <p class="nv-breakdown-qa-item-desc">
+                {% if section.settings.second_card_desc != blank %}
+                  {{ section.settings.second_card_desc }}
+                {% endif %}
+              </p>
+            </li>
+            <li class="nv-breakdown-qa-item">
+              <span class="nv-breakdown-item-badge">03</span>
+              <figure class="nv-breakdown-qa-item-media">
+                {%- if section.settings.third_card_image != blank -%}
+                  {{
+                    section.settings.third_card_image
+                    | image_url: width: 200
+                    | image_tag: class: 'nv-breakdown-qa-item-img'
+                  }}
+                {%- else -%}
+                  {{ 'product-2' | placeholder_svg_tag: 'nv-breakdown-qa-item-img' }}
+                {%- endif -%}
+              </figure>
+              <h5 class="nv-breakdown-qa-item-title">
+                {% if section.settings.third_card_title != blank %}
+                  {{ section.settings.third_card_title }}
+                {% endif %}
+              </h5>
+              <p class="nv-breakdown-qa-item-desc">
+                {% if section.settings.third_card_desc != blank %}
+                  {{ section.settings.third_card_desc }}
+                {% endif %}
+              </p>
+            </li>
+            <li class="nv-breakdown-qa-item">
+              <span class="nv-breakdown-item-badge">04</span>
+              <figure class="nv-breakdown-qa-item-media">
+                {%- if section.settings.fourth_card_image != blank -%}
+                  {{
+                    section.settings.fourth_card_image
+                    | image_url: width: 200
+                    | image_tag: class: 'nv-breakdown-qa-item-img'
+                  }}
+                {%- else -%}
+                  {{ 'product-2' | placeholder_svg_tag: 'nv-breakdown-qa-item-img' }}
+                {%- endif -%}
+              </figure>
+              <h5 class="nv-breakdown-qa-item-title">
+                {% if section.settings.fourth_card_title != blank %}
+                  {{ section.settings.fourth_card_title }}
+                {% endif %}
+              </h5>
+              <p class="nv-breakdown-qa-item-desc">
+                {% if section.settings.fourth_card_desc != blank %}
+                  {{ section.settings.fourth_card_desc }}
+                {% endif %}
+              </p>
+            </li>
+
+            {% comment %} This is center item {% endcomment %}
+            <li class="nv-breakdown-qa-item">
+              <h3 class="nv-breakdown-qa-item-title">
+                {%- if section.settings.animation_title != blank -%}
+                  {{ section.settings.animation_title }}
+                {%- endif -%}
+              </h3>
+              <figure class="nv-breakdown-qa-item-media">
+                {%- if section.settings.animation_image != blank -%}
+                  {{
+                    section.settings.animation_image
+                    | image_url: width: 2000
+                    | image_tag: class: 'nv-breakdown-qa-item-img'
+                  }}
+                {% else %}
+                  {{ 'product-2' | placeholder_svg_tag: 'nv-breakdown-qa-item-img' }}
+                {%- endif -%}
+
+                {%- if section.settings.animation_image != blank -%}
+                  <div class="nv-breakdown-qa-points">
+                    <span
+                      class="nv-breakdown-qa-item-point active"
+                      role="button"
+                      aria-label="view Details"
+                    >
+                      <span class="nv-breakdown-center-point"></span>
+                    </span>
+                    <span
+                      class="nv-breakdown-qa-item-point"
+                      role="button"
+                      aria-label="view Details"
+                    >
+                      <span class="nv-breakdown-center-point"></span>
+                    </span>
+                    <span
+                      class="nv-breakdown-qa-item-point"
+                      role="button"
+                      aria-label="view Details"
+                    >
+                      <span class="nv-breakdown-center-point"></span>
+                    </span>
+                    <span
+                      class="nv-breakdown-qa-item-point"
+                      role="button"
+                      aria-label="view Details"
+                    >
+                      <span class="nv-breakdown-center-point"></span>
+                    </span>
+                  </div>
+                {%- endif -%}
+              </figure>
+            </li>
+          </ul>
+
+          <div class="nv-breakdown-slider-wrapper">
+            <ul class="nv-breakdown-slider">
+              <li class="nv-breakdown-slide active">
+                <div class="nv-breakdown-slide-content">
+                  <small class="nv-breakdown-slide-pagination"> 01/04 </small>
+                  <h4 class="nv-breakdown-slide-title">
+                    {% if section.settings.first_card_title != blank %}
+                      {{ section.settings.first_card_title }}
+                    {% endif %}
+                  </h4>
+                  <p class="nv-breakdown-slide-desc">
+                    {% if section.settings.first_card_desc != blank %}
+                      {{ section.settings.first_card_desc }}
+                    {% endif %}
+                  </p>
+                  <figure class="nv-breakdown-slide-media">
+                    {%- if section.settings.first_card_image != blank -%}
+                      {{
+                        section.settings.first_card_image
+                        | image_url: width: 200
+                        | image_tag: class: 'nv-breakdown-slide-media-img'
+                      }}
+                    {%- else -%}
+                      {{ 'product-2' | placeholder_svg_tag: 'nv-breakdown-slide-media-img' }}
+                    {%- endif -%}
+                  </figure>
+                </div>
+              </li>
+              <li class="nv-breakdown-slide">
+                <div class="nv-breakdown-slide-content">
+                  <small class="nv-breakdown-slide-pagination"> 02/04 </small>
+                  <h4 class="nv-breakdown-slide-title">
+                    {% if section.settings.second_card_title != blank %}
+                      {{ section.settings.second_card_title }}
+                    {% endif %}
+                  </h4>
+                  <p class="nv-breakdown-slide-desc">
+                    {% if section.settings.second_card_desc != blank %}
+                      {{ section.settings.second_card_desc }}
+                    {% endif %}
+                  </p>
+                  <figure class="nv-breakdown-slide-media">
+                    {%- if section.settings.second_card_image != blank -%}
+                      {{
+                        section.settings.second_card_image
+                        | image_url: width: 200
+                        | image_tag: class: 'nv-breakdown-slide-media-img'
+                      }}
+                    {%- else -%}
+                      {{ 'product-2' | placeholder_svg_tag: 'nv-breakdown-slide-media-img' }}
+                    {%- endif -%}
+                  </figure>
+                </div>
+              </li>
+              <li class="nv-breakdown-slide">
+                <div class="nv-breakdown-slide-content">
+                  <small class="nv-breakdown-slide-pagination"> 03/04 </small>
+                  <h4 class="nv-breakdown-slide-title">
+                    {% if section.settings.third_card_title != blank %}
+                      {{ section.settings.third_card_title }}
+                    {% endif %}
+                  </h4>
+                  <p class="nv-breakdown-slide-desc">
+                    {% if section.settings.third_card_desc != blank %}
+                      {{ section.settings.third_card_desc }}
+                    {% endif %}
+                  </p>
+                  <figure class="nv-breakdown-slide-media">
+                    {%- if section.settings.third_card_image != blank -%}
+                      {{
+                        section.settings.third_card_image
+                        | image_url: width: 200
+                        | image_tag: class: 'nv-breakdown-slide-media-img'
+                      }}
+                    {%- else -%}
+                      {{ 'product-2' | placeholder_svg_tag: 'nv-breakdown-slide-media-img' }}
+                    {%- endif -%}
+                  </figure>
+                </div>
+              </li>
+              <li class="nv-breakdown-slide">
+                <div class="nv-breakdown-slide-content">
+                  <small class="nv-breakdown-slide-pagination"> 04/04 </small>
+                  <h4 class="nv-breakdown-slide-title">
+                    {% if section.settings.fourth_card_title != blank %}
+                      {{ section.settings.fourth_card_title }}
+                    {% endif %}
+                  </h4>
+                  <p class="nv-breakdown-slide-desc">
+                    {% if section.settings.fourth_card_desc != blank %}
+                      {{ section.settings.fourth_card_desc }}
+                    {% endif %}
+                  </p>
+                  <figure class="nv-breakdown-slide-media">
+                    {%- if section.settings.fourth_card_image != blank -%}
+                      {{
+                        section.settings.fourth_card_image
+                        | image_url: width: 200
+                        | image_tag: class: 'nv-breakdown-slide-media-img'
+                      }}
+                    {%- else -%}
+                      {{ 'product-2' | placeholder_svg_tag: 'nv-breakdown-slide-media-img' }}
+                    {%- endif -%}
+                  </figure>
+                </div>
+              </li>
+            </ul>
+
+            <div class="nv-breakdown-slide-progress">
+              <span class="nv-breakdown-slide-Progress-bar active"></span>
+              <span class="nv-breakdown-slide-Progress-bar"></span>
+              <span class="nv-breakdown-slide-Progress-bar"></span>
+              <span class="nv-breakdown-slide-Progress-bar"></span>
+            </div>
+          </div>
+
+          <div class="nv-breakdown-button-wrapper">
+            {%- if section.settings.sop_product != blank or section.settings.sop_product_btn != blank -%}
+              <a href="{{ section.settings.sop_product.url }}" class="nv-btn nv-btn-animation btn_class">
+                {{ section.settings.sop_product_btn }}
+              </a>
+            {%- endif -%}
+            <div class="nv-breakdown-button-inner">
+              {%- if section.settings.sop_product != blank -%}
+                <h5 class="nv-breakdown-button-title">
+                  {{ section.settings.sop_product.title | link_to: section.settings.sop_product.url }}
+                </h5>
+                <p class="nv-breakdown-button-price">
+                  <span>From</span>
+                  {{ section.settings.sop_product.price | money }}
+                </p>
+              {%- else -%}
+                <h5 class="nv-breakdown-button-title">Product title</h5>
+                <p class="nv-breakdown-button-price"><span>From</span>$230</p>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nv-breakdown>
