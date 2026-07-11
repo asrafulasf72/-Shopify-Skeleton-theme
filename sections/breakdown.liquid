@@ -984,3 +984,367 @@
     </div>
   </div>
 </nv-breakdown>
+
+{% schema %}
+{
+  "name": "t:sections.breakdown.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:common.general.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_schemes",
+      "label": "t:sections.breakdown.settings.color_schemes.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "nv-breakdown_padding_bottom",
+      "label": "t:common.padding_bottom.label",
+      "unit": "px",
+      "min": 8,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "first_title",
+      "label": "t:sections.breakdown.settings.first_title.label",
+      "default": "t:sections.breakdown.settings.first_title.default"
+    },
+    {
+      "type": "text",
+      "id": "second_title",
+      "label": "t:sections.breakdown.settings.second_title.label",
+      "default": "t:sections.breakdown.settings.second_title.default"
+    },
+    {
+      "type": "text",
+      "id": "third_title",
+      "label": "t:sections.breakdown.settings.third_title.label",
+      "default": "t:sections.breakdown.settings.third_title.default"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.breakdown.headers.animation_settings"
+    },
+    {
+      "type": "text",
+      "id": "animation_title",
+      "label": "t:sections.breakdown.settings.animation_title.label",
+      "default": "t:sections.breakdown.settings.animation_title.default"
+    },
+    {
+      "type": "image_picker",
+      "id": "animation_image",
+      "label": "t:sections.breakdown.settings.animation_image.label",
+      "info": "t:sections.breakdown.settings.animation_image.info"
+    },
+    {
+      "type": "range",
+      "id": "image_position_rotate",
+      "label": "t:sections.breakdown.settings.image_position_rotate.label",
+      "unit": "deg",
+      "min": 0,
+      "step": 5,
+      "max": 360,
+      "default": 45
+    },
+    {
+      "type": "color",
+      "id": "image_shadow_color",
+      "label": "t:sections.breakdown.settings.image_shadow_color.label",
+      "default": "#dcdcdc"
+    },
+    {
+      "type": "range",
+      "id": "image_position",
+      "label": "t:sections.breakdown.settings.image_position.label",
+      "unit": "px",
+      "min": -500,
+      "step": 10,
+      "max": 500,
+      "default": 70,
+      "info": "t:sections.breakdown.settings.image_position.info"
+    },
+    {
+      "type": "range",
+      "id": "image_position_Y",
+      "label": "t:sections.breakdown.settings.image_position_Y.label",
+      "unit": "px",
+      "min": -500,
+      "step": 10,
+      "max": 500,
+      "default": -500
+    },
+    {
+      "type": "range",
+      "id": "laptop_image_position",
+      "label": "t:sections.breakdown.settings.laptop_image_position.label",
+      "unit": "px",
+      "min": -250,
+      "step": 5,
+      "max": 250,
+      "default": 30,
+      "info": "t:sections.breakdown.settings.laptop_image_position.info"
+    },
+    {
+      "type": "range",
+      "id": "laptop_image_position_Y",
+      "label": "t:sections.breakdown.settings.laptop_image_position_Y.label",
+      "unit": "px",
+      "min": -500,
+      "step": 10,
+      "max": 500,
+      "default": -300
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_position",
+      "label": "t:sections.breakdown.settings.mobile_image_position.label",
+      "unit": "px",
+      "min": -250,
+      "step": 5,
+      "max": 250,
+      "default": 20,
+      "info": "t:sections.breakdown.settings.mobile_image_position.info"
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_position_Y",
+      "label": "t:sections.breakdown.settings.mobile_image_position_Y.label",
+      "unit": "px",
+      "min": -300,
+      "step": 10,
+      "max": 300,
+      "default": -250
+    },
+    {
+      "type": "header",
+      "content": "t:sections.breakdown.headers.first_card"
+    },
+    {
+      "type": "image_picker",
+      "id": "first_card_image",
+      "label": "t:sections.breakdown.settings.first_card_image.label",
+      "info": "t:sections.breakdown.settings.cards_img_info"
+    },
+    {
+      "type": "text",
+      "id": "first_card_title",
+      "label": "t:sections.breakdown.settings.first_card_title.label",
+      "default": "t:sections.breakdown.settings.first_card_title.default"
+    },
+    {
+      "type": "text",
+      "id": "first_card_desc",
+      "label": "t:sections.breakdown.settings.first_card_desc.label",
+      "default": "t:sections.breakdown.settings.first_card_desc.default"
+    },
+    {
+      "type": "range",
+      "id": "first_card_point_X",
+      "label": "t:sections.breakdown.settings.first_card_point_X.label",
+      "unit": "%",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "first_card_point_Y",
+      "label": "t:sections.breakdown.settings.first_card_point_Y.label",
+      "unit": "%",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 84
+    },
+    {
+      "type": "header",
+      "content": "t:sections.breakdown.headers.second_card"
+    },
+    {
+      "type": "image_picker",
+      "id": "second_card_image",
+      "label": "t:sections.breakdown.settings.second_card_image.label",
+      "info": "t:sections.breakdown.settings.cards_img_info"
+    },
+    {
+      "type": "text",
+      "id": "second_card_title",
+      "label": "t:sections.breakdown.settings.second_card_title.label",
+      "default": "t:sections.breakdown.settings.second_card_title.default"
+    },
+    {
+      "type": "text",
+      "id": "second_card_desc",
+      "label": "t:sections.breakdown.settings.second_card_desc.label",
+      "default": "t:sections.breakdown.settings.second_card_desc.default"
+    },
+    {
+      "type": "range",
+      "id": "second_card_point_X",
+      "label": "t:sections.breakdown.settings.second_card_point_X.label",
+      "unit": "%",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "second_card_point_Y",
+      "label": "t:sections.breakdown.settings.second_card_point_Y.label",
+      "unit": "%",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "t:sections.breakdown.headers.third_card"
+    },
+    {
+      "type": "image_picker",
+      "id": "third_card_image",
+      "label": "t:sections.breakdown.settings.third_card_image.label",
+      "info": "t:sections.breakdown.settings.cards_img_info"
+    },
+    {
+      "type": "text",
+      "id": "third_card_title",
+      "label": "t:sections.breakdown.settings.third_card_title.label",
+      "default": "t:sections.breakdown.settings.third_card_title.default"
+    },
+    {
+      "type": "text",
+      "id": "third_card_desc",
+      "label": "t:sections.breakdown.settings.third_card_desc.label",
+      "default": "t:sections.breakdown.settings.third_card_desc.default"
+    },
+    {
+      "type": "range",
+      "id": "third_card_point_X",
+      "label": "t:sections.breakdown.settings.third_card_point_X.label",
+      "unit": "%",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "third_card_point_Y",
+      "label": "t:sections.breakdown.settings.third_card_point_Y.label",
+      "unit": "%",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "t:sections.breakdown.headers.fourth_card"
+    },
+    {
+      "type": "image_picker",
+      "id": "fourth_card_image",
+      "label": "t:sections.breakdown.settings.fourth_card_image.label",
+      "info": "t:sections.breakdown.settings.cards_img_info"
+    },
+    {
+      "type": "text",
+      "id": "fourth_card_title",
+      "label": "t:sections.breakdown.settings.fourth_card_title.label",
+      "default": "t:sections.breakdown.settings.fourth_card_title.default"
+    },
+    {
+      "type": "text",
+      "id": "fourth_card_desc",
+      "label": "t:sections.breakdown.settings.fourth_card_desc.label",
+      "default": "t:sections.breakdown.settings.fourth_card_desc.default"
+    },
+    {
+      "type": "range",
+      "id": "fourth_card_point_X",
+      "label": "t:sections.breakdown.settings.fourth_card_point_X.label",
+      "unit": "%",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "fourth_card_point_Y",
+      "label": "t:sections.breakdown.settings.fourth_card_point_Y.label",
+      "unit": "%",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "t:sections.breakdown.headers.button_settings"
+    },
+    {
+      "type": "product",
+      "id": "sop_product",
+      "label": "t:sections.breakdown.settings.sop_product.label"
+    },
+    {
+      "type": "text",
+      "id": "sop_product_btn",
+      "label": "t:sections.breakdown.settings.sop_product_btn.label",
+      "default": "t:sections.breakdown.settings.sop_product_btn.default"
+    },
+    {
+      "type": "select",
+      "id": "section_btn_type",
+      "label": "t:sections.breakdown.settings.section_btn_type.label",
+      "default": "nv-btn-secondary",
+      "options": [
+        {
+          "label": "t:sections.breakdown.settings.section_btn_type.options.primary",
+          "value": "nv-btn-primary"
+        },
+        {
+          "label": "t:sections.breakdown.settings.section_btn_type.options.secondary",
+          "value": "nv-btn-secondary"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "section_btn_letter_slide",
+      "label": "t:sections.breakdown.settings.section_btn_letter_slide.label",
+      "default": "",
+      "options": [
+        {
+          "label": "t:sections.breakdown.settings.section_btn_letter_slide.options.default",
+          "value": ""
+        },
+        {
+          "label": "t:sections.breakdown.settings.section_btn_letter_slide.options.letter_slide",
+          "value": "nv-btn-motion"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.breakdown.name"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}
