@@ -68,20 +68,20 @@
     ]
   },
   {
-    "name": "t:general.layout",
+    "name": "Layout",
     "settings": [
       {
         "type": "select",
         "id": "max_page_width",
-        "label": "t:labels.page_width",
+        "label": "Page width",
         "options": [
           {
             "value": "90rem",
-            "label": "t:options.page_width.narrow"
+            "label": "Narrow"
           },
           {
             "value": "110rem",
-            "label": "t:options.page_width.wide"
+            "label": "Wide"
           }
         ],
         "default": "90rem"
@@ -93,8 +93,46 @@
         "max": 100,
         "step": 1,
         "unit": "px",
-        "label": "t:labels.page_margin",
+        "label": "Page margin",
         "default": 20
+      },
+      {
+        "type": "range",
+        "id": "spacing_sections",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Space between template sections",
+        "default": 32
+      },
+      {
+        "type": "header",
+        "content": "Grid"
+      },
+      {
+        "type": "paragraph",
+        "content": "Affects areas with multiple columns or rows."
+      },
+      {
+        "type": "range",
+        "id": "spacing_grid_horizontal",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "Horizontal space",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "spacing_grid_vertical",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "Vertical space",
+        "default": 8
       }
     ]
   },
