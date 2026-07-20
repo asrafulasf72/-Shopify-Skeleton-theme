@@ -221,5 +221,48 @@
         "info": "black | #000000, white | #ffffff, red | #ff0000, blue | #0000ff, yellow | #FFFF00"
       }
     ]
-  }
+  },
+    {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "header_sticky",
+        "label": "Enable sticky header",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "header_logo_position",
+        "label": "Logo position",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "select",
+        "id": "header_menu_type",
+        "label": "Menu type",
+        "options": [
+          {
+            "value": "dropdown",
+            "label": "Dropdown"
+          },
+          {
+            "value": "mega_menu",
+            "label": "Mega menu"
+          }
+        ],
+        "default": "dropdown"
+      }
+    ]
+  },
 ]
