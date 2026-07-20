@@ -221,5 +221,162 @@
         "info": "black | #000000, white | #ffffff, red | #ff0000, blue | #0000ff, yellow | #FFFF00"
       }
     ]
-  }
+  },
+    {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "header_sticky",
+        "label": "Enable sticky header",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "header_logo_position",
+        "label": "Logo position",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "select",
+        "id": "header_menu_type",
+        "label": "Menu type",
+        "options": [
+          {
+            "value": "dropdown",
+            "label": "Dropdown"
+          },
+          {
+            "value": "mega_menu",
+            "label": "Mega menu"
+          }
+        ],
+        "default": "dropdown"
+      }
+    ]
+  },
+  {
+    "name": "Animations",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "animations_reveal_on_scroll",
+        "label": "Reveal sections on scroll",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "animations_hover_effect",
+        "label": "Hover effect",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "vertical_lift",
+            "label": "Vertical lift"
+          },
+          {
+            "value": "3d_lift",
+            "label": "3D lift"
+          }
+        ],
+        "default": "none"
+      }
+    ]
+  },
+  {
+    "name": "Buttons",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Border"
+      },
+      {
+        "type": "range",
+        "id": "buttons_border_thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "label": "Thickness",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "buttons_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Opacity",
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "buttons_corner_radius",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "label": "Corner radius",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Shadow"
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Opacity",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_horizontal_offset",
+        "min": -12,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "label": "Horizontal offset",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_vertical_offset",
+        "min": -12,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "label": "Vertical offset",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_blur",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "label": "Blur",
+        "default": 0
+      }
+    ]
+  },
 ]
