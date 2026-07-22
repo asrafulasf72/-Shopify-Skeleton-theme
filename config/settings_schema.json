@@ -1332,4 +1332,38 @@
       }
     ]
   },
+  {
+    "name": "Brand information",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Displays in the footer's brand information block."
+      },
+      {
+        "type": "text",
+        "id": "brand_headline",
+        "label": "Headline"
+      },
+      {
+        "type": "richtext",
+        "id": "brand_description",
+        "label": "Description"
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_image",
+        "label": "Image"
+      },
+      {
+        "type": "range",
+        "id": "brand_image_width",
+        "min": 50,
+        "max": 550,
+        "step": 10,
+        "unit": "px",
+        "label": "Image width",
+        "default": 100
+      }
+    ]
+  },
 ]
