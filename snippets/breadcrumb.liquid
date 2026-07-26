@@ -1,0 +1,41 @@
+{%- liquid
+  assign crumbs = ''
+
+  case request.page_type
+    when 'index'
+      assign crumbs = 'home'
+    when 'collection'
+      if collection.title
+        assign crumbs = 'home|collections|collection'
+      else
+        assign crumbs = 'home|collections'
+      endif
+    when 'product'
+      if collection and collection.title
+        assign crumbs = 'home|collection|product'
+      else
+        assign crumbs = 'home|product'
+      endif
+    when 'search'
+      assign crumbs = 'home|search'
+    when 'blog'
+      assign crumbs = 'home|blog'
+    when 'article'
+      assign crumbs = 'home|blog|article'
+    when 'page'
+      assign crumbs = 'home|page'
+    when 'cart'
+      assign crumbs = 'home|cart'
+    when '404'
+      assign crumbs = 'home|404'
+    when 'gift_card'
+      assign crumbs = 'home|gift_card'
+    when 'list-collections'
+      assign crumbs = 'home|collections'
+    else
+      assign crumbs = 'home'
+  endcase
+
+  assign crumb_list = crumbs | split: '|'
+-%}
+
