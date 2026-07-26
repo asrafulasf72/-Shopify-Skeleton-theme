@@ -237,3 +237,62 @@
     </ol>
   </nav>
 {%- endunless -%}
+
+{% stylesheet %}
+  .nv-breadcrumb {
+    color: var(--nv-text);
+  }
+
+  .nv-breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    margin-top: 30px;
+    padding: 0;
+    color: var(--nv-text);
+  }
+
+  .nv-breadcrumb__item {
+    display: flex;
+    align-items: center;
+    color: var(--nv-text);
+  }
+
+  .nv-breadcrumb__separator {
+    color: var(--nv-text);
+    font-size: 1.125rem;
+    line-height: 1;
+    list-style: none;
+    user-select: none;
+  }
+
+  .nv-breadcrumb__link {
+    font-size: 1.125rem;
+    line-height: 1.2;
+    color: var(--nv-text);
+    text-decoration: none;
+  }
+  .nv-breadcrumb__link:hover {
+    text-decoration: underline;
+  }
+  .nv-breadcrumb__link:focus {
+    outline: none;
+  }
+  .nv-breadcrumb__link:focus-visible {
+    outline: 0.125rem solid var(--nv-text);
+    outline-offset: 0.125rem;
+    border-radius: 0.125rem;
+  }
+
+  .nv-breadcrumb__label {
+    font-size: 1.125rem;
+    line-height: 1.2;
+    color: var(--nv-text);
+  }
+
+  .nv-breadcrumb__label--current {
+    color: var(--nv-text);
+  }
+{% endstylesheet %}
