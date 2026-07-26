@@ -1,0 +1,298 @@
+{%- liquid
+  assign crumbs = ''
+
+  case request.page_type
+    when 'index'
+      assign crumbs = 'home'
+    when 'collection'
+      if collection.title
+        assign crumbs = 'home|collections|collection'
+      else
+        assign crumbs = 'home|collections'
+      endif
+    when 'product'
+      if collection and collection.title
+        assign crumbs = 'home|collection|product'
+      else
+        assign crumbs = 'home|product'
+      endif
+    when 'search'
+      assign crumbs = 'home|search'
+    when 'blog'
+      assign crumbs = 'home|blog'
+    when 'article'
+      assign crumbs = 'home|blog|article'
+    when 'page'
+      assign crumbs = 'home|page'
+    when 'cart'
+      assign crumbs = 'home|cart'
+    when '404'
+      assign crumbs = 'home|404'
+    when 'gift_card'
+      assign crumbs = 'home|gift_card'
+    when 'list-collections'
+      assign crumbs = 'home|collections'
+    else
+      assign crumbs = 'home'
+  endcase
+
+  assign crumb_list = crumbs | split: '|'
+-%}
+
+{%- unless request.page_type == 'index' -%}
+  <nav class="nv-breadcrumb color-{{ section.settings.color_schemes }}" aria-label="{{ 'general.accessibility.breadcrumb' | t }}">
+    <ol class="nv-breadcrumb__list" role="list" itemscope itemtype="https://schema.org/BreadcrumbList">
+      {%- for crumb in crumb_list -%}
+        {%- assign position = forloop.index -%}
+        {%- assign is_last = forloop.last -%}
+
+        {%- case crumb -%}
+          {%- when 'home' -%}
+            <li
+              class="nv-breadcrumb__item"
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              {%- if is_last -%}
+                <span class="nv-breadcrumb__label nv-breadcrumb__label--current" aria-current="page" itemprop="name">
+                  {{- 'general.breadcrumbs.home' | t -}}
+                </span>
+              {%- else -%}
+                <a class="nv-breadcrumb__link" href="{{ routes.root_url }}" itemprop="item">
+                  <span itemprop="name">{{ 'general.breadcrumbs.home' | t }}</span>
+                </a>
+              {%- endif -%}
+              <meta itemprop="position" content="{{ position }}">
+            </li>
+
+          {%- when 'collections' -%}
+            <li
+              class="nv-breadcrumb__item"
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              {%- if is_last -%}
+                <span class="nv-breadcrumb__label nv-breadcrumb__label--current" aria-current="page" itemprop="name">
+                  {{- 'general.breadcrumbs.collections' | t -}}
+                </span>
+              {%- else -%}
+                <a class="nv-breadcrumb__link" href="{{ routes.collections_url }}" itemprop="item">
+                  <span itemprop="name">{{ 'general.breadcrumbs.collections' | t }}</span>
+                </a>
+              {%- endif -%}
+              <meta itemprop="position" content="{{ position }}">
+            </li>
+
+          {%- when 'collection' -%}
+            <li
+              class="nv-breadcrumb__item"
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              {%- if is_last -%}
+                <span class="nv-breadcrumb__label nv-breadcrumb__label--current" aria-current="page" itemprop="name">
+                  {%- if collection.handle == 'all' -%}
+                    {{ 'general.breadcrumbs.products' | t }}
+                  {%- else -%}
+                    {{- collection.title | escape -}}
+                  {%- endif -%}
+                </span>
+              {%- else -%}
+                <a class="nv-breadcrumb__link" href="{{ collection.url }}" itemprop="item">
+                  <span itemprop="name">
+                    {%- if collection.handle == 'all' -%}
+                      {{ 'general.breadcrumbs.products' | t }}
+                    {%- else -%}
+                      {{- collection.title | escape -}}
+                    {%- endif -%}
+                  </span>
+                </a>
+              {%- endif -%}
+              <meta itemprop="position" content="{{ position }}">
+            </li>
+
+          {%- when 'product' -%}
+            <li
+              class="nv-breadcrumb__item"
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              <span class="nv-breadcrumb__label nv-breadcrumb__label--current" aria-current="page" itemprop="name">
+                {{- product.title | escape -}}
+              </span>
+              <meta itemprop="position" content="{{ position }}">
+              <meta itemprop="item" content="{{ shop.url }}{{ product.url }}">
+            </li>
+
+          {%- when 'search' -%}
+            <li
+              class="nv-breadcrumb__item"
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              <span class="nv-breadcrumb__label nv-breadcrumb__label--current" aria-current="page" itemprop="name">
+                {{ 'general.breadcrumbs.search' | t }}
+              </span>
+              <meta itemprop="position" content="{{ position }}">
+              <meta itemprop="item" content="{{ shop.url }}{{ routes.search_url }}">
+            </li>
+
+          {%- when 'blog' -%}
+            <li
+              class="nv-breadcrumb__item"
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              {%- if is_last -%}
+                <span class="nv-breadcrumb__label nv-breadcrumb__label--current" aria-current="page" itemprop="name">
+                  {{- blog.title | escape -}}
+                </span>
+              {%- else -%}
+                <a class="nv-breadcrumb__link" href="{{ blog.url }}" itemprop="item">
+                  <span itemprop="name">{{- blog.title | escape -}}</span>
+                </a>
+              {%- endif -%}
+              <meta itemprop="position" content="{{ position }}">
+            </li>
+
+          {%- when 'article' -%}
+            <li
+              class="nv-breadcrumb__item"
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              <span class="nv-breadcrumb__label nv-breadcrumb__label--current" aria-current="page" itemprop="name">
+                {{- article.title | escape -}}
+              </span>
+              <meta itemprop="position" content="{{ position }}">
+              <meta itemprop="item" content="{{ shop.url }}{{ article.url }}">
+            </li>
+
+          {%- when 'page' -%}
+            <li
+              class="nv-breadcrumb__item"
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              <span class="nv-breadcrumb__label nv-breadcrumb__label--current" aria-current="page" itemprop="name">
+                {{- page.title | escape -}}
+              </span>
+              <meta itemprop="position" content="{{ position }}">
+              <meta itemprop="item" content="{{ shop.url }}{{ page.url }}">
+            </li>
+
+          {%- when 'cart' -%}
+            <li
+              class="nv-breadcrumb__item"
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              <span class="nv-breadcrumb__label nv-breadcrumb__label--current" aria-current="page" itemprop="name">
+                {{- 'general.breadcrumbs.cart' | t -}}
+              </span>
+              <meta itemprop="position" content="{{ position }}">
+              <meta itemprop="item" content="{{ shop.url }}{{ routes.cart_url }}">
+            </li>
+
+          {%- when '404' -%}
+            <li
+              class="nv-breadcrumb__item"
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              <span class="nv-breadcrumb__label nv-breadcrumb__label--current" aria-current="page" itemprop="name">
+                {{ 'general.breadcrumbs.not_found' | t }}
+              </span>
+              <meta itemprop="position" content="{{ position }}">
+            </li>
+
+          {%- when 'gift_card' -%}
+            <li
+              class="nv-breadcrumb__item"
+              itemprop="itemListElement"
+              itemscope
+              itemtype="https://schema.org/ListItem"
+            >
+              <span class="nv-breadcrumb__label nv-breadcrumb__label--current" aria-current="page" itemprop="name">
+                {{ 'general.breadcrumbs.gift_card' | t }}
+              </span>
+              <meta itemprop="position" content="{{ position }}">
+            </li>
+        {%- endcase -%}
+
+        {%- unless is_last -%}
+          <li class="nv-breadcrumb__separator" aria-hidden="true">&bull;</li>
+        {%- endunless -%}
+      {%- endfor -%}
+    </ol>
+  </nav>
+{%- endunless -%}
+
+{% stylesheet %}
+  .nv-breadcrumb {
+    color: var(--nv-text);
+  }
+
+  .nv-breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    margin-top: 30px;
+    padding: 0;
+    color: var(--nv-text);
+  }
+
+  .nv-breadcrumb__item {
+    display: flex;
+    align-items: center;
+    color: var(--nv-text);
+  }
+
+  .nv-breadcrumb__separator {
+    color: var(--nv-text);
+    font-size: 1.125rem;
+    line-height: 1;
+    list-style: none;
+    user-select: none;
+  }
+
+  .nv-breadcrumb__link {
+    font-size: 1.125rem;
+    line-height: 1.2;
+    color: var(--nv-text);
+    text-decoration: none;
+  }
+  .nv-breadcrumb__link:hover {
+    text-decoration: underline;
+  }
+  .nv-breadcrumb__link:focus {
+    outline: none;
+  }
+  .nv-breadcrumb__link:focus-visible {
+    outline: 0.125rem solid var(--nv-text);
+    outline-offset: 0.125rem;
+    border-radius: 0.125rem;
+  }
+
+  .nv-breadcrumb__label {
+    font-size: 1.125rem;
+    line-height: 1.2;
+    color: var(--nv-text);
+  }
+
+  .nv-breadcrumb__label--current {
+    color: var(--nv-text);
+  }
+{% endstylesheet %}
