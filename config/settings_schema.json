@@ -7,6 +7,56 @@
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://support.shopify.com/"
   },
+    {
+    "name": "General",
+    "settings": [
+      { "type": "header", "content": "Right-to-left support" },
+      {
+        "type": "checkbox",
+        "id": "enable_rtl",
+        "label": "Enable RTL",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "rtl_language_codes",
+        "label": "Languages support RTL",
+        "info": "Enter ISO language code, separate by comma. Leave blank to enable for all languages.",
+        "placeholder": "he,ar"
+      },
+
+      { "type": "header", "content": "Cookie & age verification" },
+      {
+        "type": "checkbox",
+        "id": "enable_cookie_banner",
+        "label": "Enable cookie consent banner",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_age_verification",
+        "label": "Enable age verification banner",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "age_verification_min_age",
+        "min": 13,
+        "max": 21,
+        "step": 1,
+        "label": "Minimum age",
+        "default": 18
+      },
+
+      { "type": "header", "content": "Back to top" },
+      {
+        "type": "checkbox",
+        "id": "enable_back_to_top",
+        "label": "Enable back to top button",
+        "default": true
+      }
+    ]
+  },
   {
     "name": "Logo & Favicon",
     "settings": [
