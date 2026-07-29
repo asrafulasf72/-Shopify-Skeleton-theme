@@ -90,45 +90,229 @@
         "id": "color_schemes",
         "definition": [
           {
+            "type": "header",
+            "content": "Text"
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "label": "Text",
+            "default": "#1C1C1C"
+          },
+          {
+            "type": "color",
+            "id": "subtext",
+            "label": "Subtext",
+            "default": "#6B7280"
+          },
+          {
+            "type": "color",
+            "id": "heading_text",
+            "label": "Heading text",
+            "default": "#1C1C1C"
+          },
+          {
+            "type": "color",
+            "id": "link",
+            "label": "Link",
+            "default": "#1C1C1C"
+          },
+          {
+            "type": "color",
+            "id": "link_hover",
+            "label": "Link hover",
+            "default": "#000000"
+          },
+  
+          {
+            "type": "header",
+            "content": "Background"
+          },
+          {
             "type": "color",
             "id": "background",
             "label": "Background",
             "default": "#FFFFFF"
           },
           {
+            "type": "color",
+            "id": "background_secondary",
+            "label": "Background secondary",
+            "default": "#F5F5F5"
+          },
+          {
             "type": "color_background",
             "id": "background_gradient",
             "label": "Background gradient"
           },
+  
           {
-            "type": "color",
-            "id": "text",
-            "label": "Text",
-            "default": "#121212"
+            "type": "header",
+            "content": "Highlight"
           },
           {
             "type": "color",
-            "id": "button",
+            "id": "highlight_background",
+            "label": "Highlight background",
+            "default": "#1C1C1C"
+          },
+          {
+            "type": "color",
+            "id": "highlight_text",
+            "label": "Highlight text",
+            "default": "#FFFFFF"
+          },
+  
+          {
+            "type": "header",
+            "content": "Buttons"
+          },
+          {
+            "type": "color",
+            "id": "button_solid_background",
             "label": "Solid button background",
-            "default": "#121212"
+            "default": "#1C1C1C"
           },
           {
             "type": "color",
-            "id": "button_label",
+            "id": "button_solid_label",
             "label": "Solid button label",
             "default": "#FFFFFF"
           },
           {
             "type": "color",
-            "id": "secondary_button_label",
-            "label": "Outline button",
-            "default": "#121212"
+            "id": "button_secondary_background",
+            "label": "Secondary button background",
+            "default": "#F5F5F5"
           },
           {
             "type": "color",
-            "id": "shadow",
-            "label": "Shadow",
-            "default": "#121212"
+            "id": "button_secondary_label",
+            "label": "Secondary button label",
+            "default": "#1C1C1C"
+          },
+          {
+            "type": "color",
+            "id": "button_outline",
+            "label": "Outline button",
+            "default": "#1C1C1C"
+          },
+          {
+            "type": "color",
+            "id": "button_hover_background",
+            "label": "Button hover background",
+            "default": "#000000"
+          },
+          {
+            "type": "color",
+            "id": "button_hover_text",
+            "label": "Button hover text",
+            "default": "#FFFFFF"
+          },
+  
+          {
+            "type": "header",
+            "content": "Price"
+          },
+          {
+            "type": "color",
+            "id": "price_regular",
+            "label": "Price regular",
+            "default": "#1C1C1CA6"
+          },
+          {
+            "type": "color",
+            "id": "price_sale",
+            "label": "Price sale",
+            "default": "#DC2626"
+          },
+          {
+            "type": "color",
+            "id": "price_compare_at",
+            "label": "Price compare at",
+            "default": "#6B7280"
+          },
+          {
+            "type": "color",
+            "id": "price_savings",
+            "label": "Price savings",
+            "default": "#DC2626"
+          },
+  
+          {
+            "type": "header",
+            "content": "Form fields"
+          },
+          {
+            "type": "color",
+            "id": "form_field_background",
+            "label": "Form field background",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "form_field_text",
+            "label": "Form field text",
+            "default": "#1C1C1C"
+          },
+          {
+            "type": "color",
+            "id": "form_field_border",
+            "label": "Form field border",
+            "default": "#1C1C1C"
+          },
+          {
+            "type": "color",
+            "id": "form_field_placeholder",
+            "label": "Form field placeholder",
+            "default": "#9CA3AF"
+          },
+          {
+            "type": "color",
+            "id": "form_field_focus_background",
+            "label": "Form field focus background",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "form_field_focus_border",
+            "label": "Form field focus border",
+            "default": "#000000"
+          },
+          {
+            "type": "color",
+            "id": "form_field_focus_text",
+            "label": "Form field focus text",
+            "default": "#1C1C1C"
+          },
+  
+          {
+            "type": "header",
+            "content": "Other"
+          },
+          {
+            "type": "color",
+            "id": "progress_bar_background",
+            "label": "Progress bar background",
+            "default": "#1C1C1C"
+          },
+          {
+            "type": "color",
+            "id": "border",
+            "label": "Border",
+            "default": "#E5E7EB"
+          },
+          {
+            "type": "color",
+            "id": "timer_background",
+            "label": "Timer background",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "timer_text",
+            "label": "Timer text",
+            "default": "#0F0F0F"
           }
         ],
         "role": {
@@ -137,13 +321,13 @@
             "solid": "background",
             "gradient": "background_gradient"
           },
-          "links": "text",
-          "primary_button": "button",
-          "on_primary_button": "button_label",
-          "primary_button_border": "button",
-          "secondary_button": "background",
-          "on_secondary_button": "secondary_button_label",
-          "secondary_button_border": "secondary_button_label",
+          "links": "link",
+          "primary_button": "button_solid_background",
+          "on_primary_button": "button_solid_label",
+          "primary_button_border": "button_solid_background",
+          "secondary_button": "button_secondary_background",
+          "on_secondary_button": "button_secondary_label",
+          "secondary_button_border": "button_outline",
           "icons": "text"
         }
       }
