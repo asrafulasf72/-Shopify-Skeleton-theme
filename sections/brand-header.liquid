@@ -1,0 +1,93 @@
+{{ 'brand-header.css' | asset_url | stylesheet_tag }}
+
+{% assign current_handle = page.handle %}
+
+{% assign active_menu = blank %}
+
+{% if request.page_type == 'index' %}
+  {% assign active_menu = linklists[section.settings.azazie_menu] %}
+{% elsif current_handle == 'bridal' %}
+  {% assign active_menu = linklists[section.settings.bridal_menu] %}
+{% elsif current_handle == 'atelier' %}
+  {% assign active_menu = linklists[section.settings.atelier_menu] %}
+{% elsif current_handle == 'suits' %}
+{% assign active_menu = linklists[section.settings.suits_menu] %}
+{% endif %}
+
+<div class="brand-header">
+  <div class="brand-tabs">
+    <a
+      href="{{ routes.root_url }}"
+      class="brand-tab {% if request.page_type == 'index' %}active{% endif %}"
+    >
+      AZAZIE
+    </a>
+
+    <a
+      href="/pages/bridal"
+      class="brand-tab {% if current_handle == 'bridal' %}active{% endif %}"
+    >
+      BRIDAL
+    </a>
+
+    <a
+      href="/pages/atelier"
+      class="brand-tab {% if current_handle == 'atelier' %}active{% endif %}"
+    >
+      ATELIER
+    </a>
+
+    <a
+      href="/pages/suits"
+      class="brand-tab {% if current_handle == 'suits' %}active{% endif %}"
+    >
+      SUITS
+    </a>
+  </div>
+
+  {% if active_menu != blank %}
+    <nav class="brand-nav">
+      {% for link in active_menu.links %}
+        <a
+          href="{{ link.url }}"
+          class="brand-nav-link"
+        >
+          {{ link.title }}
+        </a>
+      {% endfor %}
+    </nav>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Brand Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "azazie_menu",
+      "label": "Azazie Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "bridal_menu",
+      "label": "Bridal Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "atelier_menu",
+      "label": "Atelier Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "suits_menu",
+      "label": "Suits Menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Header"
+    }
+  ]
+}
+{% endschema %}
