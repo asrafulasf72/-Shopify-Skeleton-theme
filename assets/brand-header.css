@@ -1,0 +1,155 @@
+.brand-header{
+  background:#fff;
+  border-bottom:1px solid #e5e5e5;
+}
+
+/* TOP ROW */
+
+.brand-top-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  min-height:58px;
+}
+
+/* TABS */
+
+.brand-tabs{
+  display:flex;
+  align-items:stretch;
+}
+
+.brand-tab{
+  width:180px;
+  height:58px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  text-decoration:none;
+  text-transform:uppercase;
+
+  color:#888;
+  font-size:14px;
+  letter-spacing:4px;
+
+  border-right:1px solid #e5e5e5;
+  background:#fafafa;
+
+  transition:all .2s ease;
+}
+
+.brand-tab:first-child{
+  border-left:1px solid #e5e5e5;
+}
+
+/* .brand-tab:hover{
+  color:#111;
+}
+
+.brand-tab.active{
+  background:#fff;
+  color:#111;
+
+  border-top:2px solid #d6b28a;
+} */
+
+
+.brand-tab.active{
+  background:#fff;
+  color:#111;
+
+  border-top:2px solid #d6b28a;
+  border-left:1px solid #e5e5e5;
+  border-right:1px solid #e5e5e5;
+
+  position:relative;
+  z-index:2;
+}
+
+.brand-tab.active::after{
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-1px;
+  height:3px;
+  background:#fff;
+}
+
+/* RIGHT SIDE */
+
+.brand-tools{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  padding-right:20px;
+}
+
+/* SEARCH */
+
+.brand-search form{
+  margin:0;
+}
+
+.brand-search-input{
+  width:650px;
+  height:40px;
+
+  padding:0 16px;
+
+  border:1px solid #dcdcdc;
+  border-radius:0;
+
+  font-size:16px;
+
+  outline:none;
+}
+
+.brand-search-input:focus{
+  border-color:#999;
+}
+
+/* ICONS */
+
+.brand-icons{
+  display: inline-flex;
+  align-items:center;
+  gap:18px;
+}
+
+.brand-icon{
+  text-decoration:none;
+  color:#111;
+  font-size:14px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* MENU ROW */
+
+.brand-nav{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  gap:40px;
+
+  min-height:52px;
+
+  border-top:1px solid #e5e5e5;
+  background:#fff;
+}
+
+.brand-nav-link{
+  color:#111;
+  text-decoration:none;
+  font-size:14px;
+  white-space:nowrap;
+}
+
+.brand-nav-link:hover{
+  color:#666;
+}
